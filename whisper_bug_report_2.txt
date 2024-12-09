@@ -1,0 +1,96 @@
+WHISPER LARGE V3 FINE-TUNING BUG REPORT #2
+
+### Current Error
+TypeError: expected Tensor as element 0 in argument 0, but got list
+
+### Error Chain & Symptoms
+1. Previous FP16 gradient scaling issue resolved
+2. Data processing completes successfully
+3. Error occurs during first batch collation
+4. Specifically fails at `torch.stack(input_features)` in data collator
+5. Issue appears after removing manual precision handling
+
+### Relevant Code Areas
+
+1. Data Preparation:
+```python
+def prepare_dataset(batch, idx, processor):
+    try:
+        audio = batch["audio"]
+        input_features = processor(
+            audio["array"], 
+            sampling_rate=audio["sampling_rate"],
+            return_tensors="pt"
+        ).input_features.squeeze(0)
+        
+        batch["labels"] = processor.tokenizer(batch["text"], truncation=True).input_ids
+        batch["input_features"] = input_features.cpu()
+        return batch
+    except Exception as e:
+        print(f"Error processing example {idx}: {str(e)}")
+        return None
+```
+
+2. Current Data Collator:
+```python
+@dataclass
+class DataCollatorSpeechSeq2SeqWithPadding:
+    processor: Any
+
+    def __call__(self, features: List[Dict[str, Union[List[int], torch.Tensor]]]) -> Dict[str, torch.Tensor]:
+        input_features = [feature["input_features"] for feature in features]
+        label_features = [{"input_ids": feature["labels"]} for feature in features]
+
+        # Stack features (keeping as float32 CPU tensors)
+        batch = {"input_features": torch.stack(input_features)}
+
+        labels_batch = self.processor.tokenizer.pad(label_features, return_tensors="pt")
+        labels = labels_batch["input_ids"].masked_fill(
+            labels_batch.input_ids == self.processor.tokenizer.pad_token_id, -100
+        )
+
+        batch["labels"] = labels
+        return batch
+```
+
+### Hypotheses & Questions for Expert
+1. Is the processor returning features in an unexpected format?
+2. Are we losing tensor type information during dataset creation/serialization?
+3. Should we be using the processor's feature extractor pad method instead of manual stacking?
+4. Is there a mismatch between how we prepare individual samples and how we collate them?
+5. Could the Dataset.from_list conversion be affecting tensor types?
+
+### Environment Details
+- GPU: Lambda Labs A10 (24GB)
+- Model: Whisper Large V3
+- Dataset Size: 404 train, 102 test examples
+- OS: Darwin 24.1.0
+- Python Environment: Python 3.9
+
+### Previous Working Version
+In our previous implementation that handled padding manually:
+```python
+# Ensure all input features are tensors and pad them
+input_features = [feat if isinstance(feat, torch.Tensor) else torch.tensor(feat) for feat in input_features]
+max_length = max(feat.shape[0] for feat in input_features)
+
+# Pad each feature to max_length
+padded_features = []
+for feat in input_features:
+    if feat.shape[0] < max_length:
+        padding = torch.zeros((max_length - feat.shape[0], feat.shape[1]), dtype=feat.dtype)
+        feat = torch.cat([feat, padding], dim=0)
+    padded_features.append(feat)
+```
+
+### Debug Information Needed
+1. Type and shape of input_features immediately after processor call
+2. Type preservation through dataset creation
+3. Actual content of features list in data collator
+4. Whether processor's feature_extractor.pad method expects different input format
+
+### Attempted Solutions
+1. Removed manual precision handling
+2. Simplified data collator
+3. Kept CPU tensors in float32
+4. Removed manual padding logic (which may have been necessary) 

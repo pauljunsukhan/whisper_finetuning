@@ -1,0 +1,72 @@
+WHISPER LARGE V3 FINE-TUNING BUG REPORT #4
+
+### Current Issues
+1. OOM Error: CUDA out of memory trying to allocate 26.00 MiB
+2. Extremely poor baseline performance (WER: 0.7899)
+
+### Memory Analysis
+- Total GPU Memory: 21.98 GiB
+- Used by PyTorch: 20.64 GiB
+- Reserved but unallocated: 1.02 GiB
+- Free: 18.44 MiB
+- Failed allocation: 26.00 MiB
+
+### Performance Analysis
+Example transcription errors:
+```
+Reference: Sir Robert Vivian, illegitimate son of the first Baron, was also a prominent soldier.
+Prediction: So, we are back to the original, so the first barrier is also a private soldier.
+
+Error types:
+- Complete meaning loss
+- Word substitutions that change context
+- No preservation of proper nouns
+```
+
+### Current Configuration
+```python
+training_args = Seq2SeqTrainingArguments(
+    per_device_train_batch_size=1,
+    per_device_eval_batch_size=1,
+    gradient_accumulation_steps=16,
+    fp16=True,
+    gradient_checkpointing=True
+)
+```
+
+### Hypotheses & Questions
+1. Memory Issues:
+   - Is gradient accumulation actually helping with memory?
+   - Could the optimizer states be the main memory bottleneck?
+   - Should we use 8-bit training or other memory optimizations?
+
+2. Performance Issues:
+   - Is the throat mic audio properly preprocessed for Whisper?
+   - Are we using the right sampling rate and feature extraction?
+   - Should we consider model distillation or a smaller variant?
+
+### Potential Solutions to Investigate
+
+1. Memory Optimization:
+   - Try 8-bit training (bitsandbytes)
+   - Implement gradient checkpointing with activation recomputation
+   - Use CPU offloading for optimizer states
+   - Set PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+
+2. Performance Improvement:
+   - Verify audio preprocessing matches Whisper's expectations
+   - Check if throat mic requires different feature extraction
+   - Consider fine-tuning smaller model first
+   - Add audio augmentation during training
+
+### Required Information
+1. Memory profiling during forward/backward passes
+2. Audio feature statistics compared to Whisper's training data
+3. Throat mic frequency response characteristics
+4. Whether similar WER is seen across all audio samples
+
+### Next Steps
+1. Profile memory usage in detail
+2. Analyze audio preprocessing pipeline
+3. Test with smaller model to establish baseline
+4. Verify feature extraction matches Whisper's expectations 

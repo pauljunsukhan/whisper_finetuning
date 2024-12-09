@@ -1,0 +1,87 @@
+WHISPER LARGE V3 FINE-TUNING BUG REPORT #3
+
+### Current Error
+ValueError: Can only automatically infer lengths for datasets whose items are dictionaries with an 'input_ids' key.
+
+### Error Chain & Symptoms
+1. Data processing and collation now working correctly
+2. Model loads successfully
+3. Error occurs during baseline evaluation
+4. Specifically fails in trainer's eval dataloader creation
+5. Issue appears to be with length-based grouping of samples
+
+### Relevant Code Areas
+
+1. Training Arguments Configuration:
+```python
+training_args = Seq2SeqTrainingArguments(
+    # ... other args ...
+    group_by_length=True,  # This is causing the issue
+    dataloader_num_workers=0,
+    # ... other args ...
+)
+```
+
+2. Dataset Structure (Current):
+```python
+# Our dataset items look like:
+{
+    "input_features": tensor(...),  # mel spectrogram features
+    "labels": list  # token ids
+}
+
+# Trainer expects for grouping:
+{
+    "input_ids": list,  # token ids for length calculation
+    # ... other fields
+}
+```
+
+3. Data Collator Output:
+```python
+def __call__(self, features):
+    batch = {
+        "input_features": torch.stack(...),
+        "labels": tensor(...)
+    }
+    return batch
+```
+
+### Hypotheses & Questions for Expert
+1. Should we disable group_by_length since we're dealing with audio features?
+2. Could we add input_ids to our dataset structure to enable grouping?
+3. Is length-based grouping even beneficial for audio features?
+4. Should we implement a custom length-based sampler for audio durations?
+5. Is this a fundamental mismatch between Seq2SeqTrainer expectations and audio inputs?
+
+### Environment Details
+- GPU: Lambda Labs A10 (24GB)
+- Model: Whisper Large V3
+- Dataset Size: 404 train, 102 test examples
+- OS: Darwin 24.1.0
+- Python Environment: Python 3.9
+
+### Previous Working State
+The error occurs after fixing:
+1. FP16 gradient scaling issues
+2. Tensor stacking and padding
+3. Tokenizer vs. feature_extractor confusion
+
+### Debug Information Needed
+1. How Seq2SeqTrainer handles length-based grouping internally
+2. Whether audio feature lengths could be used for grouping
+3. Impact of length-based grouping on audio transcription performance
+4. Memory implications of different grouping strategies
+
+### Attempted Solutions
+1. Fixed tokenizer vs. feature_extractor confusion
+2. Implemented proper tensor handling in collator
+3. Added skipped sample tracking
+4. Improved error handling
+
+### Potential Solutions to Investigate
+1. Disable group_by_length
+2. Implement custom sampler based on audio lengths
+3. Add input_ids field to dataset
+4. Use different trainer class
+5. Override length calculation in trainer 

@@ -1,0 +1,65 @@
+experiment:
+  name: "experiment_002"
+  date: "2024-12-09"
+  description: "Fine-tuning Whisper Large-v3 on throat microphone data with simplified approach"
+
+environment:
+  platform: "Lambda Labs A10"
+  gpu_memory: "24GB"
+  python_version: "3.9"
+  base_model: "openai/whisper-large-v3"
+  optimizations:
+    gradient_checkpointing: true
+    fp16: true
+
+dataset:
+  source: "pauljunsukhan/throatmic_codered"
+  total_examples: 506
+  splits:
+    train: 363       # ~72% of total
+    validation: 41   # ~8% of total
+    test: 102       # ~20% of total
+  audio:
+    sampling_rate: 16000
+    min_duration: "0.0625 seconds"  # 1000 samples
+    max_duration: "30 seconds"      # 480000 samples
+    format: "throat microphone"
+
+training:
+  batch_size:
+    per_device: 8
+    gradient_accumulation_steps: 4
+    effective_batch: 32
+  learning_rate:
+    initial: 1e-5
+    warmup_ratio: 0.1
+  schedule:
+    num_epochs: 10
+  evaluation:
+    strategy: "steps"
+    eval_steps: 100
+    save_steps: 100
+    save_total_limit: 3
+  regularization:
+    weight_decay: 0.01
+    label_smoothing: 0.1
+  early_stopping:
+    patience: 3
+    threshold: 0.01
+
+generation:
+  task: "transcribe"
+  language: "english"
+  max_length: 225
+
+monitoring:
+  metrics:
+    primary: "wer"
+  tensorboard: true
+  logging_steps: 50
+
+evaluation:
+  primary_metric: "WER"
+  baseline: 0.0            # To be filled after running
+  final: 0.0              # To be filled after running
+  improvement: 0.0        # To be filled after running

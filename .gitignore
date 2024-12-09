@@ -1,0 +1,119 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+.env
+.venv
+env/
+venv/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Training outputs
+whisper_finetuned/
+wandb/
+runs/
+*.pt
+*.bin
+*.pth
+*.safetensors
+checkpoint-*/
+experiments/**/outputs/
+experiments/**/logs/
+
+# Logs and databases
+*.log
+*.sqlite
+*.db
+events.out.tfevents.*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Project specific
+uv.lock
+experiment_results.txt
+
+# Hugging Face cache
+~/.cache/huggingface/
+.cache/huggingface/
+datasets/
+downloaded_models/
+hub/
+
+# Additional patterns
+*.cpython-*.so
+*.pyc
+*.pyo
+*.pyd
+*.c
+*.h
+*.cpp
+*.cu
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+.tox/
+.nox/
+.hypothesis/
+.ipynb_checkpoints
+profile_default/
+ipython_config.py
+
+# Temporary files
+*.bak
+*.tmp
+*.temp
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# Audio files (if any get downloaded)
+*.wav
+*.mp3
+*.flac
+*.ogg
+*.m4a
+
+# Local development
+local_tests/
+scratch/
+tmp/
+temp/
+.env.local
+.env.development
+.env.test
+.env.production

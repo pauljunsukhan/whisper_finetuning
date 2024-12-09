@@ -1,0 +1,45 @@
+# Experiment XXX
+
+## Overview
+- Date: YYYY-MM-DD
+- Description: Brief description of experiment goals
+- Key Changes: List major changes from previous experiment
+
+## Setup
+- Model: openai/whisper-XXX
+- Dataset Size: XXX examples
+- Hardware: Lambda Labs A10 (24GB)
+
+## Key Configurations
+1. Training:
+   - Batch Size: XXX
+   - Learning Rate: XXX
+   - Steps: XXX
+
+2. Model:
+   - Key Parameters
+   - Important Changes
+   - Resource Requirements
+
+## Results
+- Baseline WER: XXX%
+- Final WER: XXX%
+- Improvement: XXX%
+
+## Analysis
+1. Strengths:
+   - Point 1
+   - Point 2
+
+2. Limitations:
+   - Point 1
+   - Point 2
+
+3. Observations:
+   - Point 1
+   - Point 2
+
+## Next Steps
+1. Proposed improvements
+2. Areas to investigate
+3. Questions to address 

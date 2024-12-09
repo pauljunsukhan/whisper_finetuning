@@ -1,0 +1,92 @@
+WHISPER LARGE V3 FINE-TUNING BUG REPORT
+
+### Current Error
+ValueError: Attempting to unscale FP16 gradients.
+
+
+### Error Chain & Symptoms
+1. Data processing appears to work fine (processes 404 train and 102 test examples successfully)
+2. Model loads successfully
+3. Error occurs at the start of training during gradient scaling
+4. Error happens consistently at the first training step
+5. Previous errors we fixed:
+   - List to tensor conversion issues in data collator
+   - Memory pinning issues
+   - Various FP16/mixed precision configuration attempts
+
+### Relevant Code Areas
+
+1. Model Loading Configuration:
+```python
+model = WhisperForConditionalGeneration.from_pretrained(
+    MODEL_NAME,
+    torch_dtype=torch.float16,
+    use_cache=False,  # Required for gradient checkpointing
+    device_map="auto"  # Automatically handle device placement
+)
+```
+
+2. Data Collator Implementation:
+```python
+@dataclass
+class DataCollatorSpeechSeq2SeqWithPadding:
+    processor: Any
+
+    def __call__(self, features: List[Dict[str, Union[List[int], torch.Tensor]]]) -> Dict[str, torch.Tensor]:
+        input_features = [feature["input_features"] for feature in features]
+        label_features = [{"input_ids": feature["labels"]} for feature in features]
+        batch = {"input_features": torch.stack(input_features)}
+        labels_batch = self.processor.tokenizer.pad(label_features, return_tensors="pt")
+        labels = labels_batch["input_ids"].masked_fill(
+            labels_batch.input_ids == self.processor.tokenizer.pad_token_id, -100
+        )
+        batch["labels"] = labels
+        return batch
+```
+
+3. Training Arguments:
+```python
+training_args = Seq2SeqTrainingArguments(
+    output_dir=OUTPUT_DIR,
+    per_device_train_batch_size=2,
+    gradient_accumulation_steps=8,
+    learning_rate=1e-5,
+    warmup_steps=50,
+    max_steps=1000,
+    gradient_checkpointing=True,
+    fp16=True,
+    evaluation_strategy="steps",
+    eval_steps=50,
+    save_steps=50,
+    logging_steps=10,
+    report_to=["tensorboard"],
+    load_best_model_at_end=True,
+    metric_for_best_model="wer",
+    greater_is_better=False,
+    remove_unused_columns=False,
+    generation_max_length=225,
+    predict_with_generate=True,
+    optim="adamw_torch",
+    max_grad_norm=1.0,
+)
+```
+
+### Hypotheses & Questions for Expert
+1. Is there a mismatch between the model's dtype (float16) and the optimizer's gradient handling?
+2. Could the issue be related to how we're handling the input features in the data collator (are we maintaining the correct precision throughout)?
+3. Is there a specific configuration needed for Whisper Large V3's optimizer when using FP16?
+4. Should we be using a different mixed precision training approach for this specific model?
+5. Are we missing any critical Whisper-specific training configurations?
+
+### Environment Details
+- GPU: Lambda Labs A10 (24GB)
+- Model: Whisper Large V3
+- Dataset Size: 404 train, 102 test examples
+- OS: Darwin 24.1.0
+- Python Environment: Python 3.9
+
+### Previous Attempts
+1. Tried various FP16 configurations (fp16_backend, half_precision_backend)
+2. Adjusted batch sizes and gradient accumulation
+3. Modified data collator to handle tensors differently
+4. Tried different memory management approaches 
