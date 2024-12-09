@@ -3,6 +3,11 @@ import numpy as np
 from huggingface_hub import login
 import os
 from collections import defaultdict
+import requests
+
+# Increase timeout for requests
+requests.adapters.DEFAULT_RETRIES = 5
+requests.adapters.DEFAULT_TIMEOUT = 30
 
 # Authenticate with Hugging Face
 token = os.getenv("HF_TOKEN")
@@ -12,7 +17,7 @@ login(token)
 
 # Load dataset
 print("Loading dataset...")
-dataset = load_dataset("pauljunsukhan/throatmic_codered")
+dataset = load_dataset("pauljunsukhan/throatmic_codered", token=token)
 print("\nDataset structure:")
 print(f"Keys in dataset: {dataset.keys()}")
 

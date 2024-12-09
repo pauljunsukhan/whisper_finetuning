@@ -4,13 +4,23 @@ experiment:
   description: "Fine-tuning Whisper Large-v3 on throat microphone data with simplified approach"
 
 environment:
-  platform: "Lambda Labs A10"
-  gpu_memory: "24GB"
+  platform: "Lambda Labs A100"
+  gpu_memory: "40GB"
+  gpu_details:
+    model: "NVIDIA A100"
+    vram: "40GB"
+    previous: "NVIDIA A10 (24GB)"
+    minimum_required: "32GB"  # Based on 29.2GB usage + buffer
   python_version: "3.9"
   base_model: "openai/whisper-large-v3"
   optimizations:
     gradient_checkpointing: true
     fp16: true
+    memory_requirements:
+      minimum: "32GB"
+      recommended: "40GB"
+      current_usage: "29219MiB (28.5GB)"
+      buffer_needed: "~3.5GB for eval/checkpointing"
 
 dataset:
   source: "pauljunsukhan/throatmic_codered"
@@ -57,9 +67,115 @@ monitoring:
     primary: "wer"
   tensorboard: true
   logging_steps: 50
+  known_warnings:
+    tokenizer_deprecation:
+      message: "Trainer.tokenizer is now deprecated. You should use Trainer.processing_class instead."
+      impact: "non-critical"
+      frequency: "high"
+      action_needed: "Suppress warning"
+      decision: "Continue with tokenizer, no migration needed"
+  memory_usage:
+    initial_phase: "29219MiB / 40960MiB"
+    utilization: "71.3%"
+    dataset_context: "506 total examples"
+    behavior:
+      static_allocations:
+        - "Model parameters"
+        - "Optimizer states"
+        - "Gradient accumulators"
+      dynamic_elements:
+        - "Batch processing (8 samples)"
+        - "Gradient checkpointing"
+        - "Evaluation runs"
+        - "Checkpoint saving"
+      stability: "Expected to remain at ~71.3% throughout training"
+      headroom: "11741MiB available for scaling"
+  training_progress:
+    current_step: 500
+    total_steps: 1000
+    completion: "50%"
+    current_epoch: 19.24
+    metrics_timeline:
+      loss:
+        initial: 4.4576
+        eval_50: 0.9736
+        eval_100: 0.5276
+        eval_150: 0.5471
+        eval_300: 0.7162
+        eval_336: 0.7129
+        eval_381: 0.7324
+        eval_450: 0.7500
+        eval_490: 0.7521
+        current: 0.7621
+        training_loss: "0.0"
+      eval_metrics:
+        initial_wer: 0.7899
+        step_50:
+          wer: 0.5899
+          cer: 0.4697
+        step_100:
+          wer: 0.3341
+          cer: 0.1808
+        step_150:
+          wer: 0.2860
+          cer: 0.1208
+        step_300:
+          wer: 0.2426
+          cer: 0.1063
+        step_336:
+          wer: 0.2225
+          cer: 0.0985
+        step_381:
+          wer: 0.2248
+          cer: 0.0975
+        step_450:
+          wer: 0.2039
+          cer: 0.0891
+        step_490:
+          wer: 0.2078
+          cer: 0.0898
+        step_500:
+          wer: 0.2070
+          cer: 0.0871
+        error_rates:
+          substitution: 0.2000
+          deletion: 0.0047
+          insertion: 0.0023
+          long_word: 0.1078
+          short_word: 0.0713
+      gradient_norm:
+        initial: 410.73
+        current: "0.015-0.020"
+        status: "extremely stable"
+      learning_rate:
+        initial: 1.2e-6
+        step_50: 9.95e-6
+        current: 5.53e-6
+        target: 1.0e-5
+        warmup_progress: "completed"
+        schedule: "steadily decreasing"
+    performance:
+      train_speed: "9.01s/step"
+      eval_speed: "0.744 samples/second"
+      estimated_remaining: "1:16:33"
 
 evaluation:
   primary_metric: "WER"
-  baseline: 0.0            # To be filled after running
-  final: 0.0              # To be filled after running
-  improvement: 0.0        # To be filled after running
+  baseline: 0.7899
+  current: 0.2070
+  best: 0.2039          # Step 450
+  improvement: 0.5829   # 58.29 percentage point reduction
+  convergence_status:
+    metrics:
+      - "WER stable: 20.4-20.7%"
+      - "CER stable: 8.7-9.0%"
+      - "Training loss: 0.0"
+    error_patterns:
+      - "Identical patterns across evaluations"
+      - "Consistent substitutions"
+      - "Fixed formatting rules"
+    stability_indicators:
+      - "No new error types"
+      - "Stable error rates"
+      - "Consistent behavior"
+    recommendation: "Consider early stopping due to strong convergence"

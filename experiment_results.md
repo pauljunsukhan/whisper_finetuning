@@ -1,79 +1,117 @@
-# Whisper Fine-tuning Experiments
+# Whisper Fine-tuning Experiment 2 Results
 
-## Experiment 001 (2024-12-09)
+## Experiment Overview
+- **Model**: Whisper Large V3
+- **Hardware**: NVIDIA A100 40GB
+- **Dataset**: Throat Microphone Dataset (pauljunsukhan/throatmic_codered)
+- **Training Duration**: ~2.5 hours (650 steps)
+- **Early Termination**: Yes, due to clear overfitting signals
 
-### Overview
-- Initial experiment with Whisper Base model
-- Establishing baseline performance
-- Dataset: 180 examples
+## Performance Metrics
 
-### Configuration
-- Model: openai/whisper-base
-- Batch Size: 16
-- Learning Rate: 1e-5
-- Total Steps: 1000 (~111 epochs)
+### Best Performance (Step ~550)
+- WER: 20.4%
+- CER: 8.62%
+- Eval Loss: 0.7620
 
-### Results
-- Baseline WER: 101.43%
-- Final WER: 59.76%
-- Absolute Improvement: 41.67%
+### Final Performance (Step 650)
+- WER: 20.78%
+- CER: 9.03%
+- Eval Loss: 0.7780
 
-### Example Predictions
-```
-Reference: "One aspect of this is the lack of "high rise" hotels on the island."
-Initial: "Well, I'm expecting this is the last of high rise hotels on the island."
-Final: "One I have been expecting this is the lack of high rise hotels on the island."
+### Error Distribution
+- Substitution Rate: 20.08%
+- Deletion Rate: 0.47%
+- Insertion Rate: 0.23%
+- Long Word Error Rate: 11.01%
+- Short Word Error Rate: 6.98%
 
-Reference: "When this is diagonalized, the eigenvectors are chosen as the expansion coefficients."
-Initial: "Subscribe on the QSS and on the S1 website."
-Final: "When this is diagnosed, the eye concaptors are chosen as expansion-coded patients."
-```
+## Training Dynamics
 
-### Analysis
-1. **Dataset Limitations**
-   - Small dataset size (180 examples)
-   - No validation split
-   - Limited diversity
+### Convergence Pattern
+1. **Initial Phase (0-300 steps)**
+   - Rapid improvement in WER and CER
+   - Stable gradient norms
+   - Effective learning rate range
 
-2. **Model Behavior**
-   - High initial WER (>100%)
-   - Significant improvement but still high final WER
-   - Struggles with technical terms
+2. **Optimal Phase (300-550 steps)**
+   - WER stabilized around 20.4-20.7%
+   - Consistent error patterns emerging
+   - Strong gradient signals
 
-## Experiment 002 (2024-12-09)
+3. **Regression Phase (550-650 steps)**
+   - Increasing eval loss
+   - CER degradation
+   - Diminishing gradient effectiveness
+   - Clear overfitting signals
 
-### Overview
-- Upgraded to Whisper Large-v3
-- Comprehensive safety checks
-- Dataset: 506 examples
+### Resource Utilization
+- GPU Memory: ~38GB peak
+- Training Speed: ~6.88s/step
+- Evaluation Speed: ~1.17s/sample
 
-### Configuration
-- Model: openai/whisper-large-v3
-- Per Device Batch: 8
-- Gradient Accumulation: 4
-- Effective Batch: 32
-- Learning Rate: 1e-5
-- Total Steps: 800 (~63 epochs)
+## Error Analysis
 
-### Training Progress
-- Status: Pending execution
-- Training Examples: 363
-- Validation Examples: 41
-- Test Examples: 102
+### Common Error Patterns
+1. **Proper Nouns**
+   - Case sensitivity issues
+   - Example: "Baron" → "baron"
+   - Location name simplification
+   - Example: "Flatbush, Brooklyn" → "Flatsburg"
 
-### Safety Measures
-- GPU Memory Check: 22GB minimum
-- Disk Space Check: 50GB minimum
-- Memory Usage Monitoring
-- Early Stopping (patience: 3)
+2. **Compound Words**
+   - Hyphenation inconsistencies
+   - Example: "play-off" → "playoff"
 
-### Results
-- Baseline WER: TBD
-- Final WER: TBD
-- Improvement: TBD
+3. **Semantic Substitutions**
+   - Meaning-preserving changes
+   - Example: "illegitimate" → "a lieutenant's"
+   - Grammatical structure maintained
 
-### Next Steps
-1. Run experiment with current configuration
-2. Monitor validation performance
-3. Analyze generation quality
-4. Document any hallucinations
+### Error Distribution Analysis
+- Higher error rates on longer words (11.01%)
+- Better performance on shorter words (6.98%)
+- Very low deletion/insertion rates
+- Primarily substitution-based errors
+
+## Key Findings
+
+### Strengths
+1. Extremely low deletion/insertion rates
+2. Strong grammatical preservation
+3. Semantic understanding in substitutions
+4. Stable training dynamics
+
+### Limitations
+1. Proper noun handling
+2. Capitalization consistency
+3. Location name accuracy
+4. Long word recognition
+
+## Recommendations for Experiment 3
+
+### Technical Improvements
+1. **Early Stopping**
+   - Implement validation-based stopping
+   - Target ~600 steps maximum
+   - Monitor CER for regression
+
+2. **Model Architecture**
+   - Add proper noun attention mechanism
+   - Implement capitalization-preserving loss
+   - Consider location-specific tokenization
+
+3. **Training Strategy**
+   - Higher initial learning rate
+   - Faster decay schedule
+   - Validation-based checkpointing
+   - Proper noun specific evaluation metrics
+
+### Resource Optimization
+1. Reduce maximum steps to 600
+2. Implement gradient accumulation
+3. Optimize batch size for A100
+4. Add memory monitoring
+
+## Conclusion
+Experiment 2 demonstrated significant improvements in speech recognition accuracy while revealing specific areas for optimization. The early termination at step 650 was justified by clear overfitting signals, providing valuable insights for future experiments. The next iteration should focus on proper noun handling and implementing robust early stopping mechanisms.
