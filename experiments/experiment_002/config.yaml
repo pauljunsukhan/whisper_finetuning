@@ -1,0 +1,96 @@
+experiment:
+  name: "experiment_002"
+  date: "2023-12-12"
+  description: "Fine-tuning Whisper Large V3 with expanded dataset and improved regularization"
+
+environment:
+  platform: "NVIDIA A6000"
+  gpu_memory: "48GB"
+  python_version: "3.9"
+  base_model: "openai/whisper-large-v3"
+  compute:
+    gradient_checkpointing: true
+    mixed_precision: "fp16"
+    gradient_accumulation: true
+    torch_compile: true
+    compile_mode: "reduce-overhead"
+
+dataset:
+  source: "pauljunsukhan/throatmic_codered"
+  total_examples: 506
+  split:
+    test_size: 0.2
+    seed: 42
+  audio:
+    sampling_rate: 16000
+    duration: 9.98  # seconds
+    format: "throat microphone"
+    processing:
+      pre_emphasis: 0.97
+      normalization: true
+      energy_threshold: 0.1
+
+training:
+  batch_size: 8
+  gradient_accumulation_steps: 4
+  learning_rate: 0.000005
+  warmup_steps: 100
+  max_steps: 2000
+  fp16: true
+  generation_max_length: 225
+  dataloader:
+    num_workers: 7        # Adjusted from 4 to 7 per process
+    prefetch_factor: 2
+    pin_memory: true
+    persistent_workers: true
+  optimization:
+    gradient_checkpointing: true
+    torch_compile: true
+    mixed_precision: true
+  early_stopping:
+    enabled: true
+    metric: "wer"
+    patience: 3
+    min_delta: 0.001
+    mode: "min"
+  regularization:
+    weight_decay: 0.01
+    dropout: 0.1
+    label_smoothing: 0.1
+  threading:                 # **New Threading Configuration**
+    num_threads: 14
+    num_interop_threads: 1
+
+
+logging:
+  output_dir: "outputs"
+  log_dir: "logs"
+  paths:
+    log_file: "outputs/experiment.log"
+    metric_file: "outputs/metrics.jsonl"
+    results_file: "outputs/results.txt"
+  steps:
+    logging: 25    # Log metrics every N steps
+    eval: 100      # Evaluate every N steps
+    save: 100      # Save model every N steps
+  console:
+    enabled: true
+    min_level: "INFO"
+  tensorboard:
+    enabled: true
+    dir: "tensorboard"
+
+evaluation:
+  metric: "WER"
+  baseline: 0.0
+  final: 0.0
+  improvement: 0.0
+  metrics:
+    wer:
+      enabled: true
+      medical_terms_weight: 2.0
+    cer:
+      enabled: true
+    accuracy:
+      enabled: true
+      medical_terms_only: true 

@@ -36,7 +36,6 @@ checkpoints/
 *.ckpt
 *.pth
 temp/
-experiment_*/
 
 # Dataset and model caches
 .cache/
@@ -63,3 +62,7 @@ Thumbs.db
 uv.lock
 =*
 dataset_stats.yaml
+
+# Experiment outputs but not code
+outputs/experiment_*/
+!experiments/experiment_*/
