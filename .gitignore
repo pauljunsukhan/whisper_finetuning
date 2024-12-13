@@ -34,7 +34,6 @@ checkpoints/
 *.bin
 *.ckpt
 *.pth
-temp/
 
 # Dataset and model caches
 .cache/
@@ -49,7 +48,6 @@ datasets/
 *.db
 
 # Logs
-*.log
 logs/
 log/
 
@@ -62,6 +60,11 @@ uv.lock
 =*
 dataset_stats.yaml
 
-# Track outputs folder but exclude specific directories
+# Track outputs folder but exclude specific directories and files
 outputs/**/runs/
 outputs/**/temp/
+outputs/**/*.log
+outputs/**/*.pt
+outputs/**/*.bin
+outputs/**/*.ckpt
+outputs/**/*.pth
