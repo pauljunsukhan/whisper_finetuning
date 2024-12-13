@@ -34,7 +34,7 @@ class ModelManager:
         self.processor = cast(TypedWhisperProcessor, WhisperProcessor.from_pretrained(model_name))
         self.model = cast(WhisperForConditionalGeneration, WhisperForConditionalGeneration.from_pretrained(
             model_name,
-            torch_dtype=torch.float32,  # Use FP32 instead of FP16
+            torch_dtype=torch.float32,  # Use FP16 instead of FP32
             low_cpu_mem_usage=True
         ))
         

@@ -146,7 +146,7 @@ class TrainerManager(BaseComponent):
                 warmup_steps=self.get_config("training.warmup_steps", 500),
                 max_steps=self.get_config("training.max_steps", 4000),
                 # Precision settings - use FP32
-                fp16=False,  # Disable mixed precision
+                fp16=True,  # Enable mixed precision
                 fp16_full_eval=False,  # No FP16 for eval
                 bf16=False,  # No bfloat16
                 # Training settings
