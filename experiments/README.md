@@ -1,5 +1,9 @@
 # Whisper Fine-tuning Experiments
 
+OMP_NUM_THREADS=14 torchrun --nproc_per_node=2 -m experiments.experiment_002.main
+ (root directory)
+
+
 ## Directory Structure
 ```
 experiments/
