@@ -9,12 +9,34 @@ See [experiment_results.md](experiment_results.md) for detailed analysis.
 ## Repository Structure
 ```
 .
-├── README.md                 # This file
-├── requirements.txt          # Python dependencies
-├── whisper_experiment.py     # Main training script
-├── experiment_results.md     # Detailed experiment analysis
-├── experiment_results.txt    # Raw metrics
-└── whisper_finetuned/       # Model checkpoints and logs
+├── README.md                     # This file
+├── requirements.txt              # Python dependencies
+├── pyproject.toml               # Project configuration
+├── explore_dataset.py           # Dataset exploration utilities
+├── experiment_results.md        # Detailed experiment analysis
+├── experiments/                 # All experiment code
+│   ├── README.md               # Experiments documentation
+│   ├── baseline_001/           # Initial baseline experiment
+│   │   ├── config.yaml         # Experiment configuration
+│   │   ├── results.md          # Results and analysis
+│   │   └── whisper_experiment.py
+│   ├── experiment_002/         # Current experiment
+│   │   ├── components/         # Modular components
+│   │   │   ├── base.py        # Base classes
+│   │   │   ├── data.py        # Data handling
+│   │   │   ├── logger.py      # Logging utilities
+│   │   │   ├── model.py       # Model management
+│   │   │   ├── state.py       # State management
+│   │   │   └── trainer.py     # Training logic
+│   │   ├── config.yaml        # Experiment configuration
+│   │   └── main.py           # Entry point
+│   └── templates/              # Templates for new experiments
+│       ├── config_template.yaml
+│       └── results_template.md
+└── outputs/                    # Experiment outputs
+    └── experiment_002/         # Current experiment outputs
+        ├── config/            # Saved configurations
+        └── logs/              # Experiment logs
 ```
 
 ## Dataset
@@ -41,7 +63,7 @@ pip install -r requirements.txt
 export HF_TOKEN=your_token_here
 
 # Run the experiment
-python whisper_experiment.py
+python -m experiments.experiment_002.main
 ```
 
 ## Hardware Requirements
