@@ -1,0 +1,2047 @@
+metadata:
+  name: baseline_001
+  start_time: '2024-12-15 14:26:25'
+timeline:
+- content: ==================================================
+  elapsed: 00:00:00
+  type: message
+- content: EXPERIMENT INITIALIZATION
+  elapsed: 00:00:00
+  type: message
+- content: ==================================================
+  elapsed: 00:00:00
+  type: message
+- content: 'Name: baseline_001'
+  elapsed: 00:00:00
+  type: message
+- content: 'Description: 500 Examples'
+  elapsed: 00:00:00
+  type: message
+- content: 'Date: 2024-12-15 14:26:25'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    CONFIGURATION:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Training Parameters:'
+  elapsed: 00:00:00
+  type: message
+- content: '  Batch Size: 16'
+  elapsed: 00:00:00
+  type: message
+- content: '  Learning Rate: 1e-05'
+  elapsed: 00:00:00
+  type: message
+- content: '  Max Steps: 1000'
+  elapsed: 00:00:00
+  type: message
+- content: '  Warmup Steps: 50'
+  elapsed: 00:00:00
+  type: message
+- content: '  FP16: True'
+  elapsed: 00:00:00
+  type: message
+- content: '  Gradient Checkpointing: False'
+  elapsed: 00:00:00
+  type: message
+- content: '  Max Gradient Norm: 1.0'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    ENVIRONMENT:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Device: cuda'
+  elapsed: 00:00:00
+  type: message
+- content: 'GPU: NVIDIA H100 PCIe'
+  elapsed: 00:00:00
+  type: message
+- content: 'Available GPU Memory: 84.93 GB'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    MODEL:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Base Model: openai/whisper-base'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    DATASET:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Source: pauljunsukhan/throatmic_codered'
+  elapsed: 00:00:00
+  type: message
+- content: 'Total Examples: 506'
+  elapsed: 00:00:02
+  type: message
+- content: '
+
+    Data Split:'
+  elapsed: 00:00:02
+  type: message
+- content: '  Training Examples: 404'
+  elapsed: 00:00:02
+  type: message
+- content: '  Testing Examples: 102'
+  elapsed: 00:00:02
+  type: message
+- content: '  Test Split Ratio: 20.16%'
+  elapsed: 00:00:02
+  type: message
+- content: '
+
+    Audio Processing:'
+  elapsed: 00:00:02
+  type: message
+- content: '  Normalization: True'
+  elapsed: 00:00:02
+  type: message
+- content: '
+
+    Evaluation Settings:'
+  elapsed: 00:00:02
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:02
+  type: message
+- content: '  Strategy: steps'
+  elapsed: 00:00:02
+  type: message
+- content: '  Eval Steps: 25'
+  elapsed: 00:00:02
+  type: message
+- content: '  Save Steps: 100'
+  elapsed: 00:00:02
+  type: message
+- content: '  Logging Steps: 25'
+  elapsed: 00:00:02
+  type: message
+- content: '  Load Best Model: True'
+  elapsed: 00:00:02
+  type: message
+- content: '  Metric: wer'
+  elapsed: 00:00:02
+  type: message
+- content: '  Greater is Better: False'
+  elapsed: 00:00:02
+  type: message
+- content: '  Save Total Limit: 3'
+  elapsed: 00:00:02
+  type: message
+- content: ==================================================
+  elapsed: 00:00:02
+  type: message
+- content: '
+
+    =================================================='
+  elapsed: 00:00:02
+  type: message
+- content: STARTING EXPERIMENT
+  elapsed: 00:00:02
+  type: message
+- content: '==================================================
+
+    '
+  elapsed: 00:00:02
+  type: message
+- content: 'Loading model and processor: openai/whisper-base'
+  elapsed: 00:00:02
+  type: message
+- content: 'Model and processor loaded successfully
+
+    '
+  elapsed: 00:00:04
+  type: message
+- content: Evaluating baseline model...
+  elapsed: 00:00:04
+  type: message
+- content: Evaluating model on test split...
+  elapsed: 00:00:04
+  type: message
+- content: 'Example predictions:'
+  elapsed: 00:00:22
+  type: message
+- elapsed: 00:00:22
+  prediction: ' So, I''m happy to bring my jokes and the best news also, I''m pretty
+    much okay.'
+  reference: Sir Robert Vivian, illegitimate son of the first Baron, was also a prominent
+    soldier.
+  type: prediction
+- elapsed: 00:00:22
+  prediction: ' This family moved to Fatsburg but there is nothing that''s flying
+    at the road.'
+  reference: His family moved to Flatbush, Brooklyn, New York when he was four months
+    old.
+  type: prediction
+- elapsed: 00:00:22
+  prediction: ' As I send a good station point, Francis is already defined.'
+  reference: In addition to group stage and play-off matches, it was awarded the final.
+  type: prediction
+- elapsed: 00:00:22
+  name: wer
+  type: metric
+  value: 1.4217054263565891
+- elapsed: 00:00:22
+  name: baseline_wer
+  type: metric
+  value: 1.4217054263565891
+- content: '
+
+    Preparing dataset for training...'
+  elapsed: 00:00:22
+  type: message
+- content: Processing train split...
+  elapsed: 00:00:22
+  type: message
+- content: Processed 404 training examples
+  elapsed: 00:00:24
+  type: message
+- content: Processing test split...
+  elapsed: 00:00:24
+  type: message
+- content: Processed 102 test examples
+  elapsed: 00:00:25
+  type: message
+- content: Dataset preparation complete
+  elapsed: 00:00:28
+  type: message
+- content: '
+
+    Training Configuration:'
+  elapsed: 00:00:29
+  type: message
+- content: ==================================================
+  elapsed: 00:00:29
+  type: message
+- content: '
+
+    Core Training Parameters:'
+  elapsed: 00:00:29
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:29
+  type: message
+- content: '  Learning Rate: 1e-05'
+  elapsed: 00:00:29
+  type: message
+- content: '  LR Scheduler: linear'
+  elapsed: 00:00:29
+  type: message
+- content: '  Max Steps: 1000'
+  elapsed: 00:00:29
+  type: message
+- content: '  Warmup Steps: 50'
+  elapsed: 00:00:29
+  type: message
+- content: '  Warmup Ratio: 0.00%'
+  elapsed: 00:00:29
+  type: message
+- content: '  Optimizer: AdamW'
+  elapsed: 00:00:29
+  type: message
+- content: '
+
+    Generation Settings:'
+  elapsed: 00:00:29
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:29
+  type: message
+- content: '  Generation Max Length: 225'
+  elapsed: 00:00:29
+  type: message
+- content: '  Predict with Generate: True'
+  elapsed: 00:00:29
+  type: message
+- content: '  Language: en'
+  elapsed: 00:00:29
+  type: message
+- content: '  Task: transcribe'
+  elapsed: 00:00:29
+  type: message
+- content: '  Use Cache: False'
+  elapsed: 00:00:29
+  type: message
+- content: '
+
+    Batch Configuration:'
+  elapsed: 00:00:29
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:29
+  type: message
+- content: '  Per Device Train Batch Size: 16'
+  elapsed: 00:00:29
+  type: message
+- content: '  Per Device Eval Batch Size: 64'
+  elapsed: 00:00:29
+  type: message
+- content: '  Gradient Accumulation Steps: 1'
+  elapsed: 00:00:29
+  type: message
+- content: '  Effective Batch Size: 16'
+  elapsed: 00:00:29
+  type: message
+- content: '
+
+    Regularization:'
+  elapsed: 00:00:29
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:29
+  type: message
+- content: '  Weight Decay: 0.0'
+  elapsed: 00:00:29
+  type: message
+- content: '  Label Smoothing: 0.0'
+  elapsed: 00:00:29
+  type: message
+- content: '  Dropout: 0.0'
+  elapsed: 00:00:29
+  type: message
+- content: '  Max Gradient Norm: 1.0'
+  elapsed: 00:00:29
+  type: message
+- content: '
+
+    Memory Optimization:'
+  elapsed: 00:00:29
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:29
+  type: message
+- content: '  Gradient Checkpointing: False'
+  elapsed: 00:00:29
+  type: message
+- content: '  FP16 Training: True'
+  elapsed: 00:00:30
+  type: message
+- content: '  FP16 Opt Level: O1'
+  elapsed: 00:00:30
+  type: message
+- content: '  FP16 Backend: auto'
+  elapsed: 00:00:30
+  type: message
+- content: '
+
+    Evaluation & Saving Configuration:'
+  elapsed: 00:00:30
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:30
+  type: message
+- content: '  Evaluation Strategy: steps'
+  elapsed: 00:00:30
+  type: message
+- content: '  Eval Steps: 25'
+  elapsed: 00:00:30
+  type: message
+- content: '  Save Steps: 100'
+  elapsed: 00:00:30
+  type: message
+- content: '  Logging Steps: 25'
+  elapsed: 00:00:30
+  type: message
+- content: '  Save Total Limit: 3'
+  elapsed: 00:00:30
+  type: message
+- content: '  Load Best Model at End: True'
+  elapsed: 00:00:30
+  type: message
+- content: '  Metric for Best Model: wer'
+  elapsed: 00:00:30
+  type: message
+- content: '  Greater is Better: False'
+  elapsed: 00:00:30
+  type: message
+- content: '
+
+    Early Stopping Configuration:'
+  elapsed: 00:00:30
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:30
+  type: message
+- content: '  Enabled: True'
+  elapsed: 00:00:30
+  type: message
+- content: '  Patience: 5'
+  elapsed: 00:00:30
+  type: message
+- content: '  Metric: wer'
+  elapsed: 00:00:30
+  type: message
+- content: '  Mode: min'
+  elapsed: 00:00:30
+  type: message
+- content: '  Threshold: 0.0001'
+  elapsed: 00:00:30
+  type: message
+- content: '
+
+    Output & Logging Configuration:'
+  elapsed: 00:00:30
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:30
+  type: message
+- content: '  Output Directory: /home/ubuntu/H100WhisperFineTune/whisper_finetuning/experiments/base_002/output/baseline_001_20241215_142654'
+  elapsed: 00:00:30
+  type: message
+- content: '  Logging Directory: /home/ubuntu/H100WhisperFineTune/whisper_finetuning/experiments/base_002/output/baseline_001_20241215_142654/runs/Dec15_14-26-54_209-20-159-77'
+  elapsed: 00:00:30
+  type: message
+- content: '  Report To: [''tensorboard'']'
+  elapsed: 00:00:30
+  type: message
+- content: '  Push to Hub: False'
+  elapsed: 00:00:30
+  type: message
+- content: '
+
+    Monitoring Configuration:'
+  elapsed: 00:00:30
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:30
+  type: message
+- content: '  Gradient History Size: 1000'
+  elapsed: 00:00:30
+  type: message
+- content: '  Significant Change Threshold: 1.0'
+  elapsed: 00:00:30
+  type: message
+- content: '  Log Top N Gradients: 5'
+  elapsed: 00:00:30
+  type: message
+- content: ==================================================
+  elapsed: 00:00:30
+  type: message
+- content: 'Selected example indices for tracking: [30, 67, 62, 47, 42]'
+  elapsed: 00:00:31
+  type: message
+- content: Initialized TensorBoard writer
+  elapsed: 00:00:31
+  type: message
+- content: '
+
+    Starting fine-tuning...'
+  elapsed: 00:00:31
+  type: message
+- content: '
+
+    Training Metrics - Step 25 (Epoch 0.96):'
+  elapsed: 00:01:23
+  type: message
+- elapsed: 00:01:24
+  name: train_loss
+  type: metric
+  value: 7.4949
+- elapsed: 00:01:24
+  name: train_grad_norm
+  type: metric
+  value: 51.49363708496094
+- elapsed: 00:01:24
+  name: train_learning_rate
+  type: metric
+  value: 4.000000000000001e-06
+- elapsed: 00:01:24
+  name: train_epoch
+  type: metric
+  value: 0.9615384615384616
+- content: '
+
+    Training Metrics - Step 25 (Epoch 0.96):'
+  elapsed: 00:01:41
+  type: message
+- elapsed: 00:01:41
+  name: train_eval_loss
+  type: metric
+  value: 5.81992769241333
+- elapsed: 00:01:41
+  name: train_eval_wer
+  type: metric
+  value: 1.062015503875969
+- elapsed: 00:01:41
+  name: train_eval_runtime
+  type: metric
+  value: 17.3351
+- elapsed: 00:01:41
+  name: train_eval_samples_per_second
+  type: metric
+  value: 5.884
+- elapsed: 00:01:41
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.115
+- elapsed: 00:01:41
+  name: train_epoch
+  type: metric
+  value: 0.9615384615384616
+- content: '
+
+    Transcription Examples (Step 25):'
+  elapsed: 00:01:41
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:01:41
+  type: message
+- elapsed: 00:01:42
+  prediction: ' The nuclear war is a nuclear-based nuclear strip in the Democratic
+    Republic of America.'
+  reference: The High Command was not a government ministry, but a military command,
+    however.
+  type: prediction
+- elapsed: 00:01:42
+  prediction: ' The interpretable age of the Earth is one of the missing literature
+    and the experience of the Moon and the Universe.'
+  reference: Contributors included Alex Robinson, Frank Cho, Marc Hempel, Brian Ralph,
+    and many others.
+  type: prediction
+- elapsed: 00:01:43
+  prediction: ' Conversion version for a single step in relation to the current higher
+    tax rate.'
+  reference: The original music for the film was composed and conducted by Jerry Goldsmith.
+  type: prediction
+- elapsed: 00:01:43
+  prediction: ' As room temperature, paper and surface take away the strip here.'
+  reference: It is wrapped in paper and served as a take away street food.
+  type: prediction
+- elapsed: 00:01:44
+  prediction: ' From one of the zone, put this down, so that the room is too much
+    to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+- content: '
+
+    Training Metrics - Step 50 (Epoch 1.92):'
+  elapsed: 00:02:35
+  type: message
+- elapsed: 00:02:35
+  name: train_loss
+  type: metric
+  value: 3.6624
+- elapsed: 00:02:35
+  name: train_grad_norm
+  type: metric
+  value: 23.634899139404297
+- elapsed: 00:02:35
+  name: train_learning_rate
+  type: metric
+  value: 9.0e-06
+- elapsed: 00:02:35
+  name: train_epoch
+  type: metric
+  value: 1.9230769230769231
+- content: '
+
+    Training Metrics - Step 50 (Epoch 1.92):'
+  elapsed: 00:02:58
+  type: message
+- elapsed: 00:02:58
+  name: train_eval_loss
+  type: metric
+  value: 1.9733247756958008
+- elapsed: 00:02:58
+  name: train_eval_wer
+  type: metric
+  value: 1.2449612403100776
+- elapsed: 00:02:58
+  name: train_eval_runtime
+  type: metric
+  value: 22.9037
+- elapsed: 00:02:58
+  name: train_eval_samples_per_second
+  type: metric
+  value: 4.453
+- elapsed: 00:02:58
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.087
+- elapsed: 00:02:58
+  name: train_epoch
+  type: metric
+  value: 1.9230769230769231
+- content: '
+
+    Transcription Examples (Step 50):'
+  elapsed: 00:02:58
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:02:58
+  type: message
+- elapsed: 00:02:58
+  prediction: ' The helicopter has a different air strip and a local helicopter car
+    driver.'
+  reference: The High Command was not a government ministry, but a military command,
+    however.
+  type: prediction
+- elapsed: 00:02:59
+  prediction: ' Contributripeers of the birth and birth and birth organs were missing
+    from a child, mother, cat, cat, mother, and cat, birth and mother, and mother,
+    and mother.'
+  reference: Contributors included Alex Robinson, Frank Cho, Marc Hempel, Brian Ralph,
+    and many others.
+  type: prediction
+- elapsed: 00:02:59
+  prediction: ' The original version of the version of the version of the version
+    played a single-final was composed of a composition of an ancient and different
+    type of guitar and guitar sounds.'
+  reference: The original music for the film was composed and conducted by Jerry Goldsmith.
+  type: prediction
+- elapsed: 00:03:00
+  prediction: ' As rock and paper and surf does take away the streaky.'
+  reference: It is wrapped in paper and served as a take away street food.
+  type: prediction
+- elapsed: 00:03:00
+  prediction: ' From off his mouth was an employee''s mouth was now spoken with a
+    real life teacher, he had to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+- content: '
+
+    Training Metrics - Step 75 (Epoch 2.88):'
+  elapsed: 00:03:51
+  type: message
+- elapsed: 00:03:51
+  name: train_loss
+  type: metric
+  value: 1.3677
+- elapsed: 00:03:51
+  name: train_grad_norm
+  type: metric
+  value: 17.188636779785156
+- elapsed: 00:03:51
+  name: train_learning_rate
+  type: metric
+  value: 9.789473684210527e-06
+- elapsed: 00:03:51
+  name: train_epoch
+  type: metric
+  value: 2.8846153846153846
+- content: '
+
+    Training Metrics - Step 75 (Epoch 2.88):'
+  elapsed: 00:04:13
+  type: message
+- elapsed: 00:04:14
+  name: train_eval_loss
+  type: metric
+  value: 1.3122066259384155
+- elapsed: 00:04:14
+  name: train_eval_wer
+  type: metric
+  value: 0.9728682170542635
+- elapsed: 00:04:14
+  name: train_eval_runtime
+  type: metric
+  value: 22.5925
+- elapsed: 00:04:14
+  name: train_eval_samples_per_second
+  type: metric
+  value: 4.515
+- elapsed: 00:04:14
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.089
+- elapsed: 00:04:14
+  name: train_epoch
+  type: metric
+  value: 2.8846153846153846
+- content: '
+
+    Transcription Examples (Step 75):'
+  elapsed: 00:04:14
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:04:14
+  type: message
+- elapsed: 00:04:15
+  prediction: ' The helicopter and helicopter and helicopter and helicopter are covered
+    in the air-street by the wild-haired helicopter tower.'
+  reference: The High Command was not a government ministry, but a military command,
+    however.
+  type: prediction
+- elapsed: 00:04:16
+  prediction: ' Contributrapeer is a poor rock, rock, rock, rock, rock, rock, rock,
+    rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock,
+    rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock,
+    rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock,
+    rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock,
+    rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock,
+    rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock,
+    rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock, rock,
+    rock, rock, rock, rock, rock, rock, rock, rock,'
+  reference: Contributors included Alex Robinson, Frank Cho, Marc Hempel, Brian Ralph,
+    and many others.
+  type: prediction
+- elapsed: 00:04:16
+  prediction: ' The original music for the original music was for the family of the
+    family''s composing, character, and the literary ghostness.'
+  reference: The original music for the film was composed and conducted by Jerry Goldsmith.
+  type: prediction
+- elapsed: 00:04:17
+  prediction: ' His wrapped in paper and surf does take away street food.'
+  reference: It is wrapped in paper and served as a take away street food.
+  type: prediction
+- elapsed: 00:04:17
+  prediction: ' Dramak is not pleased, but his knowledge will be realized he has to
+    be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+- content: '
+
+    Training Metrics - Step 100 (Epoch 3.85):'
+  elapsed: 00:04:59
+  type: message
+- elapsed: 00:04:59
+  name: train_loss
+  type: metric
+  value: 0.7499
+- elapsed: 00:04:59
+  name: train_grad_norm
+  type: metric
+  value: 15.871533393859863
+- elapsed: 00:04:59
+  name: train_learning_rate
+  type: metric
+  value: 9.526315789473684e-06
+- elapsed: 00:04:59
+  name: train_epoch
+  type: metric
+  value: 3.8461538461538463
+- content: '
+
+    Training Metrics - Step 100 (Epoch 3.85):'
+  elapsed: 00:05:17
+  type: message
+- elapsed: 00:05:17
+  name: train_eval_loss
+  type: metric
+  value: 1.1756433248519897
+- elapsed: 00:05:18
+  name: train_eval_wer
+  type: metric
+  value: 0.7364341085271318
+- elapsed: 00:05:18
+  name: train_eval_runtime
+  type: metric
+  value: 18.023
+- elapsed: 00:05:18
+  name: train_eval_samples_per_second
+  type: metric
+  value: 5.659
+- elapsed: 00:05:18
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.111
+- elapsed: 00:05:18
+  name: train_epoch
+  type: metric
+  value: 3.8461538461538463
+- content: '
+
+    Transcription Examples (Step 100):'
+  elapsed: 00:05:18
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:05:18
+  type: message
+- elapsed: 00:05:18
+  prediction: ' The Hacker Manacomadam is now covered in the history of the World
+    War I and the rest of the world.'
+  reference: The High Command was not a government ministry, but a military command,
+    however.
+  type: prediction
+- elapsed: 00:05:18
+  prediction: ' Contributor is important, Alex Robinson, Frank Chau, Mark Campo, Brian
+    Ralph, and many others.'
+  reference: Contributors included Alex Robinson, Frank Cho, Marc Hempel, Brian Ralph,
+    and many others.
+  type: prediction
+- elapsed: 00:05:19
+  prediction: ' The original music was for the family''s composing in the country
+    for the country''s military ghostness.'
+  reference: The original music for the film was composed and conducted by Jerry Goldsmith.
+  type: prediction
+- elapsed: 00:05:20
+  prediction: ' His wrapped in paper and surf does take away street food.'
+  reference: It is wrapped in paper and served as a take away street food.
+  type: prediction
+- elapsed: 00:05:20
+  prediction: ' Dramak is not pleased as the most quickly realized he had to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+- content: '
+
+    Training Metrics - Step 125 (Epoch 4.81):'
+  elapsed: 00:06:11
+  type: message
+- elapsed: 00:06:11
+  name: train_loss
+  type: metric
+  value: 0.4332
+- elapsed: 00:06:11
+  name: train_grad_norm
+  type: metric
+  value: 9.744379043579102
+- elapsed: 00:06:11
+  name: train_learning_rate
+  type: metric
+  value: 9.263157894736842e-06
+- elapsed: 00:06:12
+  name: train_epoch
+  type: metric
+  value: 4.8076923076923075
+- content: '
+
+    Training Metrics - Step 125 (Epoch 4.81):'
+  elapsed: 00:06:27
+  type: message
+- elapsed: 00:06:27
+  name: train_eval_loss
+  type: metric
+  value: 1.1278624534606934
+- elapsed: 00:06:27
+  name: train_eval_wer
+  type: metric
+  value: 0.5488372093023256
+- elapsed: 00:06:27
+  name: train_eval_runtime
+  type: metric
+  value: 15.438
+- elapsed: 00:06:27
+  name: train_eval_samples_per_second
+  type: metric
+  value: 6.607
+- elapsed: 00:06:27
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.13
+- elapsed: 00:06:27
+  name: train_epoch
+  type: metric
+  value: 4.8076923076923075
+- content: '
+
+    Transcription Examples (Step 125):'
+  elapsed: 00:06:27
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:06:27
+  type: message
+- elapsed: 00:06:28
+  prediction: ' The Hackeman and Zacken are covered in the history of the World War
+    II and the current however.'
+  reference: The High Command was not a government ministry, but a military command,
+    however.
+  type: prediction
+- elapsed: 00:06:28
+  prediction: ' Contributor is included Alex Robinson, Frank Chau, Mark Campo, Brian
+    Ralf, and many others.'
+  reference: Contributors included Alex Robinson, Frank Cho, Marc Hempel, Brian Ralph,
+    and many others.
+  type: prediction
+- elapsed: 00:06:29
+  prediction: ' The original music was for the family''s composing of the composer,
+    Patrick Bordy, and Harry Goukson.'
+  reference: The original music for the film was composed and conducted by Jerry Goldsmith.
+  type: prediction
+- elapsed: 00:06:29
+  prediction: ' It is wrapped in paper and surfed and served as take away street food.'
+  reference: It is wrapped in paper and served as a take away street food.
+  type: prediction
+- elapsed: 00:06:30
+  prediction: ' Dremog is not pleased as the most quickly realized he has to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+- content: '
+
+    Training Metrics - Step 150 (Epoch 5.77):'
+  elapsed: 00:07:11
+  type: message
+- elapsed: 00:07:11
+  name: train_loss
+  type: metric
+  value: 0.2504
+- elapsed: 00:07:11
+  name: train_grad_norm
+  type: metric
+  value: 6.975652694702148
+- elapsed: 00:07:11
+  name: train_learning_rate
+  type: metric
+  value: 9.0e-06
+- elapsed: 00:07:11
+  name: train_epoch
+  type: metric
+  value: 5.769230769230769
+- content: '
+
+    Training Metrics - Step 150 (Epoch 5.77):'
+  elapsed: 00:07:26
+  type: message
+- elapsed: 00:07:26
+  name: train_eval_loss
+  type: metric
+  value: 1.1267242431640625
+- elapsed: 00:07:26
+  name: train_eval_wer
+  type: metric
+  value: 0.5542635658914729
+- elapsed: 00:07:26
+  name: train_eval_runtime
+  type: metric
+  value: 15.105
+- elapsed: 00:07:27
+  name: train_eval_samples_per_second
+  type: metric
+  value: 6.753
+- elapsed: 00:07:27
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.132
+- elapsed: 00:07:27
+  name: train_epoch
+  type: metric
+  value: 5.769230769230769
+- content: '
+
+    Transcription Examples (Step 150):'
+  elapsed: 00:07:27
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:07:27
+  type: message
+- elapsed: 00:07:27
+  prediction: ' The outcome of the Macon and the Macon North American Government are
+    a street by a well-to-care current however.'
+  reference: The High Command was not a government ministry, but a military command,
+    however.
+  type: prediction
+- elapsed: 00:07:27
+  prediction: ' Contributor is included Alex Robinson, Frank Chau, Mark Campo, Brian
+    Ralf, and many others.'
+  reference: Contributors included Alex Robinson, Frank Cho, Marc Hempel, Brian Ralph,
+    and many others.
+  type: prediction
+- elapsed: 00:07:28
+  prediction: ' The original music was for the first time for the film was composed
+    in the country''s historic military ghostness.'
+  reference: The original music for the film was composed and conducted by Jerry Goldsmith.
+  type: prediction
+- elapsed: 00:07:28
+  prediction: ' It is wrapped in paper and surfed and served as take away street food.'
+  reference: It is wrapped in paper and served as a take away street food.
+  type: prediction
+- elapsed: 00:07:29
+  prediction: ' Grimog is not pleased as the most quickly realized he has to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+- content: '
+
+    Training Metrics - Step 175 (Epoch 6.73):'
+  elapsed: 00:08:11
+  type: message
+- elapsed: 00:08:11
+  name: train_loss
+  type: metric
+  value: 0.1305
+- elapsed: 00:08:11
+  name: train_grad_norm
+  type: metric
+  value: 6.1226487159729
+- elapsed: 00:08:11
+  name: train_learning_rate
+  type: metric
+  value: 8.736842105263158e-06
+- elapsed: 00:08:11
+  name: train_epoch
+  type: metric
+  value: 6.730769230769231
+- content: '
+
+    Training Metrics - Step 175 (Epoch 6.73):'
+  elapsed: 00:08:27
+  type: message
+- elapsed: 00:08:28
+  name: train_eval_loss
+  type: metric
+  value: 1.129414677619934
+- elapsed: 00:08:28
+  name: train_eval_wer
+  type: metric
+  value: 0.6046511627906976
+- elapsed: 00:08:28
+  name: train_eval_runtime
+  type: metric
+  value: 16.164
+- elapsed: 00:08:28
+  name: train_eval_samples_per_second
+  type: metric
+  value: 6.31
+- elapsed: 00:08:28
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.124
+- elapsed: 00:08:28
+  name: train_epoch
+  type: metric
+  value: 6.730769230769231
+- content: '
+
+    Transcription Examples (Step 175):'
+  elapsed: 00:08:28
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:08:28
+  type: message
+- elapsed: 00:08:28
+  prediction: ' The outcome of the Haccombat and Zaggobreon Airport are on the road
+    street by a well-to-care current however.'
+  reference: The High Command was not a government ministry, but a military command,
+    however.
+  type: prediction
+- elapsed: 00:08:29
+  prediction: ' Contributor is included Alex Robinson, Frank Chau, Mark Campo, Brian
+    Ralf, and many others.'
+  reference: Contributors included Alex Robinson, Frank Cho, Marc Hempel, Brian Ralph,
+    and many others.
+  type: prediction
+- elapsed: 00:08:30
+  prediction: ' The original music was for the first and the most composed and characteristic
+    of the country''s high goat''s mass.'
+  reference: The original music for the film was composed and conducted by Jerry Goldsmith.
+  type: prediction
+- elapsed: 00:08:30
+  prediction: ' It is wrapped in paper and surfed and paper and surf does take away
+    street food.'
+  reference: It is wrapped in paper and served as a take away street food.
+  type: prediction
+- elapsed: 00:08:31
+  prediction: ' Drillmark is not pleased with his nails, but could be realized to
+    be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+- content: '
+
+    Training Metrics - Step 200 (Epoch 7.69):'
+  elapsed: 00:09:16
+  type: message
+- elapsed: 00:09:16
+  name: train_loss
+  type: metric
+  value: 0.0621
+- elapsed: 00:09:16
+  name: train_grad_norm
+  type: metric
+  value: 1.7761486768722534
+- elapsed: 00:09:16
+  name: train_learning_rate
+  type: metric
+  value: 8.473684210526317e-06
+- elapsed: 00:09:16
+  name: train_epoch
+  type: metric
+  value: 7.6923076923076925
+- content: '
+
+    Training Metrics - Step 200 (Epoch 7.69):'
+  elapsed: 00:09:36
+  type: message
+- elapsed: 00:09:36
+  name: train_eval_loss
+  type: metric
+  value: 1.1612669229507446
+- elapsed: 00:09:36
+  name: train_eval_wer
+  type: metric
+  value: 0.6372093023255814
+- elapsed: 00:09:36
+  name: train_eval_runtime
+  type: metric
+  value: 19.9775
+- elapsed: 00:09:36
+  name: train_eval_samples_per_second
+  type: metric
+  value: 5.106
+- elapsed: 00:09:36
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.1
+- elapsed: 00:09:36
+  name: train_epoch
+  type: metric
+  value: 7.6923076923076925
+- content: '
+
+    Transcription Examples (Step 200):'
+  elapsed: 00:09:36
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:09:36
+  type: message
+- elapsed: 00:09:36
+  prediction: ' The outcome of the Haccombat and Zachoverne-Urster Street by Wilder,
+    current however.'
+  reference: The High Command was not a government ministry, but a military command,
+    however.
+  type: prediction
+- elapsed: 00:09:37
+  prediction: ' Contributor is included Alex Robinson, Frank Chau, Mark Campo, Brian
+    Ralf, and many others.'
+  reference: Contributors included Alex Robinson, Frank Cho, Marc Hempel, Brian Ralph,
+    and many others.
+  type: prediction
+- elapsed: 00:09:38
+  prediction: ' The original music was originally for the first and the film was composed
+    in the country for the country''s military coaxies.'
+  reference: The original music for the film was composed and conducted by Jerry Goldsmith.
+  type: prediction
+- elapsed: 00:09:38
+  prediction: ' It is wrapped in paper and paper and surfed as take away street food.'
+  reference: It is wrapped in paper and served as a take away street food.
+  type: prediction
+- elapsed: 00:09:39
+  prediction: ' Grimog is not pleased, but he is now quickly realized to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+- content: '
+
+    Training Metrics - Step 225 (Epoch 8.65):'
+  elapsed: 00:10:27
+  type: message
+- elapsed: 00:10:27
+  name: train_loss
+  type: metric
+  value: 0.0301
+- elapsed: 00:10:27
+  name: train_grad_norm
+  type: metric
+  value: 1.6179723739624023
+- elapsed: 00:10:27
+  name: train_learning_rate
+  type: metric
+  value: 8.210526315789475e-06
+- elapsed: 00:10:28
+  name: train_epoch
+  type: metric
+  value: 8.653846153846153
+- content: '
+
+    Training Metrics - Step 225 (Epoch 8.65):'
+  elapsed: 00:10:47
+  type: message
+- elapsed: 00:10:48
+  name: train_eval_loss
+  type: metric
+  value: 1.1695162057876587
+- elapsed: 00:10:48
+  name: train_eval_wer
+  type: metric
+  value: 0.7496124031007751
+- elapsed: 00:10:48
+  name: train_eval_runtime
+  type: metric
+  value: 19.9137
+- elapsed: 00:10:48
+  name: train_eval_samples_per_second
+  type: metric
+  value: 5.122
+- elapsed: 00:10:48
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.1
+- elapsed: 00:10:48
+  name: train_epoch
+  type: metric
+  value: 8.653846153846153
+- content: '
+
+    Transcription Examples (Step 225):'
+  elapsed: 00:10:48
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:10:48
+  type: message
+- elapsed: 00:10:48
+  prediction: ' The outcome of the Macon and Zagabraan District is a well-known district
+    by Wilder, Corridor and however.'
+  reference: The High Command was not a government ministry, but a military command,
+    however.
+  type: prediction
+- elapsed: 00:10:49
+  prediction: ' Contributor is included Alex Robinson, Frank Chau, Mark Campo, Brian
+    Ralf, and many others.'
+  reference: Contributors included Alex Robinson, Frank Cho, Marc Hempel, Brian Ralph,
+    and many others.
+  type: prediction
+- elapsed: 00:10:49
+  prediction: ' The original music was originally for the film, composed of the composer
+    and conductor of the Gouksons.'
+  reference: The original music for the film was composed and conducted by Jerry Goldsmith.
+  type: prediction
+- elapsed: 00:10:50
+  prediction: ' It is wrapped in paper and paper and surfed as take away street food.'
+  reference: It is wrapped in paper and served as a take away street food.
+  type: prediction
+- elapsed: 00:10:51
+  prediction: ' Grimog is not pleased, but he is now quickly realized to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+- content: '
+
+    Training Metrics - Step 250 (Epoch 9.62):'
+  elapsed: 00:11:39
+  type: message
+- elapsed: 00:11:39
+  name: train_loss
+  type: metric
+  value: 0.0178
+- elapsed: 00:11:39
+  name: train_grad_norm
+  type: metric
+  value: 2.373913049697876
+- elapsed: 00:11:40
+  name: train_learning_rate
+  type: metric
+  value: 7.947368421052633e-06
+- elapsed: 00:11:40
+  name: train_epoch
+  type: metric
+  value: 9.615384615384615
+- content: '
+
+    Training Metrics - Step 250 (Epoch 9.62):'
+  elapsed: 00:11:56
+  type: message
+- elapsed: 00:11:57
+  name: train_eval_loss
+  type: metric
+  value: 1.172590732574463
+- elapsed: 00:11:57
+  name: train_eval_wer
+  type: metric
+  value: 0.5697674418604651
+- elapsed: 00:11:57
+  name: train_eval_runtime
+  type: metric
+  value: 16.6634
+- elapsed: 00:11:57
+  name: train_eval_samples_per_second
+  type: metric
+  value: 6.121
+- elapsed: 00:11:57
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.12
+- elapsed: 00:11:57
+  name: train_epoch
+  type: metric
+  value: 9.615384615384615
+- content: '
+
+    Transcription Examples (Step 250):'
+  elapsed: 00:11:57
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:11:57
+  type: message
+- elapsed: 00:11:57
+  prediction: ' The outcome of the high-to-to-to-high recovery industry by a well-to-care
+    current however.'
+  reference: The High Command was not a government ministry, but a military command,
+    however.
+  type: prediction
+- elapsed: 00:11:58
+  prediction: ' Contributor is included Alex Robinson, Frank Chau, Mark Campo, Brian
+    Ralf, and many others.'
+  reference: Contributors included Alex Robinson, Frank Cho, Marc Hempel, Brian Ralph,
+    and many others.
+  type: prediction
+- elapsed: 00:11:58
+  prediction: ' The original music was originally for the first of the film, composed
+    of the composer and conductor of the Goucestershire Gouccius.'
+  reference: The original music for the film was composed and conducted by Jerry Goldsmith.
+  type: prediction
+- elapsed: 00:11:59
+  prediction: ' It is wrapped in paper and paper and surfed as take away street food.'
+  reference: It is wrapped in paper and served as a take away street food.
+  type: prediction
+- elapsed: 00:11:59
+  prediction: ' Grimog is not pleased, but he is now as quickly realized he had to
+    be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+- content: '
+
+    Training Metrics - Step 275 (Epoch 10.58):'
+  elapsed: 00:12:46
+  type: message
+- elapsed: 00:12:46
+  name: train_loss
+  type: metric
+  value: 0.0101
+- elapsed: 00:12:46
+  name: train_grad_norm
+  type: metric
+  value: 1.4137959480285645
+- elapsed: 00:12:46
+  name: train_learning_rate
+  type: metric
+  value: 7.68421052631579e-06
+- elapsed: 00:12:46
+  name: train_epoch
+  type: metric
+  value: 10.576923076923077
+- content: '
+
+    Training Metrics - Step 275 (Epoch 10.58):'
+  elapsed: 00:13:02
+  type: message
+- elapsed: 00:13:02
+  name: train_eval_loss
+  type: metric
+  value: 1.1984795331954956
+- elapsed: 00:13:03
+  name: train_eval_wer
+  type: metric
+  value: 0.648062015503876
+- elapsed: 00:13:03
+  name: train_eval_runtime
+  type: metric
+  value: 16.4249
+- elapsed: 00:13:03
+  name: train_eval_samples_per_second
+  type: metric
+  value: 6.21
+- elapsed: 00:13:03
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.122
+- elapsed: 00:13:03
+  name: train_epoch
+  type: metric
+  value: 10.576923076923077
+- content: '
+
+    Transcription Examples (Step 275):'
+  elapsed: 00:13:03
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:13:03
+  type: message
+- elapsed: 00:13:03
+  prediction: ' The outcome of the high-to-to-to-to-to-cover industry is now covered
+    by the world-high current however.'
+  reference: The High Command was not a government ministry, but a military command,
+    however.
+  type: prediction
+- elapsed: 00:13:04
+  prediction: ' Contributor is included Alex Robinson, Frank Chau, Mark Campo, Brian
+    Ralf, and many others.'
+  reference: Contributors included Alex Robinson, Frank Cho, Marc Hempel, Brian Ralph,
+    and many others.
+  type: prediction
+- elapsed: 00:13:04
+  prediction: ' The original music was originally for the music for the film, composed
+    of the composer and conductor of the Goucestershire Goucess.'
+  reference: The original music for the film was composed and conducted by Jerry Goldsmith.
+  type: prediction
+- elapsed: 00:13:05
+  prediction: ' It is wrapped in paper and paper and surfed as take away street food.'
+  reference: It is wrapped in paper and served as a take away street food.
+  type: prediction
+- elapsed: 00:13:05
+  prediction: ' Grimog is not pleased with his nails, but he will be able to realize
+    that he has to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+- content: '
+
+    Training Metrics - Step 300 (Epoch 11.54):'
+  elapsed: 00:13:51
+  type: message
+- elapsed: 00:13:51
+  name: train_loss
+  type: metric
+  value: 0.0066
+- elapsed: 00:13:51
+  name: train_grad_norm
+  type: metric
+  value: 0.20159095525741577
+- elapsed: 00:13:51
+  name: train_learning_rate
+  type: metric
+  value: 7.421052631578948e-06
+- elapsed: 00:13:51
+  name: train_epoch
+  type: metric
+  value: 11.538461538461538
+- content: '
+
+    Training Metrics - Step 300 (Epoch 11.54):'
+  elapsed: 00:14:12
+  type: message
+- elapsed: 00:14:13
+  name: train_eval_loss
+  type: metric
+  value: 1.21196448802948
+- elapsed: 00:14:13
+  name: train_eval_wer
+  type: metric
+  value: 0.8263565891472868
+- elapsed: 00:14:13
+  name: train_eval_runtime
+  type: metric
+  value: 20.8617
+- elapsed: 00:14:13
+  name: train_eval_samples_per_second
+  type: metric
+  value: 4.889
+- elapsed: 00:14:13
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.096
+- elapsed: 00:14:13
+  name: train_epoch
+  type: metric
+  value: 11.538461538461538
+- content: '
+
+    Transcription Examples (Step 300):'
+  elapsed: 00:14:13
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:14:13
+  type: message
+- elapsed: 00:14:13
+  prediction: ' The outcome of that has come out in time-to-back, open industry, but
+    will to the current however.'
+  reference: The High Command was not a government ministry, but a military command,
+    however.
+  type: prediction
+- elapsed: 00:14:14
+  prediction: ' Contributor is included Alex Robinson, Frank Chau, Mark Campo, Brian
+    Ralf, and many others.'
+  reference: Contributors included Alex Robinson, Frank Cho, Marc Hempel, Brian Ralph,
+    and many others.
+  type: prediction
+- elapsed: 00:14:14
+  prediction: ' The original music was originally for the music for the film, composed
+    in the composer and conductor of the Goucestershire Goucess.'
+  reference: The original music for the film was composed and conducted by Jerry Goldsmith.
+  type: prediction
+- elapsed: 00:14:15
+  prediction: ' It is wrapped in paper and paper and surfed as take away street food.'
+  reference: It is wrapped in paper and served as a take away street food.
+  type: prediction
+- elapsed: 00:14:15
+  prediction: ' Grimog is not pleased, but he is now quickly realized to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+- content: '
+
+    Training Metrics - Step 325 (Epoch 12.50):'
+  elapsed: 00:15:07
+  type: message
+- elapsed: 00:15:07
+  name: train_loss
+  type: metric
+  value: 0.0056
+- elapsed: 00:15:07
+  name: train_grad_norm
+  type: metric
+  value: 0.1750994622707367
+- elapsed: 00:15:07
+  name: train_learning_rate
+  type: metric
+  value: 7.157894736842106e-06
+- elapsed: 00:15:07
+  name: train_epoch
+  type: metric
+  value: 12.5
+- content: '
+
+    Training Metrics - Step 325 (Epoch 12.50):'
+  elapsed: 00:15:28
+  type: message
+- elapsed: 00:15:28
+  name: train_eval_loss
+  type: metric
+  value: 1.206933856010437
+- elapsed: 00:15:29
+  name: train_eval_wer
+  type: metric
+  value: 0.6356589147286822
+- elapsed: 00:15:29
+  name: train_eval_runtime
+  type: metric
+  value: 20.7679
+- elapsed: 00:15:29
+  name: train_eval_samples_per_second
+  type: metric
+  value: 4.911
+- elapsed: 00:15:29
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.096
+- elapsed: 00:15:29
+  name: train_epoch
+  type: metric
+  value: 12.5
+- content: '
+
+    Transcription Examples (Step 325):'
+  elapsed: 00:15:29
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:15:29
+  type: message
+- elapsed: 00:15:29
+  prediction: ' The outcome of the high-to-to-to-to-to-cover industry is now covered
+    by the world-high current however.'
+  reference: The High Command was not a government ministry, but a military command,
+    however.
+  type: prediction
+- elapsed: 00:15:30
+  prediction: ' Contributor is included Alex Robinson, Frank Chau, Mark Campo, Brian
+    Ralf, and many others.'
+  reference: Contributors included Alex Robinson, Frank Cho, Marc Hempel, Brian Ralph,
+    and many others.
+  type: prediction
+- elapsed: 00:15:30
+  prediction: ' The original music was originally for the music for the film, composed
+    of some of the composer and conductor of the Goucesters.'
+  reference: The original music for the film was composed and conducted by Jerry Goldsmith.
+  type: prediction
+- elapsed: 00:15:31
+  prediction: ' It is wrapped in paper and paper and surfed as take away street food.'
+  reference: It is wrapped in paper and served as a take away street food.
+  type: prediction
+- elapsed: 00:15:31
+  prediction: ' Grimog is not pleased with his nails, but he will be able to realize
+    that he has to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+- content: '
+
+    Training Metrics - Step 350 (Epoch 13.46):'
+  elapsed: 00:16:15
+  type: message
+- elapsed: 00:16:15
+  name: train_loss
+  type: metric
+  value: 0.004
+- elapsed: 00:16:15
+  name: train_grad_norm
+  type: metric
+  value: 0.13174782693386078
+- elapsed: 00:16:15
+  name: train_learning_rate
+  type: metric
+  value: 6.894736842105264e-06
+- elapsed: 00:16:15
+  name: train_epoch
+  type: metric
+  value: 13.461538461538462
+- content: '
+
+    Training Metrics - Step 350 (Epoch 13.46):'
+  elapsed: 00:16:40
+  type: message
+- elapsed: 00:16:40
+  name: train_eval_loss
+  type: metric
+  value: 1.2167491912841797
+- elapsed: 00:16:40
+  name: train_eval_wer
+  type: metric
+  value: 0.710077519379845
+- elapsed: 00:16:40
+  name: train_eval_runtime
+  type: metric
+  value: 24.1613
+- elapsed: 00:16:40
+  name: train_eval_samples_per_second
+  type: metric
+  value: 4.222
+- elapsed: 00:16:40
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.083
+- elapsed: 00:16:40
+  name: train_epoch
+  type: metric
+  value: 13.461538461538462
+- content: '
+
+    Transcription Examples (Step 350):'
+  elapsed: 00:16:40
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:16:40
+  type: message
+- elapsed: 00:16:41
+  prediction: ' The outcome of the high-to-to-to-back, open industry, by a well-to-care
+    current, however, is now open.'
+  reference: The High Command was not a government ministry, but a military command,
+    however.
+  type: prediction
+- elapsed: 00:16:41
+  prediction: ' Contributor is included Alex Robinson, Frank Chau, Mark Campo, Brian
+    Ralf, and many others.'
+  reference: Contributors included Alex Robinson, Frank Cho, Marc Hempel, Brian Ralph,
+    and many others.
+  type: prediction
+- elapsed: 00:16:42
+  prediction: ' The original music was originally for the famous for the film, composed
+    in the composer and conductor of the Goucestershire Goucess.'
+  reference: The original music for the film was composed and conducted by Jerry Goldsmith.
+  type: prediction
+- elapsed: 00:16:42
+  prediction: ' It is wrapped in paper and paper and surfed as take away street food.'
+  reference: It is wrapped in paper and served as a take away street food.
+  type: prediction
+- elapsed: 00:16:43
+  prediction: ' Grimog is not pleased with his nails, but he will be able to realize
+    that he has to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+- content: '
+
+    Training Metrics - Step 375 (Epoch 14.42):'
+  elapsed: 00:17:33
+  type: message
+- elapsed: 00:17:33
+  name: train_loss
+  type: metric
+  value: 0.0034
+- elapsed: 00:17:33
+  name: train_grad_norm
+  type: metric
+  value: 0.11203556507825851
+- elapsed: 00:17:33
+  name: train_learning_rate
+  type: metric
+  value: 6.631578947368421e-06
+- elapsed: 00:17:33
+  name: train_epoch
+  type: metric
+  value: 14.423076923076923
+- content: '
+
+    Training Metrics - Step 375 (Epoch 14.42):'
+  elapsed: 00:17:55
+  type: message
+- elapsed: 00:17:55
+  name: train_eval_loss
+  type: metric
+  value: 1.2273145914077759
+- elapsed: 00:17:55
+  name: train_eval_wer
+  type: metric
+  value: 0.7472868217054264
+- elapsed: 00:17:55
+  name: train_eval_runtime
+  type: metric
+  value: 21.4239
+- elapsed: 00:17:55
+  name: train_eval_samples_per_second
+  type: metric
+  value: 4.761
+- elapsed: 00:17:55
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.093
+- elapsed: 00:17:55
+  name: train_epoch
+  type: metric
+  value: 14.423076923076923
+- content: '
+
+    Transcription Examples (Step 375):'
+  elapsed: 00:17:55
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:17:55
+  type: message
+- elapsed: 00:17:56
+  prediction: ' The outcome of the high-to-to-to-back, open industry by a well-to-covered
+    current however.'
+  reference: The High Command was not a government ministry, but a military command,
+    however.
+  type: prediction
+- elapsed: 00:17:56
+  prediction: ' Contributor is included Alex Robinson, Frank Chau, Mark Campo, Brian
+    Ralf, and many others.'
+  reference: Contributors included Alex Robinson, Frank Cho, Marc Hempel, Brian Ralph,
+    and many others.
+  type: prediction
+- elapsed: 00:17:57
+  prediction: ' The original music was originally for the famous for the film, composed
+    in the composer and conductor of the Goucestershire Goucess.'
+  reference: The original music for the film was composed and conducted by Jerry Goldsmith.
+  type: prediction
+- elapsed: 00:17:58
+  prediction: ' It is wrapped in paper and paper and surfed as take away street food.'
+  reference: It is wrapped in paper and served as a take away street food.
+  type: prediction
+- elapsed: 00:17:58
+  prediction: ' Grimog is not pleased, but he is now quickly realized to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+- content: '
+
+    Training Metrics - Step 400 (Epoch 15.38):'
+  elapsed: 00:18:42
+  type: message
+- elapsed: 00:18:42
+  name: train_loss
+  type: metric
+  value: 0.0029
+- elapsed: 00:18:42
+  name: train_grad_norm
+  type: metric
+  value: 0.09992547333240509
+- elapsed: 00:18:42
+  name: train_learning_rate
+  type: metric
+  value: 6.3684210526315795e-06
+- elapsed: 00:18:42
+  name: train_epoch
+  type: metric
+  value: 15.384615384615385
+- content: '
+
+    Training Metrics - Step 400 (Epoch 15.38):'
+  elapsed: 00:19:06
+  type: message
+- elapsed: 00:19:06
+  name: train_eval_loss
+  type: metric
+  value: 1.2327308654785156
+- elapsed: 00:19:06
+  name: train_eval_wer
+  type: metric
+  value: 0.6868217054263566
+- elapsed: 00:19:06
+  name: train_eval_runtime
+  type: metric
+  value: 23.509
+- elapsed: 00:19:07
+  name: train_eval_samples_per_second
+  type: metric
+  value: 4.339
+- elapsed: 00:19:07
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.085
+- elapsed: 00:19:07
+  name: train_epoch
+  type: metric
+  value: 15.384615384615385
+- content: '
+
+    Transcription Examples (Step 400):'
+  elapsed: 00:19:07
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:19:07
+  type: message
+- elapsed: 00:19:07
+  prediction: ' The outcome of the high-to-to-to-back, open industry by a well-to-covered
+    current however.'
+  reference: The High Command was not a government ministry, but a military command,
+    however.
+  type: prediction
+- elapsed: 00:19:08
+  prediction: ' Contributor is included Alex Robinson, Frank Chau, Mark Campo, Brian
+    Ralf, and many others.'
+  reference: Contributors included Alex Robinson, Frank Cho, Marc Hempel, Brian Ralph,
+    and many others.
+  type: prediction
+- elapsed: 00:19:09
+  prediction: ' The original music was originally for the famous for the film, composed
+    in the country for the goat''s-ness.'
+  reference: The original music for the film was composed and conducted by Jerry Goldsmith.
+  type: prediction
+- elapsed: 00:19:09
+  prediction: ' It is wrapped in paper and paper and surfed as take away street food.'
+  reference: It is wrapped in paper and served as a take away street food.
+  type: prediction
+- elapsed: 00:19:10
+  prediction: ' Grimog is not pleased with his nails, but he will be able to realize
+    that he has to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+- content: '
+
+    Training Metrics - Step 425 (Epoch 16.35):'
+  elapsed: 00:20:01
+  type: message
+- elapsed: 00:20:01
+  name: train_loss
+  type: metric
+  value: 0.0027
+- elapsed: 00:20:02
+  name: train_grad_norm
+  type: metric
+  value: 0.08358605951070786
+- elapsed: 00:20:02
+  name: train_learning_rate
+  type: metric
+  value: 6.105263157894738e-06
+- elapsed: 00:20:02
+  name: train_epoch
+  type: metric
+  value: 16.346153846153847
+- content: '
+
+    Training Metrics - Step 425 (Epoch 16.35):'
+  elapsed: 00:20:26
+  type: message
+- elapsed: 00:20:27
+  name: train_eval_loss
+  type: metric
+  value: 1.24661123752594
+- elapsed: 00:20:27
+  name: train_eval_wer
+  type: metric
+  value: 0.9829457364341085
+- elapsed: 00:20:27
+  name: train_eval_runtime
+  type: metric
+  value: 24.5603
+- elapsed: 00:20:27
+  name: train_eval_samples_per_second
+  type: metric
+  value: 4.153
+- elapsed: 00:20:27
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.081
+- elapsed: 00:20:27
+  name: train_epoch
+  type: metric
+  value: 16.346153846153847
+- content: '
+
+    Transcription Examples (Step 425):'
+  elapsed: 00:20:27
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:20:27
+  type: message
+- elapsed: 00:20:28
+  prediction: ' The outcome of the high-to-to-to-back, open industry by a well-to-covered
+    current however.'
+  reference: The High Command was not a government ministry, but a military command,
+    however.
+  type: prediction
+- elapsed: 00:20:29
+  prediction: ' Contributor is included Alex Robinson, Frank Chau, Mark Campo, Brian
+    Ralf, and many others.'
+  reference: Contributors included Alex Robinson, Frank Cho, Marc Hempel, Brian Ralph,
+    and many others.
+  type: prediction
+- elapsed: 00:20:30
+  prediction: ' The original music was originally for the famous for the film, composed
+    in the composer and conductor of the Goucestershire Goucess.'
+  reference: The original music for the film was composed and conducted by Jerry Goldsmith.
+  type: prediction
+- elapsed: 00:20:30
+  prediction: ' It is wrapped in paper and paper and surfed as take away street food.'
+  reference: It is wrapped in paper and served as a take away street food.
+  type: prediction
+- elapsed: 00:20:31
+  prediction: ' Grimog is not pleased with his nails, but he will be able to realize
+    that he has to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+- content: '
+
+    Training Metrics - Step 450 (Epoch 17.31):'
+  elapsed: 00:21:19
+  type: message
+- elapsed: 00:21:19
+  name: train_loss
+  type: metric
+  value: 0.0023
+- elapsed: 00:21:19
+  name: train_grad_norm
+  type: metric
+  value: 0.09118610620498657
+- elapsed: 00:21:19
+  name: train_learning_rate
+  type: metric
+  value: 5.842105263157896e-06
+- elapsed: 00:21:19
+  name: train_epoch
+  type: metric
+  value: 17.307692307692307
+- content: '
+
+    Training Metrics - Step 450 (Epoch 17.31):'
+  elapsed: 00:21:42
+  type: message
+- elapsed: 00:21:43
+  name: train_eval_loss
+  type: metric
+  value: 1.2448458671569824
+- elapsed: 00:21:43
+  name: train_eval_wer
+  type: metric
+  value: 1.058139534883721
+- elapsed: 00:21:43
+  name: train_eval_runtime
+  type: metric
+  value: 23.3908
+- elapsed: 00:21:43
+  name: train_eval_samples_per_second
+  type: metric
+  value: 4.361
+- elapsed: 00:21:43
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.086
+- elapsed: 00:21:43
+  name: train_epoch
+  type: metric
+  value: 17.307692307692307
+- content: '
+
+    Transcription Examples (Step 450):'
+  elapsed: 00:21:43
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:21:43
+  type: message
+- elapsed: 00:21:43
+  prediction: ' The outcome of the high-to-to-to-back, open industry by a well-to-covered
+    current however.'
+  reference: The High Command was not a government ministry, but a military command,
+    however.
+  type: prediction
+- elapsed: 00:21:44
+  prediction: ' Contributor is included Alex Robinson, Frank Chow, Mark Campo, Brian
+    Ralf, and many others.'
+  reference: Contributors included Alex Robinson, Frank Cho, Marc Hempel, Brian Ralph,
+    and many others.
+  type: prediction
+- elapsed: 00:21:44
+  prediction: ' The original music was originally for the famous for the film, composed
+    in the country for the goat''s-ness.'
+  reference: The original music for the film was composed and conducted by Jerry Goldsmith.
+  type: prediction
+- elapsed: 00:21:45
+  prediction: ' It is wrapped in paper and paper and surfed as take away street food.'
+  reference: It is wrapped in paper and served as a take away street food.
+  type: prediction
+- elapsed: 00:21:46
+  prediction: ' Grimog is not pleased with his nails, but he will be able to realize
+    that he has to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+- content: '
+
+    Training Metrics - Step 450 (Epoch 17.31):'
+  elapsed: 00:21:47
+  type: message
+- elapsed: 00:21:47
+  name: train_train_runtime
+  type: metric
+  value: 1274.0093
+- elapsed: 00:21:48
+  name: train_train_samples_per_second
+  type: metric
+  value: 12.559
+- elapsed: 00:21:48
+  name: train_train_steps_per_second
+  type: metric
+  value: 0.785
+- elapsed: 00:21:48
+  name: train_total_flos
+  type: metric
+  value: 4.5376053313536e+17
+- elapsed: 00:21:48
+  name: train_train_loss
+  type: metric
+  value: 0.7909130868812402
+- elapsed: 00:21:48
+  name: train_epoch
+  type: metric
+  value: 17.307692307692307
+- content: Closed TensorBoard writer
+  elapsed: 00:21:48
+  type: message
+- content: '
+
+    Evaluating fine-tuned model...'
+  elapsed: 00:21:48
+  type: message
+- content: Evaluating model on test split...
+  elapsed: 00:21:48
+  type: message
+- content: 'Example predictions:'
+  elapsed: 00:22:24
+  type: message
+- elapsed: 00:22:24
+  prediction: ' So, the re-wrapping the Vivalent, legitimate, semi-interference priority
+    was also a prominent soldier.'
+  reference: Sir Robert Vivian, illegitimate son of the first Baron, was also a prominent
+    soldier.
+  type: prediction
+- elapsed: 00:22:25
+  prediction: ' His family moved to Fletzburg, New England, and his four-year-old.'
+  reference: His family moved to Flatbush, Brooklyn, New York when he was four months
+    old.
+  type: prediction
+- elapsed: 00:22:25
+  prediction: ' In addition, the group stage and playoff matches was awarded the final.'
+  reference: In addition to group stage and play-off matches, it was awarded the final.
+  type: prediction
+- elapsed: 00:22:25
+  name: wer
+  type: metric
+  value: 0.7224806201550388
+- elapsed: 00:22:25
+  name: final_wer
+  type: metric
+  value: 0.7224806201550388
+- content: '
+
+    Saving results...'
+  elapsed: 00:22:25
+  type: message
+- content: '
+
+    Experiment complete!'
+  elapsed: 00:22:25
+  type: message
+- content: 'Baseline WER: 1.4217'
+  elapsed: 00:22:25
+  type: message
+- content: 'Fine-tuned WER: 0.7225'
+  elapsed: 00:22:25
+  type: message
