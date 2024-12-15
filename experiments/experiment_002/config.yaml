@@ -4,16 +4,19 @@ experiment:
   description: "Fine-tuning Whisper Large V3 with expanded dataset and improved regularization"
 
 environment:
-  platform: "NVIDIA A6000"
-  gpu_memory: "48GB"
+  platform: "NVIDIA H100 80GB"
+  gpu_memory: "80GB"  # Updated to reflect H100 80GB
   python_version: "3.9"
-  base_model: "openai/whisper-large-v3"
+  base_model: "openai/whisper-base"
   compute:
-    gradient_checkpointing: true
-    mixed_precision: "fp16"
-    gradient_accumulation: true
-    torch_compile: true
-    compile_mode: "reduce-overhead"
+    gradient_checkpointing: true  # Saves memory
+    mixed_precision: true  # Boolean value for mixed precision
+    torch_compile: false  # Enable for better performance
+    compile_mode: "reduce-overhead"  # Compatible with torchdynamo
+    compile_options:  # Added compile options
+      dynamic: true  # Enable dynamic shapes
+      fullgraph: false  # Disable full graph optimization
+      backend: "eager"  # Use inductor backend
 
 dataset:
   source: "pauljunsukhan/throatmic_codered"
@@ -29,24 +32,22 @@ dataset:
       pre_emphasis: 0.97
       normalization: true
       energy_threshold: 0.1
+  features:
+    language: "en"
+    task: "transcribe"
 
 training:
-  batch_size: 8
-  gradient_accumulation_steps: 4
-  learning_rate: 0.000005
-  warmup_steps: 100
-  max_steps: 2000
-  fp16: true
-  generation_max_length: 225
-  dataloader:
-    num_workers: 7        # Adjusted from 4 to 7 per process
-    prefetch_factor: 2
-    pin_memory: true
-    persistent_workers: true
+  batch_size: 16  # Small batch size as per Whisper guidelines
+  learning_rate: 0.00001  # Standard Whisper fine-tuning learning rate
+  max_steps: 2000  # Total number of training steps
+  generation_max_length: 225  # Maximum length for generated sequences
+  dataloader_workers: 16
+  prefetch_factor: 8
+  pin_memory: true
+  persistent_workers: true
   optimization:
     gradient_checkpointing: true
-    torch_compile: true
-    mixed_precision: true
+    torch_compile: false
   early_stopping:
     enabled: true
     metric: "wer"
@@ -54,43 +55,51 @@ training:
     min_delta: 0.001
     mode: "min"
   regularization:
-    weight_decay: 0.01
-    dropout: 0.1
-    label_smoothing: 0.1
-  threading:                 # **New Threading Configuration**
-    num_threads: 14
+    weight_decay: 0.1  # Increased weight decay to prevent overfitting
+    dropout: 0.2  # Increased dropout
+    label_smoothing: 0.1  # Enable label smoothing
+  threading:
+    num_threads: 23
     num_interop_threads: 1
-
+  stability:
+    max_grad_norm: 0.3  # Tighter gradient clipping
+    warmup_ratio: 0.2  # Longer warmup (20% of steps)
+    lr_schedule: "linear"  # Simpler learning rate schedule
 
 logging:
-  output_dir: "outputs"
-  log_dir: "logs"
+  output_dir: "outputs"  # Directory to save model checkpoints and outputs
+  log_dir: "logs"  # Directory for logging files
   paths:
-    log_file: "outputs/experiment.log"
-    metric_file: "outputs/metrics.jsonl"
-    results_file: "outputs/results.txt"
+    log_file: "experiment.log"  # Log file for experiment logs
+    metric_file: "metrics.jsonl"  # JSONL file for storing metrics
+    results_file: "results.txt"  # Text file for results summary
+    sample_evaluations_file: "sample_evaluations.jsonl"  # JSONL file for sample evaluations
   steps:
-    logging: 25    # Log metrics every N steps
-    eval: 100      # Evaluate every N steps
-    save: 100      # Save model every N steps
+    logging: 25  # Log metrics every 25 steps
+    eval: 50  # Evaluate the model every 50 steps
+    save: 100  # Save the model checkpoint every 100 steps
+  memory_log_interval: 100  # Frequency (in steps) to log memory usage
   console:
-    enabled: true
-    min_level: "INFO"
+    enabled: true  # Enable console logging
+    min_level: "INFO"  # Minimum logging level for console
   tensorboard:
-    enabled: true
-    dir: "tensorboard"
+    enabled: true       # Enable TensorBoard logging
+    log_dir: "tensorboard"  # Directory for TensorBoard logs
+    log_metrics: true   # Enable logging of metrics to TensorBoard
+    log_memory: true    # Enable logging of memory usage to TensorBoard
+    log_examples: true  # Enable logging of example predictions to TensorBoard
 
 evaluation:
-  metric: "WER"
-  baseline: 0.0
-  final: 0.0
-  improvement: 0.0
+  metric: "WER"  # Primary metric for evaluation
+  baseline: 0.0  # Baseline metric value
+  final: 0.0  # Final metric value after training
+  improvement: 0.0  # Improvement achieved over baseline
   metrics:
     wer:
-      enabled: true
-      medical_terms_weight: 2.0
+      enabled: true  # Enable Word Error Rate metric
+      medical_terms_weight: 2.0  # Weight for medical terms in WER calculation
     cer:
-      enabled: true
+      enabled: true  # Enable Character Error Rate metric
     accuracy:
-      enabled: true
-      medical_terms_only: true 
+      enabled: true  # Enable Accuracy metric
+      medical_terms_only: true  # Calculate accuracy only on medical terms

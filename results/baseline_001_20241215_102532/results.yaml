@@ -1,0 +1,1295 @@
+metadata:
+  name: baseline_001
+  start_time: '2024-12-15 10:25:32'
+timeline:
+- content: ==================================================
+  elapsed: 00:00:00
+  type: message
+- content: EXPERIMENT INITIALIZATION
+  elapsed: 00:00:00
+  type: message
+- content: ==================================================
+  elapsed: 00:00:00
+  type: message
+- content: 'Name: baseline_001'
+  elapsed: 00:00:00
+  type: message
+- content: 'Description: 500 Examples'
+  elapsed: 00:00:00
+  type: message
+- content: 'Date: 2024-12-15 10:25:33'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    CONFIGURATION:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Training Parameters:'
+  elapsed: 00:00:00
+  type: message
+- content: '  Batch Size: 16'
+  elapsed: 00:00:00
+  type: message
+- content: '  Learning Rate: 1e-05'
+  elapsed: 00:00:00
+  type: message
+- content: '  Max Steps: 1000'
+  elapsed: 00:00:00
+  type: message
+- content: '  Warmup Steps: 50'
+  elapsed: 00:00:00
+  type: message
+- content: '  FP16: True'
+  elapsed: 00:00:00
+  type: message
+- content: '  Gradient Checkpointing: False'
+  elapsed: 00:00:00
+  type: message
+- content: '  Max Gradient Norm: None'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    ENVIRONMENT:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Device: cuda'
+  elapsed: 00:00:00
+  type: message
+- content: 'GPU: NVIDIA H100 PCIe'
+  elapsed: 00:00:00
+  type: message
+- content: 'Available GPU Memory: 84.93 GB'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    MODEL:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Base Model: openai/whisper-base'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    DATASET:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Source: pauljunsukhan/throatmic_codered'
+  elapsed: 00:00:00
+  type: message
+- content: 'Total Examples: 506'
+  elapsed: 00:00:02
+  type: message
+- content: '
+
+    Data Split:'
+  elapsed: 00:00:02
+  type: message
+- content: '  Training Examples: 404'
+  elapsed: 00:00:02
+  type: message
+- content: '  Testing Examples: 102'
+  elapsed: 00:00:02
+  type: message
+- content: '  Test Split Ratio: 20.16%'
+  elapsed: 00:00:02
+  type: message
+- content: '
+
+    Audio Processing:'
+  elapsed: 00:00:02
+  type: message
+- content: '  Normalization: True'
+  elapsed: 00:00:02
+  type: message
+- content: '
+
+    =================================================='
+  elapsed: 00:00:02
+  type: message
+- content: STARTING EXPERIMENT
+  elapsed: 00:00:02
+  type: message
+- content: '==================================================
+
+    '
+  elapsed: 00:00:02
+  type: message
+- content: 'Loading model and processor: openai/whisper-base'
+  elapsed: 00:00:02
+  type: message
+- content: 'Model and processor loaded successfully
+
+    '
+  elapsed: 00:00:04
+  type: message
+- content: Configuring model's generation settings...
+  elapsed: 00:00:04
+  type: message
+- content: 'Model generation settings configured
+
+    '
+  elapsed: 00:00:04
+  type: message
+- content: Evaluating baseline model...
+  elapsed: 00:00:04
+  type: message
+- content: Evaluating model on test split...
+  elapsed: 00:00:04
+  type: message
+- content: 'Example predictions:'
+  elapsed: 00:00:22
+  type: message
+- elapsed: 00:00:22
+  prediction: ' So, I''m happy to bring my jokes and the best news also, I''m pretty
+    much okay.'
+  reference: Sir Robert Vivian, illegitimate son of the first Baron, was also a prominent
+    soldier.
+  type: prediction
+- elapsed: 00:00:22
+  prediction: ' This family moved to Fatsburg but there is nothing that''s flying
+    at the road.'
+  reference: His family moved to Flatbush, Brooklyn, New York when he was four months
+    old.
+  type: prediction
+- elapsed: 00:00:22
+  prediction: ' As I send a good station point, Francis is already defined.'
+  reference: In addition to group stage and play-off matches, it was awarded the final.
+  type: prediction
+- elapsed: 00:00:22
+  name: wer
+  type: metric
+  value: 1.4217054263565891
+- elapsed: 00:00:22
+  name: baseline_wer
+  type: metric
+  value: 1.4217054263565891
+- content: '
+
+    Preparing dataset for training...'
+  elapsed: 00:00:22
+  type: message
+- content: Processing train split...
+  elapsed: 00:00:22
+  type: message
+- content: Processed 404 training examples
+  elapsed: 00:00:25
+  type: message
+- content: Processing test split...
+  elapsed: 00:00:25
+  type: message
+- content: Processed 102 test examples
+  elapsed: 00:00:26
+  type: message
+- content: Dataset preparation complete
+  elapsed: 00:00:34
+  type: message
+- content: '
+
+    Training Configuration:'
+  elapsed: 00:00:34
+  type: message
+- content: ==================================================
+  elapsed: 00:00:34
+  type: message
+- content: '
+
+    Core Training Parameters:'
+  elapsed: 00:00:34
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:34
+  type: message
+- content: '  Learning Rate: 1e-05'
+  elapsed: 00:00:34
+  type: message
+- content: '  LR Scheduler: linear'
+  elapsed: 00:00:34
+  type: message
+- content: '  Max Steps: 1000'
+  elapsed: 00:00:34
+  type: message
+- content: '  Warmup Steps: 50'
+  elapsed: 00:00:34
+  type: message
+- content: '  Warmup Ratio: 0.00%'
+  elapsed: 00:00:34
+  type: message
+- content: '  Optimizer: AdamW'
+  elapsed: 00:00:34
+  type: message
+- content: '
+
+    Batch Configuration:'
+  elapsed: 00:00:34
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:34
+  type: message
+- content: '  Per Device Train Batch Size: 16'
+  elapsed: 00:00:34
+  type: message
+- content: '  Per Device Eval Batch Size: 64'
+  elapsed: 00:00:34
+  type: message
+- content: '  Gradient Accumulation Steps: 1'
+  elapsed: 00:00:34
+  type: message
+- content: '  Effective Batch Size: 16'
+  elapsed: 00:00:34
+  type: message
+- content: '
+
+    Regularization:'
+  elapsed: 00:00:34
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:34
+  type: message
+- content: '  Weight Decay: 0.0'
+  elapsed: 00:00:34
+  type: message
+- content: '  Label Smoothing: 0.0'
+  elapsed: 00:00:34
+  type: message
+- content: '  Dropout: 0.0'
+  elapsed: 00:00:34
+  type: message
+- content: '  Max Gradient Norm: None'
+  elapsed: 00:00:34
+  type: message
+- content: '
+
+    Memory Optimization:'
+  elapsed: 00:00:34
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:34
+  type: message
+- content: '  Gradient Checkpointing: False'
+  elapsed: 00:00:34
+  type: message
+- content: '  FP16 Training: True'
+  elapsed: 00:00:34
+  type: message
+- content: '  FP16 Opt Level: O1'
+  elapsed: 00:00:34
+  type: message
+- content: '  FP16 Backend: auto'
+  elapsed: 00:00:34
+  type: message
+- content: '
+
+    Evaluation & Saving Configuration:'
+  elapsed: 00:00:34
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:35
+  type: message
+- content: '  Evaluation Strategy: steps'
+  elapsed: 00:00:35
+  type: message
+- content: '  Eval Steps: 100'
+  elapsed: 00:00:35
+  type: message
+- content: '  Save Steps: 100'
+  elapsed: 00:00:35
+  type: message
+- content: '  Logging Steps: 25'
+  elapsed: 00:00:35
+  type: message
+- content: '  Save Total Limit: 3'
+  elapsed: 00:00:35
+  type: message
+- content: '  Load Best Model at End: True'
+  elapsed: 00:00:35
+  type: message
+- content: '  Metric for Best Model: wer'
+  elapsed: 00:00:35
+  type: message
+- content: '  Greater is Better: False'
+  elapsed: 00:00:35
+  type: message
+- content: '
+
+    Early Stopping Configuration:'
+  elapsed: 00:00:35
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:35
+  type: message
+- content: '  Enabled: True'
+  elapsed: 00:00:35
+  type: message
+- content: '  Metric: WER'
+  elapsed: 00:00:35
+  type: message
+- content: '  Mode: min'
+  elapsed: 00:00:35
+  type: message
+- content: '  Patience: 5'
+  elapsed: 00:00:35
+  type: message
+- content: '  Threshold: 0.0001'
+  elapsed: 00:00:35
+  type: message
+- content: '
+
+    Generation Settings:'
+  elapsed: 00:00:35
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:35
+  type: message
+- content: '  Generation Max Length: 225'
+  elapsed: 00:00:35
+  type: message
+- content: '  Predict with Generate: True'
+  elapsed: 00:00:35
+  type: message
+- content: '  Language: en'
+  elapsed: 00:00:35
+  type: message
+- content: '  Task: transcribe'
+  elapsed: 00:00:35
+  type: message
+- content: '  Use Cache: False'
+  elapsed: 00:00:35
+  type: message
+- content: '
+
+    Output & Logging Configuration:'
+  elapsed: 00:00:35
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:35
+  type: message
+- content: '  Output Directory: whisper_finetuned'
+  elapsed: 00:00:35
+  type: message
+- content: '  Logging Directory: whisper_finetuned/runs/Dec15_10-26-07_209-20-159-77'
+  elapsed: 00:00:35
+  type: message
+- content: '  Report To: [''tensorboard'']'
+  elapsed: 00:00:35
+  type: message
+- content: '  Push to Hub: False'
+  elapsed: 00:00:35
+  type: message
+- content: '
+
+    Monitoring Configuration:'
+  elapsed: 00:00:35
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:35
+  type: message
+- content: '  Gradient History Size: 1000'
+  elapsed: 00:00:35
+  type: message
+- content: '  Significant Change Threshold: 1.0'
+  elapsed: 00:00:35
+  type: message
+- content: '  Log Top N Gradients: 5'
+  elapsed: 00:00:35
+  type: message
+- content: ==================================================
+  elapsed: 00:00:35
+  type: message
+- content: '
+
+    Starting fine-tuning...'
+  elapsed: 00:00:36
+  type: message
+- content: '
+
+    Gradient Stats (Step 0):'
+  elapsed: 00:00:42
+  type: message
+- content: 'Total gradient norm: inf'
+  elapsed: 00:00:43
+  type: message
+- content: '
+
+    Top N largest gradients:'
+  elapsed: 00:00:43
+  type: message
+- content: 'model.decoder.embed_tokens.weight:'
+  elapsed: 00:00:43
+  type: message
+- content: '  Norm: inf'
+  elapsed: 00:00:43
+  type: message
+- content: '  Mean: nan'
+  elapsed: 00:00:43
+  type: message
+- content: '  Std:  nan'
+  elapsed: 00:00:43
+  type: message
+- content: 'model.encoder.layers.0.self_attn.out_proj.weight:'
+  elapsed: 00:00:43
+  type: message
+- content: '  Norm: 768506.3125'
+  elapsed: 00:00:43
+  type: message
+- content: '  Mean: -0.0005'
+  elapsed: 00:00:43
+  type: message
+- content: '  Std:  1500.9917'
+  elapsed: 00:00:43
+  type: message
+- content: 'model.encoder.layers.0.self_attn.v_proj.weight:'
+  elapsed: 00:00:43
+  type: message
+- content: '  Norm: 622650.5625'
+  elapsed: 00:00:43
+  type: message
+- content: '  Mean: 1.3855'
+  elapsed: 00:00:43
+  type: message
+- content: '  Std:  1216.1158'
+  elapsed: 00:00:43
+  type: message
+- content: 'model.encoder.layers.1.self_attn.v_proj.weight:'
+  elapsed: 00:00:43
+  type: message
+- content: '  Norm: 438533.3750'
+  elapsed: 00:00:43
+  type: message
+- content: '  Mean: -2.3710'
+  elapsed: 00:00:43
+  type: message
+- content: '  Std:  856.5089'
+  elapsed: 00:00:43
+  type: message
+- content: 'model.encoder.layers.2.self_attn.v_proj.weight:'
+  elapsed: 00:00:43
+  type: message
+- content: '  Norm: 428764.8750'
+  elapsed: 00:00:43
+  type: message
+- content: '  Mean: 0.3041'
+  elapsed: 00:00:43
+  type: message
+- content: '  Std:  837.4330'
+  elapsed: 00:00:43
+  type: message
+- content: '
+
+    Gradient Stats (Step 25):'
+  elapsed: 00:01:29
+  type: message
+- content: 'Total gradient norm: 817581.7586'
+  elapsed: 00:01:29
+  type: message
+- content: '
+
+    Top N largest gradients:'
+  elapsed: 00:01:29
+  type: message
+- content: 'model.decoder.embed_tokens.weight:'
+  elapsed: 00:01:29
+  type: message
+- content: '  Norm: 348169.8125'
+  elapsed: 00:01:29
+  type: message
+- content: '  Mean: -0.0000'
+  elapsed: 00:01:29
+  type: message
+- content: '  Std:  67.5646'
+  elapsed: 00:01:29
+  type: message
+- content: 'model.encoder.layers.0.self_attn.out_proj.weight:'
+  elapsed: 00:01:29
+  type: message
+- content: '  Norm: 297604.8125'
+  elapsed: 00:01:29
+  type: message
+- content: '  Mean: -0.0006'
+  elapsed: 00:01:29
+  type: message
+- content: '  Std:  581.2605'
+  elapsed: 00:01:29
+  type: message
+- content: 'model.encoder.layers.0.self_attn.v_proj.weight:'
+  elapsed: 00:01:29
+  type: message
+- content: '  Norm: 246355.1250'
+  elapsed: 00:01:29
+  type: message
+- content: '  Mean: 0.5492'
+  elapsed: 00:01:29
+  type: message
+- content: '  Std:  481.1630'
+  elapsed: 00:01:29
+  type: message
+- content: 'model.decoder.embed_positions.weight:'
+  elapsed: 00:01:29
+  type: message
+- content: '  Norm: 231655.8750'
+  elapsed: 00:01:29
+  type: message
+- content: '  Mean: -0.0000'
+  elapsed: 00:01:29
+  type: message
+- content: '  Std:  483.6935'
+  elapsed: 00:01:29
+  type: message
+- content: 'model.decoder.layers.0.self_attn.v_proj.weight:'
+  elapsed: 00:01:29
+  type: message
+- content: '  Norm: 138376.0312'
+  elapsed: 00:01:29
+  type: message
+- content: '  Mean: -0.1953'
+  elapsed: 00:01:30
+  type: message
+- content: '  Std:  270.2661'
+  elapsed: 00:01:30
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.conv1.weight:'
+  elapsed: 00:01:30
+  type: message
+- content: '  Current norm: 101091.2344'
+  elapsed: 00:01:30
+  type: message
+- content: '  Change: -188348.4531'
+  elapsed: 00:01:30
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:30
+  type: message
+- content: '    Mean: -22.3511'
+  elapsed: 00:01:30
+  type: message
+- content: '    Std:  287.5189'
+  elapsed: 00:01:30
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.conv1.bias:'
+  elapsed: 00:01:30
+  type: message
+- content: '  Current norm: 11323.8574'
+  elapsed: 00:01:30
+  type: message
+- content: '  Change: -22398.3262'
+  elapsed: 00:01:30
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:30
+  type: message
+- content: '    Mean: 38.4198'
+  elapsed: 00:01:30
+  type: message
+- content: '    Std:  499.4596'
+  elapsed: 00:01:30
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.conv2.weight:'
+  elapsed: 00:01:30
+  type: message
+- content: '  Current norm: 106507.2656'
+  elapsed: 00:01:30
+  type: message
+- content: '  Change: -203203.3906'
+  elapsed: 00:01:30
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:30
+  type: message
+- content: '    Mean: -3.5409'
+  elapsed: 00:01:30
+  type: message
+- content: '    Std:  120.0494'
+  elapsed: 00:01:30
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.conv2.bias:'
+  elapsed: 00:01:30
+  type: message
+- content: '  Current norm: 11122.6699'
+  elapsed: 00:01:30
+  type: message
+- content: '  Change: -24288.6895'
+  elapsed: 00:01:30
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:31
+  type: message
+- content: '    Mean: -50.4675'
+  elapsed: 00:01:31
+  type: message
+- content: '    Std:  489.4378'
+  elapsed: 00:01:31
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.0.self_attn.k_proj.weight:'
+  elapsed: 00:01:31
+  type: message
+- content: '  Current norm: 38940.1328'
+  elapsed: 00:01:31
+  type: message
+- content: '  Change: -47977.3203'
+  elapsed: 00:01:31
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:31
+  type: message
+- content: '    Mean: -0.0102'
+  elapsed: 00:01:31
+  type: message
+- content: '    Std:  76.0551'
+  elapsed: 00:01:31
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.0.self_attn.v_proj.weight:'
+  elapsed: 00:01:31
+  type: message
+- content: '  Current norm: 246355.1250'
+  elapsed: 00:01:31
+  type: message
+- content: '  Change: -376295.4375'
+  elapsed: 00:01:31
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:31
+  type: message
+- content: '    Mean: 0.5492'
+  elapsed: 00:01:31
+  type: message
+- content: '    Std:  481.1630'
+  elapsed: 00:01:31
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.0.self_attn.v_proj.bias:'
+  elapsed: 00:01:31
+  type: message
+- content: '  Current norm: 12721.9219'
+  elapsed: 00:01:31
+  type: message
+- content: '  Change: -23000.3438'
+  elapsed: 00:01:31
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:31
+  type: message
+- content: '    Mean: 43.8262'
+  elapsed: 00:01:31
+  type: message
+- content: '    Std:  561.0723'
+  elapsed: 00:01:31
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.0.self_attn.q_proj.weight:'
+  elapsed: 00:01:32
+  type: message
+- content: '  Current norm: 26686.8301'
+  elapsed: 00:01:32
+  type: message
+- content: '  Change: -31268.7793'
+  elapsed: 00:01:32
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:32
+  type: message
+- content: '    Mean: 0.0413'
+  elapsed: 00:01:32
+  type: message
+- content: '    Std:  52.1228'
+  elapsed: 00:01:32
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.0.self_attn.q_proj.bias:'
+  elapsed: 00:01:32
+  type: message
+- content: '  Current norm: 1048.1688'
+  elapsed: 00:01:32
+  type: message
+- content: '  Change: -1326.1183'
+  elapsed: 00:01:32
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:32
+  type: message
+- content: '    Mean: 0.3679'
+  elapsed: 00:01:32
+  type: message
+- content: '    Std:  46.3668'
+  elapsed: 00:01:32
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.0.self_attn.out_proj.weight:'
+  elapsed: 00:01:32
+  type: message
+- content: '  Current norm: 297604.8125'
+  elapsed: 00:01:32
+  type: message
+- content: '  Change: -470901.5000'
+  elapsed: 00:01:32
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:32
+  type: message
+- content: '    Mean: -0.0006'
+  elapsed: 00:01:32
+  type: message
+- content: '    Std:  581.2605'
+  elapsed: 00:01:32
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.0.self_attn.out_proj.bias:'
+  elapsed: 00:01:32
+  type: message
+- content: '  Current norm: 20889.2812'
+  elapsed: 00:01:32
+  type: message
+- content: '  Change: -43926.6641'
+  elapsed: 00:01:32
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:32
+  type: message
+- content: '    Mean: 0.0005'
+  elapsed: 00:01:32
+  type: message
+- content: '    Std:  924.0873'
+  elapsed: 00:01:33
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.0.self_attn_layer_norm.weight:'
+  elapsed: 00:01:33
+  type: message
+- content: '  Current norm: 12961.7324'
+  elapsed: 00:01:33
+  type: message
+- content: '  Change: -17963.2441'
+  elapsed: 00:01:33
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:33
+  type: message
+- content: '    Mean: 4.6460'
+  elapsed: 00:01:33
+  type: message
+- content: '    Std:  573.3744'
+  elapsed: 00:01:33
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.0.self_attn_layer_norm.bias:'
+  elapsed: 00:01:33
+  type: message
+- content: '  Current norm: 12720.8096'
+  elapsed: 00:01:33
+  type: message
+- content: '  Change: -18469.2646'
+  elapsed: 00:01:33
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:33
+  type: message
+- content: '    Mean: 2.5324'
+  elapsed: 00:01:33
+  type: message
+- content: '    Std:  562.7298'
+  elapsed: 00:01:33
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.0.fc1.weight:'
+  elapsed: 00:01:33
+  type: message
+- content: '  Current norm: 126785.6719'
+  elapsed: 00:01:33
+  type: message
+- content: '  Change: -237805.4844'
+  elapsed: 00:01:33
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:33
+  type: message
+- content: '    Mean: 0.1962'
+  elapsed: 00:01:33
+  type: message
+- content: '    Std:  123.8140'
+  elapsed: 00:01:33
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.0.fc1.bias:'
+  elapsed: 00:01:33
+  type: message
+- content: '  Current norm: 5855.3086'
+  elapsed: 00:01:33
+  type: message
+- content: '  Change: -13306.9609'
+  elapsed: 00:01:33
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:33
+  type: message
+- content: '    Mean: 0.9850'
+  elapsed: 00:01:33
+  type: message
+- content: '    Std:  129.4131'
+  elapsed: 00:01:33
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.0.fc2.weight:'
+  elapsed: 00:01:33
+  type: message
+- content: '  Current norm: 129162.7188'
+  elapsed: 00:01:33
+  type: message
+- content: '  Change: -250483.2500'
+  elapsed: 00:01:33
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:33
+  type: message
+- content: '    Mean: 0.0003'
+  elapsed: 00:01:33
+  type: message
+- content: '    Std:  126.1355'
+  elapsed: 00:01:33
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.0.fc2.bias:'
+  elapsed: 00:01:34
+  type: message
+- content: '  Current norm: 18201.6641'
+  elapsed: 00:01:34
+  type: message
+- content: '  Change: -49367.5625'
+  elapsed: 00:01:34
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:34
+  type: message
+- content: '    Mean: -0.0131'
+  elapsed: 00:01:34
+  type: message
+- content: '    Std:  805.1942'
+  elapsed: 00:01:34
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.0.final_layer_norm.weight:'
+  elapsed: 00:01:34
+  type: message
+- content: '  Current norm: 2753.2546'
+  elapsed: 00:01:34
+  type: message
+- content: '  Change: -4885.5706'
+  elapsed: 00:01:34
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:34
+  type: message
+- content: '    Mean: -4.5445'
+  elapsed: 00:01:34
+  type: message
+- content: '    Std:  121.7118'
+  elapsed: 00:01:34
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.0.final_layer_norm.bias:'
+  elapsed: 00:01:34
+  type: message
+- content: '  Current norm: 3516.2886'
+  elapsed: 00:01:34
+  type: message
+- content: '  Change: -7797.6636'
+  elapsed: 00:01:34
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:34
+  type: message
+- content: '    Mean: 1.0936'
+  elapsed: 00:01:34
+  type: message
+- content: '    Std:  155.5476'
+  elapsed: 00:01:34
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.1.self_attn.k_proj.weight:'
+  elapsed: 00:01:34
+  type: message
+- content: '  Current norm: 32330.7891'
+  elapsed: 00:01:34
+  type: message
+- content: '  Change: -60341.4922'
+  elapsed: 00:01:34
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:34
+  type: message
+- content: '    Mean: -0.0302'
+  elapsed: 00:01:34
+  type: message
+- content: '    Std:  63.1462'
+  elapsed: 00:01:34
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.1.self_attn.v_proj.weight:'
+  elapsed: 00:01:34
+  type: message
+- content: '  Current norm: 134682.4219'
+  elapsed: 00:01:34
+  type: message
+- content: '  Change: -303850.9531'
+  elapsed: 00:01:34
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:35
+  type: message
+- content: '    Mean: -0.0838'
+  elapsed: 00:01:35
+  type: message
+- content: '    Std:  263.0521'
+  elapsed: 00:01:35
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.1.self_attn.v_proj.bias:'
+  elapsed: 00:01:35
+  type: message
+- content: '  Current norm: 11510.1504'
+  elapsed: 00:01:35
+  type: message
+- content: '  Change: -31584.2090'
+  elapsed: 00:01:35
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:35
+  type: message
+- content: '    Mean: 25.0518'
+  elapsed: 00:01:35
+  type: message
+- content: '    Std:  508.5612'
+  elapsed: 00:01:35
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.1.self_attn.q_proj.weight:'
+  elapsed: 00:01:35
+  type: message
+- content: '  Current norm: 26861.8359'
+  elapsed: 00:01:35
+  type: message
+- content: '  Change: -45154.3594'
+  elapsed: 00:01:35
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:35
+  type: message
+- content: '    Mean: 0.0417'
+  elapsed: 00:01:35
+  type: message
+- content: '    Std:  52.4646'
+  elapsed: 00:01:35
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.1.self_attn.q_proj.bias:'
+  elapsed: 00:01:36
+  type: message
+- content: '  Current norm: 1124.9283'
+  elapsed: 00:01:36
+  type: message
+- content: '  Change: -2638.6041'
+  elapsed: 00:01:36
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:36
+  type: message
+- content: '    Mean: -0.2988'
+  elapsed: 00:01:36
+  type: message
+- content: '    Std:  49.7630'
+  elapsed: 00:01:36
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.1.self_attn.out_proj.weight:'
+  elapsed: 00:01:36
+  type: message
+- content: '  Current norm: 121014.6016'
+  elapsed: 00:01:36
+  type: message
+- content: '  Change: -266269.1172'
+  elapsed: 00:01:36
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:36
+  type: message
+- content: '    Mean: 0.0000'
+  elapsed: 00:01:36
+  type: message
+- content: '    Std:  236.3571'
+  elapsed: 00:01:36
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.1.self_attn.out_proj.bias:'
+  elapsed: 00:01:36
+  type: message
+- content: '  Current norm: 21173.0117'
+  elapsed: 00:01:36
+  type: message
+- content: '  Change: -62105.6680'
+  elapsed: 00:01:37
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:37
+  type: message
+- content: '    Mean: 0.0217'
+  elapsed: 00:01:37
+  type: message
+- content: '    Std:  936.6389'
+  elapsed: 00:01:37
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.1.self_attn_layer_norm.weight:'
+  elapsed: 00:01:37
+  type: message
+- content: '  Current norm: 3077.7671'
+  elapsed: 00:01:37
+  type: message
+- content: '  Change: -7631.6655'
+  elapsed: 00:01:37
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:37
+  type: message
+- content: '    Mean: 13.4119'
+  elapsed: 00:01:37
+  type: message
+- content: '    Std:  135.4889'
+  elapsed: 00:01:37
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.1.self_attn_layer_norm.bias:'
+  elapsed: 00:01:37
+  type: message
+- content: '  Current norm: 5519.8633'
+  elapsed: 00:01:37
+  type: message
+- content: '  Change: -15185.5137'
+  elapsed: 00:01:37
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:38
+  type: message
+- content: '    Mean: 1.3855'
+  elapsed: 00:01:38
+  type: message
+- content: '    Std:  244.1804'
+  elapsed: 00:01:38
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.1.fc1.weight:'
+  elapsed: 00:01:38
+  type: message
+- content: '  Current norm: 103895.9609'
+  elapsed: 00:01:38
+  type: message
+- content: '  Change: -240684.1016'
+  elapsed: 00:01:38
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:38
+  type: message
+- content: '    Mean: -0.0123'
+  elapsed: 00:01:38
+  type: message
+- content: '    Std:  101.4610'
+  elapsed: 00:01:38
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.1.fc1.bias:'
+  elapsed: 00:01:38
+  type: message
+- content: '  Current norm: 5745.6016'
+  elapsed: 00:01:38
+  type: message
+- content: '  Change: -17428.0312'
+  elapsed: 00:01:38
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:38
+  type: message
+- content: '    Mean: 0.6501'
+  elapsed: 00:01:38
+  type: message
+- content: '    Std:  126.9904'
+  elapsed: 00:01:38
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.1.fc2.weight:'
+  elapsed: 00:01:38
+  type: message
+- content: '  Current norm: 106996.1250'
+  elapsed: 00:01:38
+  type: message
+- content: '  Change: -319815.4062'
+  elapsed: 00:01:38
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:38
+  type: message
+- content: '    Mean: -0.0001'
+  elapsed: 00:01:38
+  type: message
+- content: '    Std:  104.4885'
+  elapsed: 00:01:38
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.1.fc2.bias:'
+  elapsed: 00:01:39
+  type: message
+- content: '  Current norm: 25213.8867'
+  elapsed: 00:01:39
+  type: message
+- content: '  Change: -93935.9805'
+  elapsed: 00:01:39
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:39
+  type: message
+- content: '    Mean: -0.0051'
+  elapsed: 00:01:39
+  type: message
+- content: '    Std:  1115.3967'
+  elapsed: 00:01:39
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.1.final_layer_norm.weight:'
+  elapsed: 00:01:39
+  type: message
+- content: '  Current norm: 2730.0667'
+  elapsed: 00:01:39
+  type: message
+- content: '  Change: -4868.1814'
+  elapsed: 00:01:39
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:39
+  type: message
+- content: '    Mean: 37.8219'
+  elapsed: 00:01:39
+  type: message
+- content: '    Std:  114.6837'
+  elapsed: 00:01:39
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.1.final_layer_norm.bias:'
+  elapsed: 00:01:39
+  type: message
+- content: '  Current norm: 4001.3271'
+  elapsed: 00:01:39
+  type: message
+- content: '  Change: -10953.6523'
+  elapsed: 00:01:39
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:39
+  type: message
+- content: '    Mean: -7.0579'
+  elapsed: 00:01:39
+  type: message
+- content: '    Std:  176.8672'
+  elapsed: 00:01:39
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.2.self_attn.k_proj.weight:'
+  elapsed: 00:01:39
+  type: message
+- content: '  Current norm: 34639.2227'
+  elapsed: 00:01:40
+  type: message
+- content: '  Change: -59907.3398'
+  elapsed: 00:01:40
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:40
+  type: message
+- content: '    Mean: 0.0818'
+  elapsed: 00:01:40
+  type: message
+- content: '    Std:  67.6548'
+  elapsed: 00:01:40
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.2.self_attn.v_proj.weight:'
+  elapsed: 00:01:40
+  type: message
+- content: '  Current norm: 118878.5078'
+  elapsed: 00:01:40
+  type: message
+- content: '  Change: -309886.3672'
+  elapsed: 00:01:40
+  type: message
+- content: '  Statistics:'
+  elapsed: 00:01:40
+  type: message
+- content: '    Mean: -0.1373'
+  elapsed: 00:01:40
+  type: message
+- content: '    Std:  232.1850'
+  elapsed: 00:01:40
+  type: message
+- content: '
+
+    Significant gradient change in model.encoder.layers.2.self_attn.v_proj.bias:'
+  elapsed: 00:01:40
+  type: message
+- content: '  Current norm: 10128.0723'
+  elapsed: 00:01:40
+  type: message
+- content: '  Change: -37056.3223'
+  elapsed: 00:01:40
+  type: message
+- 

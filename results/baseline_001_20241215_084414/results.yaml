@@ -1,0 +1,144 @@
+metadata:
+  name: baseline_001
+  start_time: '2024-12-15 08:44:14'
+timeline:
+- content: ==================================================
+  elapsed: 00:00:00
+  type: message
+- content: EXPERIMENT INITIALIZATION
+  elapsed: 00:00:00
+  type: message
+- content: ==================================================
+  elapsed: 00:00:00
+  type: message
+- content: 'Name: baseline_001'
+  elapsed: 00:00:00
+  type: message
+- content: 'Description: 500 Examples'
+  elapsed: 00:00:00
+  type: message
+- content: 'Date: 2024-12-15 08:44:14'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    CONFIGURATION:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Training Parameters:'
+  elapsed: 00:00:00
+  type: message
+- content: '  Batch Size: 32'
+  elapsed: 00:00:00
+  type: message
+- content: '  Learning Rate: 5e-6'
+  elapsed: 00:00:00
+  type: message
+- content: '  Max Steps: 1000'
+  elapsed: 00:00:00
+  type: message
+- content: '  Warmup Steps: 200'
+  elapsed: 00:00:00
+  type: message
+- content: '  FP16: True'
+  elapsed: 00:00:00
+  type: message
+- content: '  Gradient Checkpointing: False'
+  elapsed: 00:00:00
+  type: message
+- content: '  Max Gradient Norm: 1.0'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    ENVIRONMENT:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Device: cuda'
+  elapsed: 00:00:00
+  type: message
+- content: 'GPU: NVIDIA H100 PCIe'
+  elapsed: 00:00:00
+  type: message
+- content: 'Available GPU Memory: 84.93 GB'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    MODEL:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Base Model: openai/whisper-base'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    DATASET:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Source: pauljunsukhan/throatmic_codered'
+  elapsed: 00:00:00
+  type: message
+- content: 'Total Examples: 506'
+  elapsed: 00:00:01
+  type: message
+- content: '
+
+    Data Split:'
+  elapsed: 00:00:01
+  type: message
+- content: '  Training Examples: 404'
+  elapsed: 00:00:01
+  type: message
+- content: '  Testing Examples: 102'
+  elapsed: 00:00:01
+  type: message
+- content: '  Test Split Ratio: 20.16%'
+  elapsed: 00:00:01
+  type: message
+- content: '
+
+    Audio Processing:'
+  elapsed: 00:00:01
+  type: message
+- content: '  Normalization: True'
+  elapsed: 00:00:01
+  type: message
+- content: '
+
+    =================================================='
+  elapsed: 00:00:01
+  type: message
+- content: STARTING EXPERIMENT
+  elapsed: 00:00:01
+  type: message
+- content: '==================================================
+
+    '
+  elapsed: 00:00:01
+  type: message
+- content: '
+
+    Loading model and processor: openai/whisper-base'
+  elapsed: 00:00:01
+  type: message
+- content: Model and processor loaded successfully
+  elapsed: 00:00:03
+  type: message
+- content: '
+
+    Evaluating baseline model...'
+  elapsed: 00:00:03
+  type: message

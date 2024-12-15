@@ -2,69 +2,106 @@
 __pycache__/
 *.py[cod]
 *$py.class
-.Python
 *.so
-.env
-.venv
-env/
-venv/
-ENV/
-.python-version
-
-# Distribution / packaging
-dist/
+.Python
 build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
 *.egg-info/
+.installed.cfg
+*.egg
 
-# IDE
+# Virtual Environment
+venv/
+env/
+ENV/
+.env
+
+# IDE specific files
 .idea/
 .vscode/
 *.swp
 *.swo
+.DS_Store
 
 # Jupyter Notebook
 .ipynb_checkpoints
+*.ipynb_checkpoints/
 
-# Training outputs and artifacts
-runs/
-wandb/
-tensorboard/
-checkpoints/
+# Model files and checkpoints
 *.pt
+*.pth
 *.bin
 *.ckpt
-*.pth
+*.safetensors
+runs/
+wandb/
+checkpoints/
+outputs/
 
-# Dataset and model caches
-.cache/
-cache/
-huggingface/
-.huggingface/
+# Dataset files
+*.wav
+*.mp3
+*.flac
+*.ogg
+*.m4a
+*.json
 datasets/
-*.arrow
-*.cache
-*.lock
-*.sqlite
-*.db
+raw_data/
+
+# Large files
+*.zip
+*.tar
+*.tar.gz
+*.7z
+*.rar
 
 # Logs
+*.log
 logs/
-log/
+tensorboard_logs/
+lightning_logs/
 
-# OS
-.DS_Store
-Thumbs.db
+# Local development configuration
+config.local.yaml
+*.local.yaml
+secrets.yaml
+
+# HuggingFace specific
+.cache/
+hub/
+
+# Temporary files
+tmp/
+temp/
 
 # Project specific
 uv.lock
-=*
-dataset_stats.yaml
+repomix-output.txt
+experiment_results.txt
+experiment_results.md
+.python-version
 
-# Track outputs folder but exclude specific directories and files
-outputs/**/runs/
-outputs/**/temp/
-outputs/**/*.log
-outputs/**/*.pt
-outputs/**/*.bin
-outputs/**/*.ckpt
-outputs/**/*.pth
+# Experiment tracking
+experiments/**/checkpoints/
+experiments/**/logs/
+experiments/**/*.pt
+experiments/**/*.bin
+experiments/**/*.ckpt
+experiments/**/*.pth
+experiments/**/*.safetensors
+
+# Keep these files
+!requirements.txt
+!README.md
+!pyproject.toml
+!.gitignore

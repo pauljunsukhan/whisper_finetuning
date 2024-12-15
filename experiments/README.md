@@ -40,3 +40,25 @@ git commit -m "experiment_002: description of changes"
 git checkout main
 git merge experiment_002
 ``` 
+
+Token 50258: <|startoftranscript|> — Correctly starts the prediction.
+Token 50259: <|en|> — Language token.
+Token 50360: <|transcribe|> — Task token.
+Token 50364: <|notimestamps|> — Timestamps disabled.
+
+Key Guidelines for Whisper Fine-tuning:
+Data Processing:
+Audio should be 16kHz sampling rate
+Input features should be mel spectrograms with 80 or 128 mel bins
+Proper handling of prefix tokens (<|startoftranscript|>, language, task)
+Proper padding and attention mask handling
+Training Configuration:
+Use small batch sizes (4-8) due to memory requirements
+Learning rate around 1e-5
+Use gradient checkpointing for memory efficiency
+Mixed precision training recommended
+Teacher forcing is standard practice
+Model Settings:
+Disable KV cache during training
+Use greedy decoding during evaluation
+Maintain proper token handling (pad, bos, eos)

@@ -1,294 +1,269 @@
-"""Data processing and preparation components for Whisper fine-tuning."""
+# File: components/data.py
 
-from typing import Dict, Any, Optional, List, Union, cast, Protocol, runtime_checkable
+"""Data processing for Whisper fine-tuning."""
+
+from typing import Dict, Any, List, Union, Optional
 import numpy as np
 import torch
-from torch import Tensor
-from dataclasses import dataclass, field  # Added 'field' import
-from datasets import Dataset, load_dataset, DatasetDict  # Updated import
-from transformers import (
-    WhisperFeatureExtractor,
-    WhisperTokenizer,
-    BatchEncoding,
-    BatchFeature
-)
-from transformers.tokenization_utils_fast import EncodingFast
-
+from dataclasses import dataclass
+from datasets import Dataset, load_dataset
+from transformers import WhisperProcessor
+from .base import BaseComponent, ExperimentError
 from .logger import LoggerManager
 from .state import StateManager
 
-@runtime_checkable
-class TypedWhisperProcessor(Protocol):
-    """Protocol for type-annotated WhisperProcessor.
-
-    This matches the actual WhisperProcessor implementation from Hugging Face.
-    See: https://github.com/huggingface/transformers/blob/main/src/transformers/models/whisper/processing_whisper.py
-    """
-    def __init__(self, feature_extractor: WhisperFeatureExtractor, tokenizer: WhisperTokenizer) -> None:
-        ...
-
-    def __call__(
-        self, 
-        audio: Union[np.ndarray, List[float], List[List[float]]], 
-        sampling_rate: Optional[int] = None,
-        return_tensors: Optional[str] = None,
-        **kwargs: Any
-    ) -> BatchFeature:
-        """Process audio inputs."""
-        ...
-
-    def batch_decode(
-        self,
-        sequences: List[List[int]],
-        skip_special_tokens: bool = False,
-        **kwargs: Any
-    ) -> List[str]:
-        """Decode token sequences to text."""
-        ...
-
-    def get_decoder_prompt_ids(
-        self,
-        language: Optional[str] = None,
-        task: Optional[str] = None,
-        no_timestamps: bool = False
-    ) -> List[int]:
-        """Get decoder prompt IDs."""
-        ...
-
-    @property
-    def feature_extractor(self) -> WhisperFeatureExtractor:
-        """Get feature extractor."""
-        ...
-
-    @property
-    def tokenizer(self) -> WhisperTokenizer:
-        """Get tokenizer."""
-        ...
 
 @dataclass
-class DataCollatorSpeechSeq2SeqWithPadding:
-    """Data collator for Whisper that handles proper decoder inputs and padding."""
-    processor: TypedWhisperProcessor
-    logger_manager: Optional[LoggerManager] = None
-    state_manager: Optional[StateManager] = None  # To determine the main process
-    batch_count: int = field(default=0, init=False)  # Initialize batch count with 'field'
-    log_interval: int = field(default=500, init=False)  # Log every 500 batches
+class DataCollator:
+    """Collates data for Whisper training."""
+    processor: WhisperProcessor
     
-    def __call__(self, features: List[Dict[str, Any]]) -> Dict[str, torch.Tensor]:
-        if not features or not isinstance(features[0], dict):
-            raise ValueError(f"Expected a non-empty list of dicts, got {type(features)}")
-        
-        # Prepare audio inputs - ensure each feature has shape (n_mels, time)
-        input_features = []
-        for feature in features:
-            feat = feature["input_features"]
-            # Handle numpy arrays
-            if isinstance(feat, np.ndarray):
-                if feat.ndim == 3 and feat.shape[0] == 1:
-                    feat = feat.squeeze(0)
-            # Handle torch tensors
-            elif isinstance(feat, torch.Tensor):
-                if feat.ndim == 3 and feat.shape[0] == 1:
-                    feat = feat.squeeze(0)
-            input_features.append({"input_features": feat})
-        
-        # Pad the batch and get attention_mask
-        batch = self.processor.feature_extractor.pad(
-            input_features,
-            padding=True,
-            return_tensors="pt"
-        )
-        
-        # Reshape input features from [batch_size, 1, n_mels, time] to [batch_size, n_mels, time]
-        if batch['input_features'].ndim == 4:
-            batch['input_features'] = batch['input_features'].squeeze(1)
-        
-        # Increment batch_count and determine if logging should occur
-        self.batch_count += 1
-        should_log = (
-            self.batch_count % self.log_interval == 0 and
-            self.logger_manager is not None and
-            self.state_manager is not None and
-            self.state_manager.is_main_process()
+    def __call__(self, features: List[Dict[str, np.ndarray]]) -> Dict[str, torch.Tensor]:
+        batch = {
+            key: torch.from_numpy(np.stack([feature[key] for feature in features]))
+            for key in features[0].keys()
+        }
+
+        # Convert to proper dtypes
+        batch["input_features"] = batch["input_features"].to(torch.float32)
+        batch["labels"] = batch["labels"].to(torch.long)
+
+        # Get sequence dimensions
+        batch_size, seq_length = batch["labels"].shape
+
+        # Create decoder input IDs
+        batch["decoder_input_ids"] = torch.full(
+            (batch_size, seq_length),
+            self.processor.tokenizer.pad_token_id,
+            dtype=torch.long
         )
 
-        if should_log:
-            # Cast to non-optional types to satisfy Pylance
-            logger = cast(LoggerManager, self.logger_manager)
-            logger.log_info(f"[Batch {self.batch_count}] Input features shape after padding and reshaping: {batch['input_features'].shape}")
-            logger.log_info(f"[Batch {self.batch_count}] Attention mask shape: {batch['attention_mask'].shape}")
-        
-        # Get the prompt length for masking
-        prompt_text = ""  # No prompt in this case
-        prompt_tokens: List[int] = self.processor.tokenizer(prompt_text).input_ids
-        prompt_len = len(prompt_tokens)
-        
-        # Prepare text/label inputs
-        text_features = [{"input_ids": f["labels"]} for f in features]
-        
-        # First, create decoder_input_ids
-        decoder_batch: BatchEncoding = self.processor.tokenizer.pad(
-            text_features,
-            padding=True,
-            return_tensors="pt"
-        )
+        # Get prefix tokens from tokenizer
+        prefix_tokens = self.processor.tokenizer.prefix_tokens
+        prefix_length = len(prefix_tokens)
 
-        # Now decoder_batch is a BatchEncoding containing tensors
-        decoder_input_ids: torch.Tensor = cast(torch.Tensor, decoder_batch["input_ids"])
+        # Apply prefix tokens at the start of each sequence
+        batch["decoder_input_ids"][:, :prefix_length] = torch.tensor(prefix_tokens)
 
-        if should_log:
-            logger.log_info(f"[Batch {self.batch_count}] Decoder input_ids after padding: {decoder_input_ids.shape}")
+        # Teacher forcing: shift target sequence right by one position
+        valid_length = seq_length - 1
+        if valid_length > prefix_length:
+            batch["decoder_input_ids"][:, prefix_length:valid_length] = batch["labels"][:, prefix_length:valid_length].clone()
 
-        batch["decoder_input_ids"] = decoder_input_ids
-
-        # Pad labels
-        labels_batch: BatchEncoding = self.processor.tokenizer.pad(
-            text_features,
-            padding=True,
-            return_tensors="pt"
-        )
-
-        labels_input_ids: torch.Tensor = cast(torch.Tensor, labels_batch["input_ids"])
-
-        if should_log:
-            logger.log_info(f"[Batch {self.batch_count}] Labels after padding: {labels_input_ids.shape}")
-
-        # Replace padding with -100
-        labels_padded = labels_input_ids.masked_fill(
-            labels_input_ids == self.processor.tokenizer.pad_token_id,
+        # Replace padding token id's of the labels by -100 to ignore them in the loss
+        batch["labels"] = batch["labels"].masked_fill(
+            batch["labels"] == self.processor.tokenizer.pad_token_id,
             -100
         )
-        
-        # Mask out prompt tokens in labels
-        if prompt_len > 0:
-            labels_padded[:, :prompt_len] = -100
-        
-        if should_log:
-            logger.log_info(f"[Batch {self.batch_count}] Labels after masking prompt tokens: {labels_padded.shape}")
-        
-        batch["labels"] = labels_padded
 
-        # **Ensure attention_mask is present in the batch**
-        # Whisper models primarily use 'input_features', but if 'attention_mask' is required, ensure it's included
-        if "attention_mask" not in batch:
-            batch["attention_mask"] = torch.ones(batch['input_features'].shape[:-1], dtype=torch.long)
-            if should_log:
-                logger.log_info(f"[Batch {self.batch_count}] Attention mask manually set: {batch['attention_mask'].shape}")
-        
-        return cast(Dict[str, torch.Tensor], batch)
+        return batch
+
 
 @dataclass
-class DataManager:
-    """Manages dataset operations for Whisper fine-tuning."""
-    processor: TypedWhisperProcessor
+class DataManager(BaseComponent):
+    """Manages dataset preparation for Whisper fine-tuning."""
+    processor: WhisperProcessor
     dataset_name: str
-    logger_manager: LoggerManager
     state_manager: StateManager
-    config: Dict[str, Any]
-    datasets: Optional[Dict[str, Dataset]] = field(default=None, init=False)
-    collator: DataCollatorSpeechSeq2SeqWithPadding = field(init=False)
-    example_count: int = field(default=0, init=False)
-    log_interval: int = field(default=500, init=False)
-
-    def __post_init__(self):
-        self.collator = DataCollatorSpeechSeq2SeqWithPadding(
-            processor=self.processor,
-            logger_manager=self.logger_manager,
-            state_manager=self.state_manager
-        )
-
-    def prepare_datasets(self, test_size: float = 0.2, seed: int = 42) -> None:
-        """Load and prepare datasets for training."""
-        if self.logger_manager and self.state_manager.is_main_process():
-            self.logger_manager.log_info(f"Loading dataset: {self.dataset_name}")
+    logger_manager: LoggerManager
+    datasets: Optional[Dict[str, Dataset]] = None
+    collator: Optional[DataCollator] = None
+    _last_example: Optional[Dict[str, Any]] = None
+    _current_split: Optional[str] = None
+    
+    def __post_init__(self) -> None:
+        """Initialize after instance creation."""
+        self.collator = DataCollator(self.processor)
         
-        # Load dataset (using Hugging Face Datasets as an example)
-        raw_dataset = load_dataset(self.dataset_name)
-        dataset = cast(DatasetDict, raw_dataset)  # Assuming it's a DatasetDict
+        # Configure tokenizer
+        language = self.get_config("dataset.features.language", "en")
+        task = self.get_config("dataset.features.task", "transcribe")
+        self.processor.tokenizer.set_prefix_tokens(language=language, task=task)
+        self.log_info(f"Tokenizer configured with language={language}, task={task}")
+    
+    def _preprocess_example(self, example: Dict[str, Any]) -> Dict[str, np.ndarray]:
+        """Process a single example.
         
-        if self.logger_manager and self.state_manager.is_main_process():
-            self.logger_manager.log_info(f"Dataset split before processing: {dataset}")
-        
-        # Split if needed
-        if isinstance(dataset, DatasetDict):
-            if 'test' not in dataset:
-                if self.logger_manager and self.state_manager.is_main_process():
-                    self.logger_manager.log_info("Splitting train into train and test splits")
-                train_dataset = cast(Dataset, dataset["train"])
-                dataset = train_dataset.train_test_split(test_size=test_size, seed=seed)
-            else:
-                if self.logger_manager and self.state_manager.is_main_process():
-                    self.logger_manager.log_info("Splitting dataset into train and test splits")
-                train_dataset = cast(Dataset, dataset["train"])
-                dataset = train_dataset.train_test_split(test_size=test_size, seed=seed)
-        
-        if self.logger_manager and self.state_manager.is_main_process():
-            self.logger_manager.log_info(f"Dataset split after processing: {dataset}")
-        
-        self.datasets = {}
-        if self.logger_manager and self.state_manager.is_main_process():
-            self.logger_manager.log_info("Processing splits: ['train', 'test']")
-        for split in ['train', 'test']:
-            split_dataset = cast(Dataset, dataset[split])
-            self.datasets[split] = split_dataset.map(
-                self._preprocess_example,
-                remove_columns=split_dataset.column_names,
-                desc=f"Processing {split} split"
-            )
-        if self.logger_manager and self.state_manager.is_main_process():
-            self.logger_manager.log_info("Finished preparing datasets")
-
-    def _preprocess_example(self, example: Dict[str, Any]) -> Dict[str, Union[np.ndarray, List[int]]]:
-        """Process a single example."""
-        self.example_count += 1
-        should_log = (
-            self.example_count % self.log_interval == 0 and
-            self.logger_manager is not None and
-            self.state_manager is not None and
-            self.state_manager.is_main_process()
-        )
-        
-        if should_log:
-            logger = cast(LoggerManager, self.logger_manager)
-            logger.log_info(f"[Example {self.example_count}] Preprocessing a new example")
-        
-        # Process audio - keep as numpy array until collation
-        batch_features = self.processor(
-            example["audio"]["array"],
-            sampling_rate=example["audio"]["sampling_rate"],
-            return_tensors=None  # Don't return tensors yet
-        )
-        input_features = cast(np.ndarray, batch_features.input_features)
-        
-        # Ensure correct shape (n_mels, time) for single example
-        if input_features.ndim == 3 and input_features.shape[0] == 1:
-            input_features = input_features.squeeze(0)  # Remove batch dimension if present
+        Args:
+            example: Dictionary containing audio and text data
             
-        if should_log:
-            logger.log_info(f"[Example {self.example_count}] Input features shape after processing: {input_features.shape}")
+        Returns:
+            Dictionary containing preprocessed numpy arrays for model input
+        """
+        try:
+            # Input validation
+            if "audio" not in example:
+                raise ValueError("Missing 'audio' key in input example")
+            if "text" not in example:
+                raise ValueError("Missing 'text' key in input example")
+            if not isinstance(example["audio"], dict):
+                raise ValueError(f"Expected audio to be a dict, got {type(example['audio'])}")
+            if "array" not in example["audio"]:
+                raise ValueError("Missing 'array' key in audio dict")
+            if "sampling_rate" not in example["audio"]:
+                raise ValueError("Missing 'sampling_rate' key in audio dict")
+            if not isinstance(example["text"], str):
+                raise ValueError(f"Expected text to be a string, got {type(example['text'])}")
+            
+            # Process audio
+            audio_array = example['audio']['array']
+            if not isinstance(audio_array, np.ndarray):
+                audio_array = np.array(audio_array)
+            audio_array = audio_array.astype(np.float32)
+            
+            # Normalize audio
+            if np.max(np.abs(audio_array)) > 1.0:
+                audio_array = audio_array / np.max(np.abs(audio_array))
+
+            # Calculate required audio length for 3000 frames
+            n_fft = 400
+            hop_length = 160
+            target_length = (3000 - 1) * hop_length + n_fft  # Length needed for exactly 3000 frames
+            
+            # Store original length for attention mask
+            original_length = len(audio_array)
+            
+            # Pad audio if needed
+            if len(audio_array) < target_length:
+                padding = target_length - len(audio_array)
+                audio_array = np.pad(audio_array, (0, padding), mode="constant")
+            else:
+                # Truncate if longer
+                audio_array = audio_array[:target_length]
+            
+            # Process audio features
+            feature_output = self.processor(
+                audio_array,
+                sampling_rate=16000,  # Dataset uses 16kHz
+                return_tensors="pt",
+                do_normalize=True,
+                n_fft=n_fft,  # 25ms at 16kHz
+                hop_length=hop_length,  # 10ms at 16kHz
+                n_mels=128,  # Whisper Large V3 uses 128 mel bins
+                padding=False,  # No padding needed since we padded the raw audio
+                return_attention_mask=False  # We'll create our own mask
+            )
+            
+            # Convert features to numpy
+            features = feature_output.input_features[0, :, :3000].numpy()
+            
+            # Manually create attention mask based on valid frames
+            valid_frames = min(original_length, target_length)
+            valid_frame_count = (valid_frames - n_fft) // hop_length + 1
+            encoder_attention_mask = np.zeros(3000, dtype=np.int64)
+            encoder_attention_mask[:valid_frame_count] = 1
+            
+            # Let the tokenizer handle prefix tokens automatically
+            text_tokens = self.processor.tokenizer(
+                example["text"],
+                return_tensors="pt",
+                padding="max_length",
+                max_length=self.get_config("training.max_label_length", 448),
+                add_special_tokens=True,  # This ensures all special tokens are added
+                return_attention_mask=True
+            )
+            
+            # Convert to lists/numpy for storage
+            labels = text_tokens.input_ids[0].numpy()
+            decoder_attention_mask = text_tokens.attention_mask[0].numpy()
+            
+            # Store example info for logging after split completion
+            if self.state_manager.is_main_process():
+                self._last_example = {
+                    'audio_shape': audio_array.shape,
+                    'audio_array': audio_array,
+                    'text': example["text"],
+                    'features_shape': features.shape,
+                    'encoder_attention_mask_shape': encoder_attention_mask.shape,
+                    'decoder_attention_mask_shape': decoder_attention_mask.shape,
+                    'label_length': len(labels)
+                }
+            
+            return {
+                "input_features": features,  # numpy [128, 3000]
+                "attention_mask": encoder_attention_mask,  # numpy [3000]
+                "labels": labels,  # numpy array
+                "decoder_attention_mask": decoder_attention_mask  # numpy array
+            }
         
-        # Process text - keep as list until collation
-        encoding = self.processor.tokenizer(
-            example["text"],
-            truncation=True,
-            max_length=448
-            # Removed 'language' and 'mode' arguments
-        )
-        labels = encoding.input_ids  # type: ignore
+        except Exception as e:
+            self.log_error(f"Error processing example: {str(e)}")
+            if self.state_manager.is_main_process():
+                import traceback
+                self.log_error(f"Full traceback:\n{traceback.format_exc()}")
+            raise ExperimentError(f"Failed to process example: {str(e)}") from e
+    
+    def prepare_datasets(self, test_size: float = 0.2, seed: Optional[int] = None) -> None:
+        """Load and prepare datasets.
         
-        if should_log:
-            logger.log_info(f"[Example {self.example_count}] Labels length after processing: {len(labels)}")
-        
-        return {
-            "input_features": input_features,
-            "labels": labels
-        }
+        Args:
+            test_size: Fraction of data to use for testing (default: 0.2)
+            seed: Random seed for reproducible dataset splitting (default: None)
+        """
+        try:
+            # Load dataset
+            self.log_info(f"Loading dataset: {self.dataset_name}")
+            dataset = load_dataset(self.dataset_name)
+            
+            # Split if needed
+            if 'test' not in dataset:
+                self.log_info(f"Creating train/test split (test_size={test_size}, seed={seed})")
+                dataset = dataset["train"].train_test_split(
+                    test_size=test_size,
+                    seed=seed
+                )
+            
+            # Process splits
+            self.datasets = {}
+            for split in ['train', 'test']:
+                split_size = len(dataset[split])
+                self.log_info(f"\nProcessing {split} split:")
+                self.log_info(f"Total examples: {split_size}")
+                
+                # Store last example for logging
+                self._last_example = None
+                self._current_split = split
+                
+                self.datasets[split] = dataset[split].map(
+                    self._preprocess_example,
+                    remove_columns=dataset[split].column_names,
+                    batch_size=100,
+                    keep_in_memory=True,
+                    desc=f"Processing {split} split"
+                )
+
+                # Log format of last processed example
+                if self._last_example and self.state_manager.is_main_process():
+                    # Get the actual processed example
+                    processed_example = self._preprocess_example({"audio": {"array": self._last_example["audio_array"], "sampling_rate": 16000}, "text": self._last_example["text"]})
+                    
+                    self.log_info("\nExample data format:")
+                    self.log_info(f"Input audio shape: {self._last_example['audio_shape']}")
+                    self.log_info(f"Input text: {self._last_example['text']}")
+                    self.log_info(f"Raw features shape: {processed_example['input_features'].shape}")
+                    self.log_info(f"Raw encoder attention mask shape: {processed_example['attention_mask'].shape}")
+                    self.log_info(f"Raw decoder attention mask shape: {processed_example['decoder_attention_mask'].shape}")
+                    self.log_info(f"Label length: {len(processed_example['labels'])}")
+                    self.log_info("\nFinal batched shape would be:")
+                    self.log_info(f"input_features: [batch_size, {processed_example['input_features'].shape[0]}, {processed_example['input_features'].shape[1]}]")
+                    self.log_info(f"encoder_attention_mask: [batch_size, {processed_example['attention_mask'].shape[0]}]")
+                    self.log_info(f"decoder_attention_mask: [batch_size, {processed_example['decoder_attention_mask'].shape[0]}]")
+                    self.log_info(f"labels: [batch_size, {len(processed_example['labels'])}]")
+
+                self.log_info(f"Completed processing {split} split")
+                
+            self.log_info("Dataset preparation completed")
+            
+        except Exception as e:
+            self.log_error(f"Dataset preparation failed: {str(e)}")
+            raise ExperimentError(f"Dataset preparation failed: {str(e)}") from e
+
     @property
     def train_dataset(self) -> Optional[Dataset]:
         """Get training dataset."""
-        return self.datasets.get('train') if self.datasets else None
-        
+        return self.datasets['train'] if self.datasets else None
+    
     @property
     def test_dataset(self) -> Optional[Dataset]:
         """Get test dataset."""
-        return self.datasets.get('test') if self.datasets else None
+        return self.datasets['test'] if self.datasets else None

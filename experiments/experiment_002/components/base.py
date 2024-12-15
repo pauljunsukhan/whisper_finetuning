@@ -1,80 +1,65 @@
-"""Base classes for experiment components"""
+# File: components/base.py
 
-from typing import Dict, Any, Optional, Union
+"""Base components and utilities for the experiment."""
+
+from typing import Dict, Any, Optional
 from pathlib import Path
-import logging
+from dataclasses import dataclass
 
 class ExperimentError(Exception):
-    """Base error class for experiments"""
+    """Base exception class for experiment errors."""
     pass
 
+@dataclass
 class BaseComponent:
-    """Base class for experiment components"""
-    
-    def __init__(self, config: Dict[str, Any]):
-        """Initialize component
-        
-        Args:
-            config: Configuration dictionary
-            
-        Raises:
-            ExperimentError: If configuration is invalid
-        """
-        if not isinstance(config, dict):
-            raise ExperimentError(f"Config must be a dictionary, got {type(config)}")
-        self.config = config
-    
+    """Base class for experiment components."""
+    config: Dict[str, Any]
+
     def get_config(self, key: str, default: Any = None) -> Any:
-        """Get value from config with default
+        """Get a configuration value using dot notation.
         
         Args:
-            key: Config key (e.g. "training.batch_size")
-            default: Default value if not found
+            key (str): Configuration key in dot notation (e.g., "training.batch_size")
+            default (Any): Default value if key is not found
             
         Returns:
-            Config value
+            Any: Configuration value or default
         """
         try:
-            keys = key.split('.')
             value = self.config
-            
-            for key in keys:
-                if not isinstance(value, dict):
-                    return default
-                value = value.get(key)
-                if value is None:
-                    return default
-                    
-            return value if value is not None else default
-            
-        except Exception:
+            for k in key.split('.'):
+                value = value[k]
+            return value
+        except (KeyError, TypeError):
             return default
-    
-    def ensure_dir(self, path: Union[str, Path]) -> Path:
-        """Ensure directory exists
+
+    def ensure_dir(self, path: Path) -> Path:
+        """Ensure a directory exists.
         
         Args:
-            path: Directory path
+            path (Path): Directory path to ensure
             
         Returns:
-            Path object
+            Path: The ensured directory path
         """
         path = Path(path)
         path.mkdir(parents=True, exist_ok=True)
         return path
-    
-    def log_error(self, error: str) -> None:
-        """Log error message"""
-        logging.error(f"{self.__class__.__name__}: {error}")
-    
+
     def log_info(self, message: str) -> None:
-        """Log info message"""
-        logging.info(f"{self.__class__.__name__}: {message}")
-    
-    def log_debug(self, message: str) -> None:
-        """Log debug message"""
-        logging.debug(f"{self.__class__.__name__}: {message}")
+        """Log an info message.
         
-    def __repr__(self) -> str:
-        """String representation"""
-        return f"{self.__class__.__name__}(config={self.config})" 
+        Args:
+            message (str): Message to log
+        """
+        if hasattr(self, 'logger_manager') and self.logger_manager:
+            self.logger_manager.log_info(message)
+
+    def log_error(self, message: str) -> None:
+        """Log an error message.
+        
+        Args:
+            message (str): Message to log
+        """
+        if hasattr(self, 'logger_manager') and self.logger_manager:
+            self.logger_manager.log_error(message)

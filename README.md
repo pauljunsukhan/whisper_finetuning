@@ -69,3 +69,6 @@ python -m experiments.experiment_002.main
 ## Hardware Requirements
 - Tested on Lambda Labs A10 GPU (24GB VRAM)
 - CUDA compatible GPU recommended
+
+
+one issue is that WER can be greater than 100% so loss function can have 0 output or empty output be better.
