@@ -6,7 +6,7 @@ import evaluate
 from dataclasses import dataclass
 from typing import Any, Dict, List, Union
 import numpy as np
-from huggingface_hub import login
+from huggingface_hub import login, HfFolder, Repository
 from tqdm import tqdm
 import yaml
 from datetime import datetime
@@ -20,27 +20,102 @@ from transformers import (
     TrainingArguments,
     TrainerCallback
 )
-from collections import defaultdict
-from collections import deque
+from collections import defaultdict, deque
 from pathlib import Path
+import math
+import collections
+import sys
 
 # Constants
-MODEL_NAME = "openai/whisper-base"
-DATASET_NAME = "pauljunsukhan/throatmic_codered"
-OUTPUT_DIR = "whisper_finetuned"
+SCRIPT_DIR = Path(__file__).parent
+LOG_DIR = SCRIPT_DIR / "logs"
+OUTPUT_DIR = SCRIPT_DIR / "output"
+LOG_DIR.mkdir(exist_ok=True)
+OUTPUT_DIR.mkdir(exist_ok=True)
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+TIMESTAMP_FORMAT = "%Y%m%d_%H%M%S"
 
 print(f"Using device: {DEVICE}")
+
+
+def create_model_card(config, dataset, baseline_wer, finetuned_wer, training_args):
+    """Create a model card with training details and performance metrics."""
+    model_card = f"""# Whisper Fine-tuned Model
+
+This model is a fine-tuned version of `{config.model_name}` on `{config.dataset_name}`.
+
+## Model Description
+- **Model Type:** Fine-tuned Whisper model for speech recognition
+- **Language:** English
+- **Task:** Automatic Speech Recognition
+- **Domain:** Throat Microphone Speech Recognition
+
+## Training Details
+- **Base Model:** `{config.model_name}`
+- **Dataset:** `{config.dataset_name}`
+- **Training Examples:** {len(dataset['train'])}
+- **Test Examples:** {len(dataset['test'])}
+- **Training Steps:** {config.max_steps}
+
+### Hyperparameters
+- **Batch Size:** {config.batch_size}
+- **Learning Rate:** {config.learning_rate}
+- **Warmup Steps:** {config.warmup_steps}
+- **Weight Decay:** {config.weight_decay}
+- **FP16:** {config.fp16}
+- **Gradient Checkpointing:** {config.gradient_checkpointing}
+
+## Performance
+- **Baseline WER:** {baseline_wer:.4f}
+- **Fine-tuned WER:** {finetuned_wer:.4f}
+
+## Usage
+
+You can use this model as follows:
+
+<pre><code class="language-python">
+from transformers import WhisperProcessor, WhisperForConditionalGeneration
+
+# Load processor and model
+processor = WhisperProcessor.from_pretrained("{training_args.hub_model_id}")
+model = WhisperForConditionalGeneration.from_pretrained("{training_args.hub_model_id}")
+
+# Example usage
+inputs = processor("Audio input data", return_tensors="pt", sampling_rate=16000)
+outputs = model.generate(inputs["input_features"])
+transcription = processor.batch_decode(outputs, skip_special_tokens=True)
+print(transcription)
+</code></pre>
+
+## Citation
+If you use this model, please cite:
+
+<pre><code class="language-bibtex">
+@misc{{whisper_finetune_{config.model_name.lower()}}},
+  title={{{{Fine-tuned Whisper Model}}}},
+  author={{{{Your Name or Team Name}}}},
+  year={{{{2024}}}},
+  howpublished={{https://huggingface.co/{training_args.hub_model_id}}}
+
+</code></pre>
+
+## Acknowledgments
+Thanks to the Hugging Face team and the community for providing tools to fine-tune and deploy this model.
+"""
+
+    return model_card
+
+
 class ExperimentLogger:
     """Simple logger for experiment tracking"""
     
     def __init__(self, experiment_name: str, print_metrics: bool = True, print_predictions: bool = True):
         self.experiment_name = experiment_name
         self.start_time = datetime.now()
-        timestamp = self.start_time.strftime("%Y%m%d_%H%M%S")
+        timestamp = self.start_time.strftime(TIMESTAMP_FORMAT)
         
-        # Create results directory
-        self.experiment_dir = Path(f"results/{experiment_name}_{timestamp}")
+        # Create experiment directory under logs/
+        self.experiment_dir = LOG_DIR / f"{experiment_name}_{timestamp}"
         self.experiment_dir.mkdir(parents=True, exist_ok=True)
         
         # Initialize results dictionary
@@ -63,6 +138,12 @@ class ExperimentLogger:
         minutes, seconds = divmod(remainder, 60)
         return f"{int(hours):02d}:{int(minutes):02d}:{int(seconds):02d}"
     
+    def _save_yaml(self):
+        """Save current results to YAML file"""
+        yaml_path = self.experiment_dir / "results.yaml"
+        with open(yaml_path, "w") as f:
+            yaml.dump(self.results, f, default_flow_style=False)
+    
     def log(self, message: str):
         """Log message to terminal with timestamp"""
         elapsed = self._get_elapsed_time()
@@ -77,6 +158,10 @@ class ExperimentLogger:
     
     def save_metric(self, name: str, value: float, print_to_terminal: bool = None):
         """Save a metric to the timeline"""
+        # Validate numeric value
+        if not isinstance(value, (int, float)) or math.isnan(value) or math.isinf(value):
+            raise ValueError(f"Invalid metric value for {name}: {value}")
+            
         elapsed = self._get_elapsed_time()
         
         # Determine whether to print based on instance setting or override
@@ -88,13 +173,23 @@ class ExperimentLogger:
             "type": "metric",
             "elapsed": elapsed,
             "name": name,
-            "value": value
+            "value": float(value)  # Ensure it's serializable
         })
         self._save_yaml()
     
     def save_prediction(self, reference: str, prediction: str, print_to_terminal: bool = None):
-        """Save a prediction example to the timeline"""
+        """Save a prediction example to the timeline with WER metric.
+        
+        Args:
+            reference: Reference text
+            prediction: Model prediction
+            print_to_terminal: Whether to print to terminal (overrides instance setting)
+        """
         elapsed = self._get_elapsed_time()
+        
+        # Calculate WER for this prediction
+        wer_metric = evaluate.load("wer")
+        wer = wer_metric.compute(predictions=[prediction], references=[reference])
         
         # Determine whether to print based on instance setting or override
         should_print = print_to_terminal if print_to_terminal is not None else self.print_predictions
@@ -102,22 +197,16 @@ class ExperimentLogger:
             print(f"[+{elapsed}] New prediction:")
             print(f"Reference: {reference}")
             print(f"Prediction: {prediction}")
+            print(f"WER: {wer:.4f}")
         
         self.results["timeline"].append({
             "type": "prediction",
             "elapsed": elapsed,
             "reference": reference,
-            "prediction": prediction
+            "prediction": prediction,
+            "wer": float(wer)  # Ensure it's serializable
         })
         self._save_yaml()
-    
-    def _save_yaml(self):
-        """Save current results to YAML file"""
-        yaml_path = self.experiment_dir / "results.yaml"
-        with open(self.experiment_dir / "results.yaml", "w") as f:
-            yaml.dump(self.results, f, default_flow_style=False)
-    
-
 
 @dataclass
 class ExperimentConfig:
@@ -126,8 +215,12 @@ class ExperimentConfig:
     date: str
     description: str
     
+    # Model and dataset
+    model_name: str
+    dataset_name: str
+    
     # Audio processing
-    normalize_audio: bool  # Whether to normalize input audio
+    normalize_audio: bool
     
     # Training parameters
     batch_size: int
@@ -159,11 +252,10 @@ class ExperimentConfig:
     dropout: float
     label_smoothing: float
     
-    # Early stopping
+    # Early stopping (simplified)
     early_stopping_enabled: bool
     early_stopping_patience: int
-    early_stopping_metric: str
-    early_stopping_mode: str
+    early_stopping_threshold: float
     
     # Monitoring settings
     gradient_history_size: int
@@ -175,6 +267,10 @@ class ExperimentConfig:
     generation_task: str
     generation_max_length: int
     use_cache: bool
+    
+    # Dataset settings
+    test_split_size: int
+    test_split_seed: int
     
     @classmethod
     def from_yaml(cls, yaml_path: str):
@@ -201,6 +297,8 @@ class ExperimentConfig:
             name=config['experiment']['name'],
             date=config['experiment']['date'],
             description=config['experiment']['description'],
+            model_name=config['environment']['base_model'],
+            dataset_name=config['dataset']['source'],
             normalize_audio=config['dataset']['audio'].get('normalize', True),
             batch_size=int(config['training']['batch_size']),
             eval_batch_size=int(config['training']['eval_batch_size']),
@@ -228,15 +326,16 @@ class ExperimentConfig:
             label_smoothing=float(config['training']['regularization']['label_smoothing']),
             early_stopping_enabled=bool(config['evaluation']['early_stopping']['enabled']),
             early_stopping_patience=int(config['evaluation']['early_stopping']['patience']),
-            early_stopping_metric=config['evaluation']['early_stopping']['metric'],
-            early_stopping_mode=config['evaluation']['early_stopping']['mode'],
+            early_stopping_threshold=float(config['evaluation']['early_stopping'].get('threshold', 0.0001)),
             gradient_history_size=int(config['training']['monitoring']['gradient_history_size']),
             significant_change_threshold=float(config['training']['monitoring']['significant_change_threshold']),
             log_top_n_gradients=int(config['training']['monitoring']['log_top_n_gradients']),
             generation_language=config['training']['generation']['language'],
             generation_task=config['training']['generation']['task'],
             generation_max_length=int(config['training']['generation']['max_length']),
-            use_cache=bool(config['training']['generation']['use_cache'])
+            use_cache=bool(config['training']['generation']['use_cache']),
+            test_split_size=int(config['dataset']['test_split']),
+            test_split_seed=config.get('dataset', {}).get('seed', 42),
         )
 
 def prepare_dataset(batch, idx):
@@ -389,7 +488,19 @@ def evaluate_model(model, dataset, processor, split="test"):
     return wer
 
 class EnhancedWhisperTrainer(Seq2SeqTrainer):
-    """Enhanced trainer with gradient monitoring and improved generation control."""
+    """EXPERIMENTAL: Enhanced trainer with gradient monitoring and improved generation control.
+    
+    This is an experimental extension of Seq2SeqTrainer that adds:
+    - Detailed gradient monitoring and statistics
+    - Improved generation control
+    - Parameter-specific training dynamics
+    
+    Note: Currently not in use, kept for future development.
+    
+    Args:
+        config (ExperimentConfig): Configuration object containing monitoring settings
+        logger (ExperimentLogger): Logger for tracking detailed gradient statistics
+    """
     
     def __init__(self, *args, config: ExperimentConfig, logger: ExperimentLogger, **kwargs):
         super().__init__(*args, **kwargs)
@@ -532,79 +643,143 @@ class EnhancedWhisperTrainer(Seq2SeqTrainer):
         with open(self.experiment_dir / "results.yaml", "w") as f:
             yaml.dump(self.results, f, default_flow_style=False)
 
+
 class TranscriptionLoggingCallback(TrainerCallback):
-    """Callback to log transcription examples to TensorBoard during training."""
+    """Callback to log transcription examples and training metrics during training.
     
-    def __init__(self, eval_dataset, processor, config, num_examples=5):
+    Logs sample transcriptions during evaluation steps and training metrics from the trainer.
+    Uses batch processing for efficient transcription generation.
+    
+    Args:
+        eval_dataset: Dataset to sample examples from
+        processor: Whisper processor for transcription
+        config: Experiment configuration containing test_split_seed
+        experiment_logger: Logger for tracking metrics and examples
+        num_examples: Number of examples to log per evaluation (default: 5)
+        max_logged_steps: Size of logging history buffer (default: 1000)
+    """
+    
+    def __init__(self, eval_dataset, processor, config, experiment_logger, 
+                 num_examples=5, max_logged_steps=1000):
         self.eval_dataset = eval_dataset
         self.processor = processor
         self.config = config
-        self.num_examples = num_examples
-        self.example_indices = np.random.choice(len(eval_dataset), num_examples, replace=False)
+        self.experiment_logger = experiment_logger
+        self.tb_writer = None
+        
+        # Set random seed for reproducible example selection
+        np.random.seed(config.test_split_seed)
+        
+        # Select fixed examples and cache them
+        self.num_examples = min(num_examples, len(eval_dataset))
+        indices = np.random.choice(len(eval_dataset), self.num_examples, replace=False)
+        self.examples = [self.eval_dataset[int(idx)] for idx in indices]
+        
+        # Log selected indices for reproducibility
+        self.experiment_logger.log(f"Selected example indices for tracking: {indices.tolist()}")
+        
+        # Reset random seed to avoid affecting other random operations
+        np.random.seed(None)
+        
+        # Pre-process audio inputs
+        self.audio_inputs = self.processor(
+            [ex["audio"]["array"] for ex in self.examples],
+            sampling_rate=16000,
+            return_tensors="pt",
+            padding=True
+        )
+        
+        # Cache reference texts
+        self.references = [ex["text"] for ex in self.examples]
+        
+        # Track logged steps to prevent duplicates
+        self.logged_steps = collections.deque(maxlen=max_logged_steps)
+
+    def on_init_end(self, args, state, control, **kwargs):
+        """Initialize TensorBoard writer if enabled."""
+        if "tensorboard" in args.report_to:
+            self.tb_writer = SummaryWriter(log_dir=args.logging_dir)
+            self.experiment_logger.log("Initialized TensorBoard writer")
     
-    def get_tb_writer(self, args):
-        """More robust way to get TensorBoard writer"""
-        if not args.report_to or "tensorboard" not in args.report_to:
-            return None
-        
-        for logger in args.get_process_log_writer():
-            if isinstance(logger, SummaryWriter):
-                return logger
-        return None
-        
     def on_evaluate(self, args, state, control, model, **kwargs):
-        """Log transcription examples to TensorBoard during evaluation."""
+        """Log transcription examples during evaluation using batch processing."""
+        if state.global_step in self.logged_steps:
+            return
+        
+        self.experiment_logger.log(f"\nTranscription Examples (Step {state.global_step}):")
+        self.experiment_logger.log("-" * 50)
+        
         try:
             model.eval()
             
-            # Get the tensorboard writer from the state
-            tb_writer = self.get_tb_writer(args)
-            if tb_writer is None:
-                return
+            # Move inputs to model device
+            inputs = self.audio_inputs.to(model.device)
+            
+            # Generate all predictions in one batch
+            with torch.no_grad():
+                generated_ids = model.generate(
+                    input_features=inputs.input_features,
+                    language=self.config.generation_language,
+                    task=self.config.generation_task,
+                    max_length=self.config.generation_max_length,
+                    use_cache=self.config.use_cache
+                )
+            
+            # Decode all predictions at once
+            transcriptions = self.processor.batch_decode(generated_ids, skip_special_tokens=True)
+            
+            # Log all examples
+            for idx, (reference, transcription) in enumerate(zip(self.references, transcriptions)):
+                # Log to experiment logger
+                self.experiment_logger.save_prediction(reference, transcription)
                 
-            for idx in self.example_indices:
-                try:
-                    example = self.eval_dataset[idx]
-                    
-                    # Process audio
-                    inputs = self.processor(
-                        example["audio"]["array"],
-                        sampling_rate=example["audio"]["sampling_rate"],
-                        return_tensors="pt"
-                    ).to(model.device)
-                    
-                    # Generate prediction
-                    with torch.no_grad():
-                        predicted_ids = model.generate(
-                            input_features=inputs.input_features,
-                            language=self.config.generation_language,
-                            task=self.config.generation_task,
-                            max_length=self.config.generation_max_length,
-                            use_cache=self.config.use_cache
-                        )[0]
-                    
-                    # Decode prediction
-                    transcription = self.processor.decode(predicted_ids, skip_special_tokens=True)
-                    reference = example["text"]
-                    
-                    # Log to tensorboard with markdown formatting for better readability
-                    tb_writer.add_text(
-                        f'transcriptions/example_{idx}',
-                        f'**Reference**:\n```\n{reference}\n```\n\n**Prediction**:\n```\n{transcription}\n```',
-                        state.global_step
+                # Log to TensorBoard if available
+                if self.tb_writer:
+                    self.tb_writer.add_text(
+                        f'Transcriptions/Example_{idx}',
+                        f'**Reference**:\n```\n{reference}\n```\n\n'
+                        f'**Prediction**:\n```\n{transcription}\n```',
+                        global_step=state.global_step
                     )
-                    
-                except Exception as e:
-                    print(f"Warning: Failed to process example {idx}: {str(e)}")
-                    continue
-                    
-            # Clear CUDA cache after all generations
-            if torch.cuda.is_available():
-                torch.cuda.empty_cache()
-                
+            
+            self.logged_steps.append(state.global_step)
+            
         except Exception as e:
-            print(f"Warning: Failed to log transcriptions to TensorBoard: {str(e)}")
-            return  # Continue training even if logging fails
+            self.experiment_logger.log(f"Failed to log transcriptions: {str(e)}")
+    
+    def on_log(self, args, state, control, logs=None, **kwargs):
+        """Log training metrics from the trainer."""
+        if not logs:
+            return
+        
+        # Format step information
+        step_info = f"Step {state.global_step}"
+        if 'epoch' in logs:
+            step_info += f" (Epoch {logs['epoch']:.2f})"
+        
+        self.experiment_logger.log(f"\nTraining Metrics - {step_info}:")
+        
+        # Log each metric
+        for key, value in logs.items():
+            if isinstance(value, (int, float)):
+                try:
+                    self.experiment_logger.save_metric(
+                        name=f"train_{key}",
+                        value=float(value),
+                        print_to_terminal=False
+                    )
+                except ValueError as e:
+                    self.experiment_logger.log(f"Failed to log metric {key}: {str(e)}")
+    
+    def on_train_end(self, args, state, control, **kwargs):
+        """Cleanup TensorBoard writer."""
+        if self.tb_writer:
+            try:
+                self.tb_writer.close()
+                self.experiment_logger.log("Closed TensorBoard writer")
+            except Exception as e:
+                self.experiment_logger.log(f"Failed to close TensorBoard writer: {str(e)}")
+
 
 if __name__ == "__main__":
 
@@ -623,10 +798,6 @@ if __name__ == "__main__":
     logger.log(f"Name: {config.name}")
     logger.log(f"Description: {config.description}")
     logger.log(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    
-    # Create results directory if it doesn't exist
-    results_dir = Path("results")
-    results_dir.mkdir(exist_ok=True)
     
     # Log configuration
     logger.log("\nCONFIGURATION:")
@@ -651,7 +822,7 @@ if __name__ == "__main__":
     # Log model information
     logger.log("\nMODEL:")
     logger.log("-" * 20)
-    logger.log(f"Base Model: {MODEL_NAME}")
+    logger.log(f"Base Model: {config.model_name}")
     
     # Authenticate and load dataset
     token = os.getenv("HF_TOKEN")
@@ -662,14 +833,17 @@ if __name__ == "__main__":
     # Dataset loading and logging
     logger.log("\nDATASET:")
     logger.log("-" * 20)
-    logger.log(f"Source: {DATASET_NAME}")
+    logger.log(f"Source: {config.dataset_name}")
     
-    dataset = load_dataset(DATASET_NAME)
+    dataset = load_dataset(config.dataset_name)
     total_examples = len(dataset["train"])
     logger.log(f"Total Examples: {total_examples}")
     
     # Create and log train/test split
-    dataset = dataset["train"].train_test_split(test_size=102, seed=42)
+    dataset = dataset["train"].train_test_split(
+        test_size=config.test_split_size, 
+        seed=config.test_split_seed
+    )
     logger.log("\nData Split:")
     logger.log(f"  Training Examples: {len(dataset['train'])}")
     logger.log(f"  Testing Examples: {len(dataset['test'])}")
@@ -679,19 +853,38 @@ if __name__ == "__main__":
     logger.log("\nAudio Processing:")
     logger.log(f"  Normalization: {config.normalize_audio}")
     
+    # After other logging sections, before "=" * 50
+    
+    # Evaluation Settings
+    logger.log("\nEvaluation Settings:")
+    logger.log("-" * 20)
+    logger.log(f"  Strategy: {config.evaluation_strategy}")
+    logger.log(f"  Eval Steps: {config.eval_steps}")
+    logger.log(f"  Save Steps: {config.save_steps}")
+    logger.log(f"  Logging Steps: {config.logging_steps}")
+    logger.log(f"  Load Best Model: {config.load_best_model_at_end}")
+    logger.log(f"  Metric: {config.metric_for_best_model}")
+    logger.log(f"  Greater is Better: {config.greater_is_better}")
+    logger.log(f"  Save Total Limit: {config.save_total_limit}")
+    
+
+    
+    logger.log("=" * 50)
+    
     logger.log("\n" + "=" * 50)
     logger.log("STARTING EXPERIMENT")
     logger.log("=" * 50 + "\n")
     
     # Load model and processor
-    logger.log(f"Loading model and processor: {MODEL_NAME}")
-    processor = WhisperProcessor.from_pretrained(MODEL_NAME)
-    model = WhisperForConditionalGeneration.from_pretrained(MODEL_NAME).to(DEVICE)
+    logger.log(f"Loading model and processor: {config.model_name}")
+    processor = WhisperProcessor.from_pretrained(config.model_name)
+    model = WhisperForConditionalGeneration.from_pretrained(config.model_name).to(DEVICE)
     
     # Configure generation settings
     model.generation_config.language = config.generation_language
     model.generation_config.task = config.generation_task
     model.generation_config.forced_decoder_ids = None
+    model.generation_config.use_cache = config.use_cache
     
     logger.log("Model and processor loaded successfully\n")
     
@@ -727,8 +920,12 @@ if __name__ == "__main__":
     logger.log("Dataset preparation complete")
     
     # Prepare training arguments
+    timestamp = datetime.now().strftime(TIMESTAMP_FORMAT)
+    run_output_dir = OUTPUT_DIR / f"{config.name}_{timestamp}"
+    run_output_dir.mkdir(exist_ok=True)
+
     training_args = Seq2SeqTrainingArguments(
-        output_dir=OUTPUT_DIR,
+        output_dir=str(run_output_dir),
         per_device_train_batch_size=config.batch_size,
         per_device_eval_batch_size=config.eval_batch_size,
         gradient_accumulation_steps=config.gradient_accumulation_steps,
@@ -752,7 +949,7 @@ if __name__ == "__main__":
         weight_decay=config.weight_decay,
         label_smoothing_factor=config.label_smoothing,
         max_grad_norm=config.max_grad_norm,
-        push_to_hub=config.push_to_hub,
+        push_to_hub=False,  # Disable automatic push
         lr_scheduler_type=config.lr_scheduler_type,
     )
     
@@ -769,6 +966,16 @@ if __name__ == "__main__":
     logger.log(f"  Warmup Steps: {training_args.warmup_steps}")
     logger.log(f"  Warmup Ratio: {training_args.warmup_ratio:.2%}")
     logger.log(f"  Optimizer: AdamW")  # Currently hardcoded in Seq2SeqTrainer
+
+
+    # Generation Settings
+    logger.log("\nGeneration Settings:")
+    logger.log("-" * 20)
+    logger.log(f"  Generation Max Length: {training_args.generation_max_length}")
+    logger.log(f"  Predict with Generate: {training_args.predict_with_generate}")
+    logger.log(f"  Language: {config.generation_language}")
+    logger.log(f"  Task: {config.generation_task}")
+    logger.log(f"  Use Cache: {config.use_cache}")
     
     # Batch Configuration
     logger.log("\nBatch Configuration:")
@@ -814,19 +1021,8 @@ if __name__ == "__main__":
     logger.log("-" * 20)
     logger.log(f"  Enabled: {config.early_stopping_enabled}")
     if config.early_stopping_enabled:
-        logger.log(f"  Metric: {config.early_stopping_metric}")
-        logger.log(f"  Mode: {config.early_stopping_mode}")
         logger.log(f"  Patience: {config.early_stopping_patience}")
-        logger.log(f"  Threshold: 0.0001")  # Currently hardcoded
-    
-    # Generation Settings
-    logger.log("\nGeneration Settings:")
-    logger.log("-" * 20)
-    logger.log(f"  Generation Max Length: {training_args.generation_max_length}")
-    logger.log(f"  Predict with Generate: {training_args.predict_with_generate}")
-    logger.log(f"  Language: {config.generation_language}")
-    logger.log(f"  Task: {config.generation_task}")
-    logger.log(f"  Use Cache: {config.use_cache}")
+        logger.log(f"  Threshold: {config.early_stopping_threshold}")
     
     # Output & Logging
     logger.log("\nOutput & Logging Configuration:")
@@ -849,12 +1045,12 @@ if __name__ == "__main__":
     logger.log("=" * 50)
     
     # Add early stopping if enabled
-    callbacks = []
+    callbacks = [TranscriptionLoggingCallback(dataset["test"], processor, config, logger)]
     if config.early_stopping_enabled:
         callbacks.append(
             EarlyStoppingCallback(
                 early_stopping_patience=config.early_stopping_patience,
-                early_stopping_threshold=0.0001
+                early_stopping_threshold=config.early_stopping_threshold
             )
         )
     
@@ -867,12 +1063,34 @@ if __name__ == "__main__":
         data_collator=DataCollatorSpeechSeq2SeqWithPadding(processor=processor),
         compute_metrics=compute_metrics,
         tokenizer=processor.feature_extractor,
-        callbacks=callbacks + [TranscriptionLoggingCallback(dataset["test"], processor, config)]
+        callbacks=callbacks
     )
     
+    # Add this code right before trainer.train()
+    if config.push_to_hub:
+        logger.log("\nConfiguring Hugging Face Hub settings...")
+        
+        # Verify HF token
+        if not HfFolder.get_token():
+            raise ValueError(
+                "No Hugging Face token found. Please run `huggingface-cli login` "
+                "or set the HF_TOKEN environment variable."
+            )
+        
+        # Create the model repository
+        repo = Repository(
+            local_dir=run_output_dir,
+            clone_from=training_args.hub_model_id,
+            use_auth_token=True
+        )
+        
+        # Initialize the repository
+        repo.git_pull()
+
     # Fine-tune the model
     logger.log("\nStarting fine-tuning...")
     trainer.train()
+
     
     # Evaluate fine-tuned model
     logger.log("\nEvaluating fine-tuned model...")
@@ -881,10 +1099,83 @@ if __name__ == "__main__":
     
     # Save results
     logger.log("\nSaving results...")
-    with open("experiment_results.txt", "w") as f:
+    results_file = LOG_DIR / f"{config.name}_results.txt"
+    with open(results_file, "w") as f:
         f.write(f"Baseline WER: {baseline_wer:.4f}\n")
         f.write(f"Fine-tuned WER: {finetuned_wer:.4f}\n")
     
     logger.log("\nExperiment complete!")
     logger.log(f"Baseline WER: {baseline_wer:.4f}")
     logger.log(f"Fine-tuned WER: {finetuned_wer:.4f}") 
+
+    
+    # After training and evaluation is complete
+    if config.push_to_hub:
+        # Validate hub_model_id
+        if not training_args.hub_model_id:
+            logger.log("Error: No hub_model_id specified in configuration")
+            logger.log("Skipping upload to Hugging Face Hub")
+            sys.exit(1)
+        
+        # Recheck token
+        token = HfFolder.get_token()
+        if not token:
+            logger.log("Error: HF_TOKEN not found or invalid")
+            logger.log("Please run `huggingface-cli login` or set the HF_TOKEN environment variable")
+            sys.exit(1)
+
+        logger.log("\nTraining completed. Would you like to upload the model to Hugging Face Hub?")
+        logger.log(f"  Model Performance:")
+        logger.log(f"  - Baseline WER: {baseline_wer:.4f}")
+        logger.log(f"  - Fine-tuned WER: {finetuned_wer:.4f}")
+        logger.log(f"  Repository: {training_args.hub_model_id}")
+        
+        response = input("[y/N]: ").lower().strip()
+        if response == 'y':
+            try:
+                logger.log("\nPreparing for upload to Hugging Face Hub...")
+                
+                # Create repo only when ready to upload
+                from huggingface_hub import HfApi
+                api = HfApi()
+                
+                # Extract repo_id from hub_model_id
+                repo_id = training_args.hub_model_id
+                logger.log(f"Creating repository: {repo_id}")
+                
+                # Create the repo
+                api.create_repo(
+                    repo_id=repo_id,
+                    private=True,  # Default to private for safety
+                    exist_ok=True  # In case repo exists but is empty
+                )
+                
+                # Create and save model card using existing function
+                model_card = create_model_card(
+                    config=config,
+                    dataset=dataset,
+                    baseline_wer=baseline_wer,
+                    finetuned_wer=finetuned_wer,
+                    training_args=training_args
+                )
+                
+                with open(run_output_dir / "README.md", "w") as f:
+                    f.write(model_card)
+                
+                # Now push to hub
+                logger.log("Uploading model to Hugging Face Hub...")
+                trainer.push_to_hub(
+                    commit_message=f"Training completed - WER: {finetuned_wer:.4f}",
+                    blocking=True
+                )
+                logger.log(f"Model successfully uploaded to: {repo_id}")
+                logger.log(f"View your model at: https://huggingface.co/{repo_id}")
+                
+            except Exception as e:
+                logger.log(f"Error during upload: {str(e)}")
+                logger.log("Model saved locally but upload failed")
+                sys.exit(1)
+        else:
+            logger.log("Upload cancelled. Model saved locally only")
+
+
