@@ -1,19 +1,18 @@
 experiment:
-  name: "baseline_001"
-  date: "2024-01-17"
-  description: "500 Examples"
+  name: "largev3_003"
+  date: "2024-07-13"
+  description: "600 Examples Whisper Base Train/Test Split Throatmic finetune"
 
 environment:
   platform: "Lambda Labs H100"
   gpu_memory: "80GB"
   python_version: "3.9"
-  base_model: "openai/whisper-base"
+  base_model: "openai/whisper-large-v3"
 
 dataset:
   source: "pauljunsukhan/throatmic_codered"
-  total_examples: 506
-  train_split: 404
-  test_split: 102
+  total_examples: 604 #Reference only, verify in logs
+  test_split: 124
   seed: 42
   audio:
     sampling_rate: 16000

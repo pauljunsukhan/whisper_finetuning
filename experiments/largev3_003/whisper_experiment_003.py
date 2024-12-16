@@ -727,9 +727,14 @@ class TranscriptionLoggingCallback(TrainerCallback):
             
             # Decode all predictions at once
             transcriptions = self.processor.batch_decode(generated_ids, skip_special_tokens=True)
-            
+            # Compute WER for each example
+            wer_metric = evaluate.load("wer")
+            wers = [
+                wer_metric.compute(predictions=[transcription], references=[reference])
+                for transcription, reference in zip(transcriptions, self.references)
+            ]            
             # Log all examples
-            for idx, (reference, transcription) in enumerate(zip(self.references, transcriptions)):
+            for idx, (reference, transcription, wer) in enumerate(zip(self.references, transcriptions, wers)):
                 # Log to experiment logger
                 self.experiment_logger.save_prediction(reference, transcription)
                 
@@ -738,7 +743,8 @@ class TranscriptionLoggingCallback(TrainerCallback):
                     self.tb_writer.add_text(
                         f'Transcriptions/Example_{idx}',
                         f'**Reference**:\n```\n{reference}\n```\n\n'
-                        f'**Prediction**:\n```\n{transcription}\n```',
+                        f'**Prediction**:\n```\n{transcription}\n```\n\n'
+                        f'**WER**: {wer:.4f}',
                         global_step=state.global_step
                     )
             
@@ -835,7 +841,7 @@ if __name__ == "__main__":
     logger.log("-" * 20)
     logger.log(f"Source: {config.dataset_name}")
     
-    dataset = load_dataset(config.dataset_name)
+    dataset = load_dataset(config.dataset_name, download_mode="force_redownload") #make this a script argument
     total_examples = len(dataset["train"])
     logger.log(f"Total Examples: {total_examples}")
     
@@ -1095,7 +1101,6 @@ if __name__ == "__main__":
     # Evaluate fine-tuned model
     logger.log("\nEvaluating fine-tuned model...")
     finetuned_wer = evaluate_model(model, dataset, processor)
-    logger.save_metric("final_wer", finetuned_wer)
     
     # Save results
     logger.log("\nSaving WER to txt")

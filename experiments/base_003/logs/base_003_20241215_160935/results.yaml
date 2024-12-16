@@ -1,0 +1,2135 @@
+metadata:
+  name: base_003
+  start_time: '2024-12-15 16:09:35'
+timeline:
+- content: ==================================================
+  elapsed: 00:00:00
+  type: message
+- content: EXPERIMENT INITIALIZATION
+  elapsed: 00:00:00
+  type: message
+- content: ==================================================
+  elapsed: 00:00:00
+  type: message
+- content: 'Name: base_003'
+  elapsed: 00:00:00
+  type: message
+- content: 'Description: 600 Examples Whisper Base Train/Test Split Throatmic finetune'
+  elapsed: 00:00:00
+  type: message
+- content: 'Date: 2024-12-15 16:09:36'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    CONFIGURATION:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Training Parameters:'
+  elapsed: 00:00:00
+  type: message
+- content: '  Batch Size: 16'
+  elapsed: 00:00:00
+  type: message
+- content: '  Learning Rate: 5e-06'
+  elapsed: 00:00:00
+  type: message
+- content: '  Max Steps: 800'
+  elapsed: 00:00:00
+  type: message
+- content: '  Warmup Steps: 50'
+  elapsed: 00:00:00
+  type: message
+- content: '  FP16: True'
+  elapsed: 00:00:00
+  type: message
+- content: '  Gradient Checkpointing: False'
+  elapsed: 00:00:00
+  type: message
+- content: '  Max Gradient Norm: 1.0'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    ENVIRONMENT:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Device: cuda'
+  elapsed: 00:00:00
+  type: message
+- content: 'GPU: NVIDIA H100 PCIe'
+  elapsed: 00:00:00
+  type: message
+- content: 'Available GPU Memory: 84.93 GB'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    MODEL:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Base Model: openai/whisper-base'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    DATASET:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Source: pauljunsukhan/throatmic_codered'
+  elapsed: 00:00:00
+  type: message
+- content: 'Total Examples: 506'
+  elapsed: 00:00:02
+  type: message
+- content: '
+
+    Data Split:'
+  elapsed: 00:00:02
+  type: message
+- content: '  Training Examples: 382'
+  elapsed: 00:00:02
+  type: message
+- content: '  Testing Examples: 124'
+  elapsed: 00:00:02
+  type: message
+- content: '  Test Split Ratio: 24.51%'
+  elapsed: 00:00:02
+  type: message
+- content: '
+
+    Audio Processing:'
+  elapsed: 00:00:02
+  type: message
+- content: '  Normalization: True'
+  elapsed: 00:00:02
+  type: message
+- content: '
+
+    Evaluation Settings:'
+  elapsed: 00:00:02
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:02
+  type: message
+- content: '  Strategy: steps'
+  elapsed: 00:00:02
+  type: message
+- content: '  Eval Steps: 25'
+  elapsed: 00:00:02
+  type: message
+- content: '  Save Steps: 25'
+  elapsed: 00:00:02
+  type: message
+- content: '  Logging Steps: 25'
+  elapsed: 00:00:02
+  type: message
+- content: '  Load Best Model: True'
+  elapsed: 00:00:02
+  type: message
+- content: '  Metric: wer'
+  elapsed: 00:00:02
+  type: message
+- content: '  Greater is Better: False'
+  elapsed: 00:00:02
+  type: message
+- content: '  Save Total Limit: 20'
+  elapsed: 00:00:02
+  type: message
+- content: ==================================================
+  elapsed: 00:00:02
+  type: message
+- content: '
+
+    =================================================='
+  elapsed: 00:00:02
+  type: message
+- content: STARTING EXPERIMENT
+  elapsed: 00:00:02
+  type: message
+- content: '==================================================
+
+    '
+  elapsed: 00:00:02
+  type: message
+- content: 'Loading model and processor: openai/whisper-base'
+  elapsed: 00:00:02
+  type: message
+- content: 'Model and processor loaded successfully
+
+    '
+  elapsed: 00:00:04
+  type: message
+- content: Evaluating baseline model...
+  elapsed: 00:00:04
+  type: message
+- content: Evaluating model on test split...
+  elapsed: 00:00:04
+  type: message
+- content: 'Example predictions:'
+  elapsed: 00:00:28
+  type: message
+- elapsed: 00:00:29
+  prediction: ' So, I''m happy to bring my jokes and the best news also, I''m pretty
+    much okay.'
+  reference: Sir Robert Vivian, illegitimate son of the first Baron, was also a prominent
+    soldier.
+  type: prediction
+  wer: 1.0714285714285714
+- elapsed: 00:00:29
+  prediction: ' This family moved to Fatsburg but there is nothing that''s flying
+    at the road.'
+  reference: His family moved to Flatbush, Brooklyn, New York when he was four months
+    old.
+  type: prediction
+  wer: 0.7857142857142857
+- elapsed: 00:00:30
+  prediction: ' As I send a good station point, Francis is already defined.'
+  reference: In addition to group stage and play-off matches, it was awarded the final.
+  type: prediction
+  wer: 1.0
+- elapsed: 00:00:30
+  name: wer
+  type: metric
+  value: 1.3906947100063736
+- elapsed: 00:00:30
+  name: baseline_wer
+  type: metric
+  value: 1.3906947100063736
+- content: '
+
+    Preparing dataset for training...'
+  elapsed: 00:00:30
+  type: message
+- content: Processing train split...
+  elapsed: 00:00:30
+  type: message
+- content: Processed 382 training examples
+  elapsed: 00:00:33
+  type: message
+- content: Processing test split...
+  elapsed: 00:00:33
+  type: message
+- content: Processed 124 test examples
+  elapsed: 00:00:33
+  type: message
+- content: Dataset preparation complete
+  elapsed: 00:00:37
+  type: message
+- content: '
+
+    Training Configuration:'
+  elapsed: 00:00:37
+  type: message
+- content: ==================================================
+  elapsed: 00:00:37
+  type: message
+- content: '
+
+    Core Training Parameters:'
+  elapsed: 00:00:37
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:37
+  type: message
+- content: '  Learning Rate: 5e-06'
+  elapsed: 00:00:37
+  type: message
+- content: '  LR Scheduler: linear'
+  elapsed: 00:00:37
+  type: message
+- content: '  Max Steps: 800'
+  elapsed: 00:00:37
+  type: message
+- content: '  Warmup Steps: 50'
+  elapsed: 00:00:37
+  type: message
+- content: '  Warmup Ratio: 0.00%'
+  elapsed: 00:00:37
+  type: message
+- content: '  Optimizer: AdamW'
+  elapsed: 00:00:37
+  type: message
+- content: '
+
+    Generation Settings:'
+  elapsed: 00:00:37
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:37
+  type: message
+- content: '  Generation Max Length: 225'
+  elapsed: 00:00:37
+  type: message
+- content: '  Predict with Generate: True'
+  elapsed: 00:00:37
+  type: message
+- content: '  Language: en'
+  elapsed: 00:00:37
+  type: message
+- content: '  Task: transcribe'
+  elapsed: 00:00:37
+  type: message
+- content: '  Use Cache: False'
+  elapsed: 00:00:37
+  type: message
+- content: '
+
+    Batch Configuration:'
+  elapsed: 00:00:37
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:37
+  type: message
+- content: '  Per Device Train Batch Size: 16'
+  elapsed: 00:00:37
+  type: message
+- content: '  Per Device Eval Batch Size: 64'
+  elapsed: 00:00:37
+  type: message
+- content: '  Gradient Accumulation Steps: 1'
+  elapsed: 00:00:37
+  type: message
+- content: '  Effective Batch Size: 16'
+  elapsed: 00:00:38
+  type: message
+- content: '
+
+    Regularization:'
+  elapsed: 00:00:38
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:38
+  type: message
+- content: '  Weight Decay: 0.0'
+  elapsed: 00:00:38
+  type: message
+- content: '  Label Smoothing: 0.0'
+  elapsed: 00:00:38
+  type: message
+- content: '  Dropout: 0.0'
+  elapsed: 00:00:38
+  type: message
+- content: '  Max Gradient Norm: 1.0'
+  elapsed: 00:00:38
+  type: message
+- content: '
+
+    Memory Optimization:'
+  elapsed: 00:00:38
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:38
+  type: message
+- content: '  Gradient Checkpointing: False'
+  elapsed: 00:00:38
+  type: message
+- content: '  FP16 Training: True'
+  elapsed: 00:00:38
+  type: message
+- content: '  FP16 Opt Level: O1'
+  elapsed: 00:00:38
+  type: message
+- content: '  FP16 Backend: auto'
+  elapsed: 00:00:38
+  type: message
+- content: '
+
+    Evaluation & Saving Configuration:'
+  elapsed: 00:00:38
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:38
+  type: message
+- content: '  Evaluation Strategy: steps'
+  elapsed: 00:00:38
+  type: message
+- content: '  Eval Steps: 25'
+  elapsed: 00:00:38
+  type: message
+- content: '  Save Steps: 25'
+  elapsed: 00:00:38
+  type: message
+- content: '  Logging Steps: 25'
+  elapsed: 00:00:38
+  type: message
+- content: '  Save Total Limit: 20'
+  elapsed: 00:00:38
+  type: message
+- content: '  Load Best Model at End: True'
+  elapsed: 00:00:38
+  type: message
+- content: '  Metric for Best Model: wer'
+  elapsed: 00:00:38
+  type: message
+- content: '  Greater is Better: False'
+  elapsed: 00:00:38
+  type: message
+- content: '
+
+    Early Stopping Configuration:'
+  elapsed: 00:00:38
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:38
+  type: message
+- content: '  Enabled: True'
+  elapsed: 00:00:38
+  type: message
+- content: '  Patience: 5'
+  elapsed: 00:00:38
+  type: message
+- content: '  Threshold: 0.0001'
+  elapsed: 00:00:38
+  type: message
+- content: '
+
+    Output & Logging Configuration:'
+  elapsed: 00:00:38
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:38
+  type: message
+- content: '  Output Directory: /home/ubuntu/H100WhisperFineTune/whisper_finetuning/experiments/base_003/output/base_003_20241215_161013'
+  elapsed: 00:00:38
+  type: message
+- content: '  Logging Directory: /home/ubuntu/H100WhisperFineTune/whisper_finetuning/experiments/base_003/output/base_003_20241215_161013/runs/Dec15_16-10-13_209-20-159-77'
+  elapsed: 00:00:38
+  type: message
+- content: '  Report To: [''tensorboard'']'
+  elapsed: 00:00:38
+  type: message
+- content: '  Push to Hub: False'
+  elapsed: 00:00:38
+  type: message
+- content: '
+
+    Monitoring Configuration:'
+  elapsed: 00:00:38
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:38
+  type: message
+- content: '  Gradient History Size: 1000'
+  elapsed: 00:00:38
+  type: message
+- content: '  Significant Change Threshold: 1.0'
+  elapsed: 00:00:38
+  type: message
+- content: '  Log Top N Gradients: 5'
+  elapsed: 00:00:38
+  type: message
+- content: ==================================================
+  elapsed: 00:00:38
+  type: message
+- content: 'Selected example indices for tracking: [18, 42, 36, 76, 53]'
+  elapsed: 00:00:39
+  type: message
+- content: Initialized TensorBoard writer
+  elapsed: 00:00:39
+  type: message
+- content: '
+
+    Starting fine-tuning...'
+  elapsed: 00:00:39
+  type: message
+- content: '
+
+    Training Metrics - Step 25 (Epoch 1.04):'
+  elapsed: 00:01:29
+  type: message
+- elapsed: 00:01:29
+  name: train_loss
+  type: metric
+  value: 7.7174
+- elapsed: 00:01:29
+  name: train_grad_norm
+  type: metric
+  value: 56.43538284301758
+- elapsed: 00:01:29
+  name: train_learning_rate
+  type: metric
+  value: 2.1000000000000002e-06
+- elapsed: 00:01:29
+  name: train_epoch
+  type: metric
+  value: 1.0416666666666667
+- content: '
+
+    Training Metrics - Step 25 (Epoch 1.04):'
+  elapsed: 00:01:54
+  type: message
+- elapsed: 00:01:54
+  name: train_eval_loss
+  type: metric
+  value: 6.785283088684082
+- elapsed: 00:01:54
+  name: train_eval_wer
+  type: metric
+  value: 1.1931166347992352
+- elapsed: 00:01:54
+  name: train_eval_runtime
+  type: metric
+  value: 24.8237
+- elapsed: 00:01:54
+  name: train_eval_samples_per_second
+  type: metric
+  value: 4.995
+- elapsed: 00:01:54
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.081
+- elapsed: 00:01:54
+  name: train_epoch
+  type: metric
+  value: 1.0416666666666667
+- content: '
+
+    Transcription Examples (Step 25):'
+  elapsed: 00:01:54
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:01:54
+  type: message
+- elapsed: 00:01:54
+  prediction: ' This time is adopted in a home by a large part by my wife and sister.'
+  reference: This standard is adopted in whole, or in large part, by many countries.
+  type: prediction
+  wer: 0.7692307692307693
+- elapsed: 00:01:55
+  prediction: ' From the first angle, put this down, so put the ruler as to how to
+    put the fit it.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+  wer: 1.2857142857142858
+- elapsed: 00:01:55
+  prediction: ' The dog I skipped over his nose, mugs and overall mouths like they''re
+    so casual.'
+  reference: The landscape covers meadows, woods, and over a mile of Lake Michigan
+    shoreline.
+  type: prediction
+  wer: 1.0769230769230769
+- elapsed: 00:01:56
+  prediction: ' The dull and electric petrol has a brown head, so it''s drink and
+    milk.'
+  reference: The adult Antarctic petrel has a brown head, sides, throat, and back.
+  type: prediction
+  wer: 0.6666666666666666
+- elapsed: 00:01:57
+  prediction: ' The channel site does you as first, which is a long, as if the word
+    is, I''m going to look at the sword.'
+  reference: Having said this he rushed towards Kritavarma and severed his head with
+    a sword.
+  type: prediction
+  wer: 1.5714285714285714
+- content: '
+
+    Training Metrics - Step 50 (Epoch 2.08):'
+  elapsed: 00:02:47
+  type: message
+- elapsed: 00:02:47
+  name: train_loss
+  type: metric
+  value: 5.0044
+- elapsed: 00:02:48
+  name: train_grad_norm
+  type: metric
+  value: 34.128936767578125
+- elapsed: 00:02:48
+  name: train_learning_rate
+  type: metric
+  value: 4.5e-06
+- elapsed: 00:02:48
+  name: train_epoch
+  type: metric
+  value: 2.0833333333333335
+- content: '
+
+    Training Metrics - Step 50 (Epoch 2.08):'
+  elapsed: 00:03:06
+  type: message
+- elapsed: 00:03:07
+  name: train_eval_loss
+  type: metric
+  value: 3.5286943912506104
+- elapsed: 00:03:07
+  name: train_eval_wer
+  type: metric
+  value: 1.0917782026768643
+- elapsed: 00:03:07
+  name: train_eval_runtime
+  type: metric
+  value: 18.8752
+- elapsed: 00:03:07
+  name: train_eval_samples_per_second
+  type: metric
+  value: 6.569
+- elapsed: 00:03:07
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.106
+- elapsed: 00:03:07
+  name: train_epoch
+  type: metric
+  value: 2.0833333333333335
+- content: '
+
+    Transcription Examples (Step 50):'
+  elapsed: 00:03:07
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:03:07
+  type: message
+- elapsed: 00:03:07
+  prediction: ' The disdangers adopted in home were a large part of my life in my
+    country''s space.'
+  reference: This standard is adopted in whole, or in large part, by many countries.
+  type: prediction
+  wer: 1.0769230769230769
+- elapsed: 00:03:08
+  prediction: ' Drummer of his own plays is now spoken to Ruling as he has to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+  wer: 0.8571428571428571
+- elapsed: 00:03:08
+  prediction: ' Still last year, the covers were also known as the mids and overall
+    models like their shaggy eyes for the latter.'
+  reference: The landscape covers meadows, woods, and over a mile of Lake Michigan
+    shoreline.
+  type: prediction
+  wer: 1.4615384615384615
+- elapsed: 00:03:09
+  prediction: ' The adult and ortyp petrol has a brown head, so it''s drink and milk.'
+  reference: The adult Antarctic petrel has a brown head, sides, throat, and back.
+  type: prediction
+  wer: 0.5833333333333334
+- elapsed: 00:03:10
+  prediction: ' Kermel''s like the zero source, Krikson Mourang, a severe word, has
+    been used with his sword.'
+  reference: Having said this he rushed towards Kritavarma and severed his head with
+    a sword.
+  type: prediction
+  wer: 1.0
+- content: '
+
+    Training Metrics - Step 75 (Epoch 3.12):'
+  elapsed: 00:04:08
+  type: message
+- elapsed: 00:04:08
+  name: train_loss
+  type: metric
+  value: 2.196
+- elapsed: 00:04:08
+  name: train_grad_norm
+  type: metric
+  value: 18.658903121948242
+- elapsed: 00:04:08
+  name: train_learning_rate
+  type: metric
+  value: 4.866666666666667e-06
+- elapsed: 00:04:08
+  name: train_epoch
+  type: metric
+  value: 3.125
+- content: '
+
+    Training Metrics - Step 75 (Epoch 3.12):'
+  elapsed: 00:04:37
+  type: message
+- elapsed: 00:04:37
+  name: train_eval_loss
+  type: metric
+  value: 1.7237521409988403
+- elapsed: 00:04:37
+  name: train_eval_wer
+  type: metric
+  value: 1.4748247291268324
+- elapsed: 00:04:37
+  name: train_eval_runtime
+  type: metric
+  value: 28.8174
+- elapsed: 00:04:37
+  name: train_eval_samples_per_second
+  type: metric
+  value: 4.303
+- elapsed: 00:04:37
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.069
+- elapsed: 00:04:37
+  name: train_epoch
+  type: metric
+  value: 3.125
+- content: '
+
+    Transcription Examples (Step 75):'
+  elapsed: 00:04:38
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:04:38
+  type: message
+- elapsed: 00:04:38
+  prediction: ' The disdustenders adopted and home are large part of many countries.'
+  reference: This standard is adopted in whole, or in large part, by many countries.
+  type: prediction
+  wer: 0.6923076923076923
+- elapsed: 00:04:39
+  prediction: ' Dramalop is an employee''s knowledge book and knows what can be realized
+    to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+  wer: 0.7857142857142857
+- elapsed: 00:04:39
+  prediction: ' The Delanxi of cameras, cameras, windows, windows, windows, windows,
+    windows and over-lives, like the Meshik and Shlory Line.'
+  reference: The landscape covers meadows, woods, and over a mile of Lake Michigan
+    shoreline.
+  type: prediction
+  wer: 1.2307692307692308
+- elapsed: 00:04:40
+  prediction: ' The adult and antique petrol has a brown head, sides, strength and
+    neck.'
+  reference: The adult Antarctic petrel has a brown head, sides, throat, and back.
+  type: prediction
+  wer: 0.4166666666666667
+- elapsed: 00:04:40
+  prediction: " Kermel's headmaster of the Erosh\xF6rskrishvich Kritsson-Malant, a\
+    \ severe head, has planned with his sword."
+  reference: Having said this he rushed towards Kritavarma and severed his head with
+    a sword.
+  type: prediction
+  wer: 0.8571428571428571
+- content: '
+
+    Training Metrics - Step 100 (Epoch 4.17):'
+  elapsed: 00:05:36
+  type: message
+- elapsed: 00:05:36
+  name: train_loss
+  type: metric
+  value: 1.2174
+- elapsed: 00:05:36
+  name: train_grad_norm
+  type: metric
+  value: 13.348905563354492
+- elapsed: 00:05:36
+  name: train_learning_rate
+  type: metric
+  value: 4.7e-06
+- elapsed: 00:05:36
+  name: train_epoch
+  type: metric
+  value: 4.166666666666667
+- content: '
+
+    Training Metrics - Step 100 (Epoch 4.17):'
+  elapsed: 00:05:59
+  type: message
+- elapsed: 00:05:59
+  name: train_eval_loss
+  type: metric
+  value: 1.4056117534637451
+- elapsed: 00:05:59
+  name: train_eval_wer
+  type: metric
+  value: 0.8935627788400254
+- elapsed: 00:05:59
+  name: train_eval_runtime
+  type: metric
+  value: 22.7774
+- elapsed: 00:05:59
+  name: train_eval_samples_per_second
+  type: metric
+  value: 5.444
+- elapsed: 00:05:59
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.088
+- elapsed: 00:05:59
+  name: train_epoch
+  type: metric
+  value: 4.166666666666667
+- content: '
+
+    Transcription Examples (Step 100):'
+  elapsed: 00:05:59
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:05:59
+  type: message
+- elapsed: 00:05:59
+  prediction: ' The stenders adopted and home are large part of many countries.'
+  reference: This standard is adopted in whole, or in large part, by many countries.
+  type: prediction
+  wer: 0.6923076923076923
+- elapsed: 00:06:00
+  prediction: ' Dramak is an athlete whose name is now spoken realized to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+  wer: 0.7142857142857143
+- elapsed: 00:06:01
+  prediction: ' The Delanciut covers manoevets, voids and over a mile of Lake Michigan
+    shoreline.'
+  reference: The landscape covers meadows, woods, and over a mile of Lake Michigan
+    shoreline.
+  type: prediction
+  wer: 0.23076923076923078
+- elapsed: 00:06:01
+  prediction: ' The adult and antique petrol has a brown head, sides, strength and
+    neck.'
+  reference: The adult Antarctic petrel has a brown head, sides, throat, and back.
+  type: prediction
+  wer: 0.4166666666666667
+- elapsed: 00:06:02
+  prediction: ' Kermit has not that busy rush for his kids to come on out and severe
+    his plan with the sword.'
+  reference: Having said this he rushed towards Kritavarma and severed his head with
+    a sword.
+  type: prediction
+  wer: 1.1428571428571428
+- content: '
+
+    Training Metrics - Step 125 (Epoch 5.21):'
+  elapsed: 00:06:51
+  type: message
+- elapsed: 00:06:52
+  name: train_loss
+  type: metric
+  value: 0.8775
+- elapsed: 00:06:52
+  name: train_grad_norm
+  type: metric
+  value: 13.598255157470703
+- elapsed: 00:06:52
+  name: train_learning_rate
+  type: metric
+  value: 4.533333333333334e-06
+- elapsed: 00:06:52
+  name: train_epoch
+  type: metric
+  value: 5.208333333333333
+- content: '
+
+    Training Metrics - Step 125 (Epoch 5.21):'
+  elapsed: 00:07:21
+  type: message
+- elapsed: 00:07:21
+  name: train_eval_loss
+  type: metric
+  value: 1.2913298606872559
+- elapsed: 00:07:21
+  name: train_eval_wer
+  type: metric
+  value: 0.8884639898024219
+- elapsed: 00:07:21
+  name: train_eval_runtime
+  type: metric
+  value: 29.2072
+- elapsed: 00:07:21
+  name: train_eval_samples_per_second
+  type: metric
+  value: 4.246
+- elapsed: 00:07:21
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.068
+- elapsed: 00:07:21
+  name: train_epoch
+  type: metric
+  value: 5.208333333333333
+- content: '
+
+    Transcription Examples (Step 125):'
+  elapsed: 00:07:21
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:07:21
+  type: message
+- elapsed: 00:07:22
+  prediction: ' The stenders adopted and home are in large part by many countries.'
+  reference: This standard is adopted in whole, or in large part, by many countries.
+  type: prediction
+  wer: 0.5384615384615384
+- elapsed: 00:07:22
+  prediction: ' Dremelock is not pleased as the most quickly realized he had to be
+    defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+  wer: 0.35714285714285715
+- elapsed: 00:07:23
+  prediction: ' The landscape covers manoeuvrave, speeds and over a mile of Lake Michigan
+    shoreline.'
+  reference: The landscape covers meadows, woods, and over a mile of Lake Michigan
+    shoreline.
+  type: prediction
+  wer: 0.15384615384615385
+- elapsed: 00:07:24
+  prediction: ' The adult and Arctic petrol has a brown head, sides, throat and neck.'
+  reference: The adult Antarctic petrel has a brown head, sides, throat, and back.
+  type: prediction
+  wer: 0.4166666666666667
+- elapsed: 00:07:24
+  prediction: ' Kermit has not yet been as he rushes for his kids to come on out and
+    secured his plan with the sword.'
+  reference: Having said this he rushed towards Kritavarma and severed his head with
+    a sword.
+  type: prediction
+  wer: 1.2142857142857142
+- content: '
+
+    Training Metrics - Step 150 (Epoch 6.25):'
+  elapsed: 00:08:17
+  type: message
+- elapsed: 00:08:17
+  name: train_loss
+  type: metric
+  value: 0.6133
+- elapsed: 00:08:17
+  name: train_grad_norm
+  type: metric
+  value: 9.688864707946777
+- elapsed: 00:08:17
+  name: train_learning_rate
+  type: metric
+  value: 4.366666666666667e-06
+- elapsed: 00:08:17
+  name: train_epoch
+  type: metric
+  value: 6.25
+- content: '
+
+    Training Metrics - Step 150 (Epoch 6.25):'
+  elapsed: 00:08:44
+  type: message
+- elapsed: 00:08:44
+  name: train_eval_loss
+  type: metric
+  value: 1.238790512084961
+- elapsed: 00:08:45
+  name: train_eval_wer
+  type: metric
+  value: 0.9145952836201402
+- elapsed: 00:08:45
+  name: train_eval_runtime
+  type: metric
+  value: 26.9968
+- elapsed: 00:08:45
+  name: train_eval_samples_per_second
+  type: metric
+  value: 4.593
+- elapsed: 00:08:45
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.074
+- elapsed: 00:08:45
+  name: train_epoch
+  type: metric
+  value: 6.25
+- content: '
+
+    Transcription Examples (Step 150):'
+  elapsed: 00:08:45
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:08:45
+  type: message
+- elapsed: 00:08:45
+  prediction: ' The stenders adopted and home are in large part by many countries.'
+  reference: This standard is adopted in whole, or in large part, by many countries.
+  type: prediction
+  wer: 0.5384615384615384
+- elapsed: 00:08:46
+  prediction: ' Dremelock is not pleased as the most quickly realized he had to be
+    defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+  wer: 0.35714285714285715
+- elapsed: 00:08:46
+  prediction: ' The landscape covers the manoeuvres, fluids, and over a mile of Lake
+    Michigan shoreline.'
+  reference: The landscape covers meadows, woods, and over a mile of Lake Michigan
+    shoreline.
+  type: prediction
+  wer: 0.23076923076923078
+- elapsed: 00:08:47
+  prediction: ' The adult and Arctic petrol has a brown head, sides, throat and neck.'
+  reference: The adult Antarctic petrel has a brown head, sides, throat, and back.
+  type: prediction
+  wer: 0.4166666666666667
+- elapsed: 00:08:47
+  prediction: ' Kermit has not yet been as he rushes for his criticism on the island,
+    as he feared his plan would be planned.'
+  reference: Having said this he rushed towards Kritavarma and severed his head with
+    a sword.
+  type: prediction
+  wer: 1.4285714285714286
+- content: '
+
+    Training Metrics - Step 175 (Epoch 7.29):'
+  elapsed: 00:09:40
+  type: message
+- elapsed: 00:09:40
+  name: train_loss
+  type: metric
+  value: 0.479
+- elapsed: 00:09:40
+  name: train_grad_norm
+  type: metric
+  value: 8.247172355651855
+- elapsed: 00:09:40
+  name: train_learning_rate
+  type: metric
+  value: 4.2000000000000004e-06
+- elapsed: 00:09:40
+  name: train_epoch
+  type: metric
+  value: 7.291666666666667
+- content: '
+
+    Training Metrics - Step 175 (Epoch 7.29):'
+  elapsed: 00:10:06
+  type: message
+- elapsed: 00:10:06
+  name: train_eval_loss
+  type: metric
+  value: 1.2146881818771362
+- elapsed: 00:10:06
+  name: train_eval_wer
+  type: metric
+  value: 0.7578075207138305
+- elapsed: 00:10:06
+  name: train_eval_runtime
+  type: metric
+  value: 25.8822
+- elapsed: 00:10:06
+  name: train_eval_samples_per_second
+  type: metric
+  value: 4.791
+- elapsed: 00:10:06
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.077
+- elapsed: 00:10:06
+  name: train_epoch
+  type: metric
+  value: 7.291666666666667
+- content: '
+
+    Transcription Examples (Step 175):'
+  elapsed: 00:10:07
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:10:07
+  type: message
+- elapsed: 00:10:07
+  prediction: ' The stenders adopted and home are in large parts of many countries.'
+  reference: This standard is adopted in whole, or in large part, by many countries.
+  type: prediction
+  wer: 0.6153846153846154
+- elapsed: 00:10:08
+  prediction: ' Dremog is not pleased as the most quickly realized he had to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+  wer: 0.35714285714285715
+- elapsed: 00:10:08
+  prediction: ' The landscape covers the manoeuvres, fluids, and over a mile of Lake
+    Michigan shoreline.'
+  reference: The landscape covers meadows, woods, and over a mile of Lake Michigan
+    shoreline.
+  type: prediction
+  wer: 0.23076923076923078
+- elapsed: 00:10:09
+  prediction: ' The adult and Arctic petrol has a brown head, sides, throat and back.'
+  reference: The adult Antarctic petrel has a brown head, sides, throat, and back.
+  type: prediction
+  wer: 0.3333333333333333
+- elapsed: 00:10:10
+  prediction: ' Kermit has not yet been as he rushed to his first critical development,
+    as he feared his plan would be planned.'
+  reference: Having said this he rushed towards Kritavarma and severed his head with
+    a sword.
+  type: prediction
+  wer: 1.2857142857142858
+- content: '
+
+    Training Metrics - Step 200 (Epoch 8.33):'
+  elapsed: 00:11:09
+  type: message
+- elapsed: 00:11:09
+  name: train_loss
+  type: metric
+  value: 0.3212
+- elapsed: 00:11:09
+  name: train_grad_norm
+  type: metric
+  value: 7.517457962036133
+- elapsed: 00:11:09
+  name: train_learning_rate
+  type: metric
+  value: 4.033333333333333e-06
+- elapsed: 00:11:09
+  name: train_epoch
+  type: metric
+  value: 8.333333333333334
+- content: '
+
+    Training Metrics - Step 200 (Epoch 8.33):'
+  elapsed: 00:11:32
+  type: message
+- elapsed: 00:11:32
+  name: train_eval_loss
+  type: metric
+  value: 1.21592116355896
+- elapsed: 00:11:32
+  name: train_eval_wer
+  type: metric
+  value: 0.7539834289356278
+- elapsed: 00:11:32
+  name: train_eval_runtime
+  type: metric
+  value: 22.7951
+- elapsed: 00:11:32
+  name: train_eval_samples_per_second
+  type: metric
+  value: 5.44
+- elapsed: 00:11:32
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.088
+- elapsed: 00:11:32
+  name: train_epoch
+  type: metric
+  value: 8.333333333333334
+- content: '
+
+    Transcription Examples (Step 200):'
+  elapsed: 00:11:32
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:11:32
+  type: message
+- elapsed: 00:11:33
+  prediction: ' The stenders adopted and home are in large part of many countries.'
+  reference: This standard is adopted in whole, or in large part, by many countries.
+  type: prediction
+  wer: 0.6153846153846154
+- elapsed: 00:11:33
+  prediction: ' Dremog is not pleased as the most quickly realized he had to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+  wer: 0.35714285714285715
+- elapsed: 00:11:34
+  prediction: ' The landscape covers the land, covers the land, speeds and over a
+    mile of Lake Michigan shoreline.'
+  reference: The landscape covers meadows, woods, and over a mile of Lake Michigan
+    shoreline.
+  type: prediction
+  wer: 0.46153846153846156
+- elapsed: 00:11:34
+  prediction: ' The adult and Arctic petrol has a brown head, sides, throat and back.'
+  reference: The adult Antarctic petrel has a brown head, sides, throat, and back.
+  type: prediction
+  wer: 0.3333333333333333
+- elapsed: 00:11:35
+  prediction: ' Kermit has not yet been as he rushes for his critical development,
+    as he feared his plan would be planned.'
+  reference: Having said this he rushed towards Kritavarma and severed his head with
+    a sword.
+  type: prediction
+  wer: 1.2857142857142858
+- content: '
+
+    Training Metrics - Step 225 (Epoch 9.38):'
+  elapsed: 00:12:28
+  type: message
+- elapsed: 00:12:28
+  name: train_loss
+  type: metric
+  value: 0.2555
+- elapsed: 00:12:28
+  name: train_grad_norm
+  type: metric
+  value: 5.525815963745117
+- elapsed: 00:12:28
+  name: train_learning_rate
+  type: metric
+  value: 3.866666666666667e-06
+- elapsed: 00:12:28
+  name: train_epoch
+  type: metric
+  value: 9.375
+- content: '
+
+    Training Metrics - Step 225 (Epoch 9.38):'
+  elapsed: 00:12:52
+  type: message
+- elapsed: 00:12:52
+  name: train_eval_loss
+  type: metric
+  value: 1.2159616947174072
+- elapsed: 00:12:52
+  name: train_eval_wer
+  type: metric
+  value: 0.651370299553856
+- elapsed: 00:12:52
+  name: train_eval_runtime
+  type: metric
+  value: 23.365
+- elapsed: 00:12:52
+  name: train_eval_samples_per_second
+  type: metric
+  value: 5.307
+- elapsed: 00:12:52
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.086
+- elapsed: 00:12:52
+  name: train_epoch
+  type: metric
+  value: 9.375
+- content: '
+
+    Transcription Examples (Step 225):'
+  elapsed: 00:12:52
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:12:52
+  type: message
+- elapsed: 00:12:52
+  prediction: ' The stenders adopted and home are in large parts of many countries.'
+  reference: This standard is adopted in whole, or in large part, by many countries.
+  type: prediction
+  wer: 0.6153846153846154
+- elapsed: 00:12:53
+  prediction: ' Drillmark is not pleased as the most quickly realized he has to be
+    defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+  wer: 0.42857142857142855
+- elapsed: 00:12:54
+  prediction: ' The landscape covers the land, covers the land, swedds, and over a
+    mile of Lake Michigan shoreline.'
+  reference: The landscape covers meadows, woods, and over a mile of Lake Michigan
+    shoreline.
+  type: prediction
+  wer: 0.46153846153846156
+- elapsed: 00:12:54
+  prediction: ' The adult and Arctic petrol has a brown head, sides, throat and back.'
+  reference: The adult Antarctic petrel has a brown head, sides, throat, and back.
+  type: prediction
+  wer: 0.3333333333333333
+- elapsed: 00:12:55
+  prediction: ' Having asked that does he rush for his kids to come on out and severe
+    his plan with the sword.'
+  reference: Having said this he rushed towards Kritavarma and severed his head with
+    a sword.
+  type: prediction
+  wer: 1.0
+- content: '
+
+    Training Metrics - Step 250 (Epoch 10.42):'
+  elapsed: 00:13:45
+  type: message
+- elapsed: 00:13:45
+  name: train_loss
+  type: metric
+  value: 0.1581
+- elapsed: 00:13:45
+  name: train_grad_norm
+  type: metric
+  value: 3.6905100345611572
+- elapsed: 00:13:45
+  name: train_learning_rate
+  type: metric
+  value: 3.7e-06
+- elapsed: 00:13:46
+  name: train_epoch
+  type: metric
+  value: 10.416666666666666
+- content: '
+
+    Training Metrics - Step 250 (Epoch 10.42):'
+  elapsed: 00:14:09
+  type: message
+- elapsed: 00:14:09
+  name: train_eval_loss
+  type: metric
+  value: 1.2200162410736084
+- elapsed: 00:14:09
+  name: train_eval_wer
+  type: metric
+  value: 0.8495857233906947
+- elapsed: 00:14:09
+  name: train_eval_runtime
+  type: metric
+  value: 22.9811
+- elapsed: 00:14:09
+  name: train_eval_samples_per_second
+  type: metric
+  value: 5.396
+- elapsed: 00:14:09
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.087
+- elapsed: 00:14:09
+  name: train_epoch
+  type: metric
+  value: 10.416666666666666
+- content: '
+
+    Transcription Examples (Step 250):'
+  elapsed: 00:14:09
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:14:09
+  type: message
+- elapsed: 00:14:10
+  prediction: ' The standards adopted and adopted this place are in large parts of
+    many countries.'
+  reference: This standard is adopted in whole, or in large part, by many countries.
+  type: prediction
+  wer: 0.6923076923076923
+- elapsed: 00:14:11
+  prediction: ' Dremog is not pleased, but his name is quickly realized he has to
+    be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+  wer: 0.42857142857142855
+- elapsed: 00:14:12
+  prediction: ' The landscape covers the land, covers the land, and the land, and
+    the land, and the land, and the land, and the land, and the land, and the land,
+    and the land, and the land, and the land, and the land, and the land, and the
+    land, and the land, and the land, and the land, and the land, and the land, and
+    the land, and the land, and the land, and the land, and the land, and the land,
+    and the land, and the land, and the land, and the land, and the land, and the
+    land, and the land, and the land, and the land, and the land, and the land, and
+    the land, and the land, and the land, and the land, and the land, and the land,
+    and the land, and the land, and the land, and the land, and the land, and the
+    land, and the land, and the land, and the land, and the land, and the land, and
+    the land'
+  reference: The landscape covers meadows, woods, and over a mile of Lake Michigan
+    shoreline.
+  type: prediction
+  wer: 12.538461538461538
+- elapsed: 00:14:12
+  prediction: ' The adult and Arctic petrol has a brown head, sides, throat and back.'
+  reference: The adult Antarctic petrel has a brown head, sides, throat, and back.
+  type: prediction
+  wer: 0.3333333333333333
+- elapsed: 00:14:13
+  prediction: ' Having said that, does he rush for his kids to come on out and severe
+    his plan with the sword.'
+  reference: Having said this he rushed towards Kritavarma and severed his head with
+    a sword.
+  type: prediction
+  wer: 0.9285714285714286
+- content: '
+
+    Training Metrics - Step 275 (Epoch 11.46):'
+  elapsed: 00:15:05
+  type: message
+- elapsed: 00:15:05
+  name: train_loss
+  type: metric
+  value: 0.1231
+- elapsed: 00:15:05
+  name: train_grad_norm
+  type: metric
+  value: 4.38006591796875
+- elapsed: 00:15:05
+  name: train_learning_rate
+  type: metric
+  value: 3.5333333333333335e-06
+- elapsed: 00:15:05
+  name: train_epoch
+  type: metric
+  value: 11.458333333333334
+- content: '
+
+    Training Metrics - Step 275 (Epoch 11.46):'
+  elapsed: 00:15:28
+  type: message
+- elapsed: 00:15:28
+  name: train_eval_loss
+  type: metric
+  value: 1.2272124290466309
+- elapsed: 00:15:28
+  name: train_eval_wer
+  type: metric
+  value: 0.7253027405991077
+- elapsed: 00:15:28
+  name: train_eval_runtime
+  type: metric
+  value: 22.9831
+- elapsed: 00:15:28
+  name: train_eval_samples_per_second
+  type: metric
+  value: 5.395
+- elapsed: 00:15:28
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.087
+- elapsed: 00:15:28
+  name: train_epoch
+  type: metric
+  value: 11.458333333333334
+- content: '
+
+    Transcription Examples (Step 275):'
+  elapsed: 00:15:28
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:15:28
+  type: message
+- elapsed: 00:15:29
+  prediction: ' The standards adopted and adopted this place were in large part by
+    many countries.'
+  reference: This standard is adopted in whole, or in large part, by many countries.
+  type: prediction
+  wer: 0.6153846153846154
+- elapsed: 00:15:29
+  prediction: ' Drillmark is not pleased, but his nails quickly realized he had to
+    be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+  wer: 0.2857142857142857
+- elapsed: 00:15:30
+  prediction: ' The landscape covers the land, covers the land, speeds and over a
+    mile of Lake Michigan shoreline.'
+  reference: The landscape covers meadows, woods, and over a mile of Lake Michigan
+    shoreline.
+  type: prediction
+  wer: 0.46153846153846156
+- elapsed: 00:15:31
+  prediction: ' The adult and Arctic petrol has a brown head, sides, throat and back.'
+  reference: The adult Antarctic petrel has a brown head, sides, throat, and back.
+  type: prediction
+  wer: 0.3333333333333333
+- elapsed: 00:15:32
+  prediction: ' Having said that, does he rush for his kids to come on out and severe
+    his plan with the sword.'
+  reference: Having said this he rushed towards Kritavarma and severed his head with
+    a sword.
+  type: prediction
+  wer: 0.9285714285714286
+- content: '
+
+    Training Metrics - Step 300 (Epoch 12.50):'
+  elapsed: 00:16:21
+  type: message
+- elapsed: 00:16:21
+  name: train_loss
+  type: metric
+  value: 0.0789
+- elapsed: 00:16:21
+  name: train_grad_norm
+  type: metric
+  value: 2.072979211807251
+- elapsed: 00:16:22
+  name: train_learning_rate
+  type: metric
+  value: 3.366666666666667e-06
+- elapsed: 00:16:22
+  name: train_epoch
+  type: metric
+  value: 12.5
+- content: '
+
+    Training Metrics - Step 300 (Epoch 12.50):'
+  elapsed: 00:16:46
+  type: message
+- elapsed: 00:16:46
+  name: train_eval_loss
+  type: metric
+  value: 1.2433841228485107
+- elapsed: 00:16:46
+  name: train_eval_wer
+  type: metric
+  value: 0.727214786488209
+- elapsed: 00:16:46
+  name: train_eval_runtime
+  type: metric
+  value: 24.0154
+- elapsed: 00:16:46
+  name: train_eval_samples_per_second
+  type: metric
+  value: 5.163
+- elapsed: 00:16:46
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.083
+- elapsed: 00:16:46
+  name: train_epoch
+  type: metric
+  value: 12.5
+- content: '
+
+    Transcription Examples (Step 300):'
+  elapsed: 00:16:46
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:16:46
+  type: message
+- elapsed: 00:16:47
+  prediction: ' The standards adopted and adopted this place were in large part by
+    many countries.'
+  reference: This standard is adopted in whole, or in large part, by many countries.
+  type: prediction
+  wer: 0.6153846153846154
+- elapsed: 00:16:47
+  prediction: ' Drillmark is not pleased, but his nails quickly realized he had to
+    be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+  wer: 0.2857142857142857
+- elapsed: 00:16:48
+  prediction: ' The landscape covers the land, covers the land, speeds and over a
+    mile of lake Michigan shoreline.'
+  reference: The landscape covers meadows, woods, and over a mile of Lake Michigan
+    shoreline.
+  type: prediction
+  wer: 0.5384615384615384
+- elapsed: 00:16:48
+  prediction: ' The adult and Arctic petrol has a brown head, sides, throat and back.'
+  reference: The adult Antarctic petrel has a brown head, sides, throat, and back.
+  type: prediction
+  wer: 0.3333333333333333
+- elapsed: 00:16:49
+  prediction: ' Having said that, does he rush for his kids to come on out, a severe
+    his plan with the sword.'
+  reference: Having said this he rushed towards Kritavarma and severed his head with
+    a sword.
+  type: prediction
+  wer: 1.0
+- content: '
+
+    Training Metrics - Step 325 (Epoch 13.54):'
+  elapsed: 00:17:44
+  type: message
+- elapsed: 00:17:44
+  name: train_loss
+  type: metric
+  value: 0.0597
+- elapsed: 00:17:44
+  name: train_grad_norm
+  type: metric
+  value: 2.584239959716797
+- elapsed: 00:17:44
+  name: train_learning_rate
+  type: metric
+  value: 3.2000000000000003e-06
+- elapsed: 00:17:44
+  name: train_epoch
+  type: metric
+  value: 13.541666666666666
+- content: '
+
+    Training Metrics - Step 325 (Epoch 13.54):'
+  elapsed: 00:18:07
+  type: message
+- elapsed: 00:18:07
+  name: train_eval_loss
+  type: metric
+  value: 1.2509217262268066
+- elapsed: 00:18:07
+  name: train_eval_wer
+  type: metric
+  value: 0.6481835564053537
+- elapsed: 00:18:07
+  name: train_eval_runtime
+  type: metric
+  value: 22.7902
+- elapsed: 00:18:07
+  name: train_eval_samples_per_second
+  type: metric
+  value: 5.441
+- elapsed: 00:18:07
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.088
+- elapsed: 00:18:07
+  name: train_epoch
+  type: metric
+  value: 13.541666666666666
+- content: '
+
+    Transcription Examples (Step 325):'
+  elapsed: 00:18:07
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:18:07
+  type: message
+- elapsed: 00:18:08
+  prediction: ' The standards adopted and adopted this place are in large part by
+    many countries.'
+  reference: This standard is adopted in whole, or in large part, by many countries.
+  type: prediction
+  wer: 0.6153846153846154
+- elapsed: 00:18:08
+  prediction: ' Drillmark is not pleased with his name, but his name is quickly realized
+    he has to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+  wer: 0.7142857142857143
+- elapsed: 00:18:09
+  prediction: ' The landscape covers the land, covers the land, and over a mile of
+    light-to-missile shoreline.'
+  reference: The landscape covers meadows, woods, and over a mile of Lake Michigan
+    shoreline.
+  type: prediction
+  wer: 0.5384615384615384
+- elapsed: 00:18:09
+  prediction: ' The adult and Arctic petrol has a brown head, sides, throat and back.'
+  reference: The adult Antarctic petrel has a brown head, sides, throat, and back.
+  type: prediction
+  wer: 0.3333333333333333
+- elapsed: 00:18:10
+  prediction: ' Having said that, does he rush for his kids to come on out, a severe
+    his plan with the sword.'
+  reference: Having said this he rushed towards Kritavarma and severed his head with
+    a sword.
+  type: prediction
+  wer: 1.0
+- content: '
+
+    Training Metrics - Step 350 (Epoch 14.58):'
+  elapsed: 00:19:03
+  type: message
+- elapsed: 00:19:03
+  name: train_loss
+  type: metric
+  value: 0.0389
+- elapsed: 00:19:03
+  name: train_grad_norm
+  type: metric
+  value: 1.3433313369750977
+- elapsed: 00:19:03
+  name: train_learning_rate
+  type: metric
+  value: 3.0333333333333337e-06
+- elapsed: 00:19:03
+  name: train_epoch
+  type: metric
+  value: 14.583333333333334
+- content: '
+
+    Training Metrics - Step 350 (Epoch 14.58):'
+  elapsed: 00:19:26
+  type: message
+- elapsed: 00:19:27
+  name: train_eval_loss
+  type: metric
+  value: 1.2600317001342773
+- elapsed: 00:19:27
+  name: train_eval_wer
+  type: metric
+  value: 0.6704907584448694
+- elapsed: 00:19:27
+  name: train_eval_runtime
+  type: metric
+  value: 22.9959
+- elapsed: 00:19:27
+  name: train_eval_samples_per_second
+  type: metric
+  value: 5.392
+- elapsed: 00:19:27
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.087
+- elapsed: 00:19:27
+  name: train_epoch
+  type: metric
+  value: 14.583333333333334
+- content: '
+
+    Transcription Examples (Step 350):'
+  elapsed: 00:19:27
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:19:27
+  type: message
+- elapsed: 00:19:27
+  prediction: ' The standards adopted and adopted this place were in large part by
+    many countries.'
+  reference: This standard is adopted in whole, or in large part, by many countries.
+  type: prediction
+  wer: 0.6153846153846154
+- elapsed: 00:19:28
+  prediction: ' Drillmark is not pleased, please, the most quickly realize that he
+    has to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+  wer: 0.5
+- elapsed: 00:19:28
+  prediction: ' The landscape covers the land, covers the land, and over a mile of
+    lake Michigan shoreline.'
+  reference: The landscape covers meadows, woods, and over a mile of Lake Michigan
+    shoreline.
+  type: prediction
+  wer: 0.46153846153846156
+- elapsed: 00:19:29
+  prediction: ' The adult and Arctic petrel has a brown head, sides, throat, and back.'
+  reference: The adult Antarctic petrel has a brown head, sides, throat, and back.
+  type: prediction
+  wer: 0.16666666666666666
+- elapsed: 00:19:30
+  prediction: ' Having said that, does he rush for his kids to come on out, a severe
+    his plan with the sword.'
+  reference: Having said this he rushed towards Kritavarma and severed his head with
+    a sword.
+  type: prediction
+  wer: 1.0
+- content: '
+
+    Training Metrics - Step 375 (Epoch 15.62):'
+  elapsed: 00:20:20
+  type: message
+- elapsed: 00:20:20
+  name: train_loss
+  type: metric
+  value: 0.0274
+- elapsed: 00:20:20
+  name: train_grad_norm
+  type: metric
+  value: 0.7880210280418396
+- elapsed: 00:20:20
+  name: train_learning_rate
+  type: metric
+  value: 2.866666666666667e-06
+- elapsed: 00:20:20
+  name: train_epoch
+  type: metric
+  value: 15.625
+- content: '
+
+    Training Metrics - Step 375 (Epoch 15.62):'
+  elapsed: 00:20:48
+  type: message
+- elapsed: 00:20:48
+  name: train_eval_loss
+  type: metric
+  value: 1.2703083753585815
+- elapsed: 00:20:48
+  name: train_eval_wer
+  type: metric
+  value: 0.6966220522625877
+- elapsed: 00:20:48
+  name: train_eval_runtime
+  type: metric
+  value: 28.0093
+- elapsed: 00:20:48
+  name: train_eval_samples_per_second
+  type: metric
+  value: 4.427
+- elapsed: 00:20:48
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.071
+- elapsed: 00:20:48
+  name: train_epoch
+  type: metric
+  value: 15.625
+- content: '
+
+    Transcription Examples (Step 375):'
+  elapsed: 00:20:48
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:20:49
+  type: message
+- elapsed: 00:20:49
+  prediction: ' The standards adopted and adopted this place were in large part by
+    many countries.'
+  reference: This standard is adopted in whole, or in large part, by many countries.
+  type: prediction
+  wer: 0.6153846153846154
+- elapsed: 00:20:49
+  prediction: ' Drillmark is not pleased, please, the most quickly realize that he
+    has to be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+  wer: 0.5
+- elapsed: 00:20:50
+  prediction: ' The landscape covers the land, covers the land, and over a mile of
+    the lake, like the Michigan shoreline.'
+  reference: The landscape covers meadows, woods, and over a mile of Lake Michigan
+    shoreline.
+  type: prediction
+  wer: 0.6923076923076923
+- elapsed: 00:20:51
+  prediction: ' The adult and Arctic petrol has a brown head, sides, throat, and back.'
+  reference: The adult Antarctic petrel has a brown head, sides, throat, and back.
+  type: prediction
+  wer: 0.25
+- elapsed: 00:20:51
+  prediction: ' Having said that, does he rush for his first critical development,
+    a severe his plan with the sword.'
+  reference: Having said this he rushed towards Kritavarma and severed his head with
+    a sword.
+  type: prediction
+  wer: 0.8571428571428571
+- content: '
+
+    Training Metrics - Step 400 (Epoch 16.67):'
+  elapsed: 00:21:39
+  type: message
+- elapsed: 00:21:39
+  name: train_loss
+  type: metric
+  value: 0.0195
+- elapsed: 00:21:39
+  name: train_grad_norm
+  type: metric
+  value: 0.6317325234413147
+- elapsed: 00:21:39
+  name: train_learning_rate
+  type: metric
+  value: 2.7000000000000004e-06
+- elapsed: 00:21:39
+  name: train_epoch
+  type: metric
+  value: 16.666666666666668
+- content: '
+
+    Training Metrics - Step 400 (Epoch 16.67):'
+  elapsed: 00:22:02
+  type: message
+- elapsed: 00:22:02
+  name: train_eval_loss
+  type: metric
+  value: 1.283381462097168
+- elapsed: 00:22:02
+  name: train_eval_wer
+  type: metric
+  value: 0.7259400892288081
+- elapsed: 00:22:02
+  name: train_eval_runtime
+  type: metric
+  value: 22.8134
+- elapsed: 00:22:02
+  name: train_eval_samples_per_second
+  type: metric
+  value: 5.435
+- elapsed: 00:22:02
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.088
+- elapsed: 00:22:03
+  name: train_epoch
+  type: metric
+  value: 16.666666666666668
+- content: '
+
+    Transcription Examples (Step 400):'
+  elapsed: 00:22:03
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:22:03
+  type: message
+- elapsed: 00:22:03
+  prediction: ' The stenders adopted and adopted this place were in large part of
+    many countries.'
+  reference: This standard is adopted in whole, or in large part, by many countries.
+  type: prediction
+  wer: 0.6923076923076923
+- elapsed: 00:22:04
+  prediction: ' Drillmark is not pleased with his nails quickly realized he had to
+    be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+  wer: 0.35714285714285715
+- elapsed: 00:22:04
+  prediction: ' The landscape covers the land, covers the land, and over a mile of
+    lake Michigan shoreline.'
+  reference: The landscape covers meadows, woods, and over a mile of Lake Michigan
+    shoreline.
+  type: prediction
+  wer: 0.46153846153846156
+- elapsed: 00:22:05
+  prediction: ' The adult and Arctic petrel has a brown head, sides, throat, and back.'
+  reference: The adult Antarctic petrel has a brown head, sides, throat, and back.
+  type: prediction
+  wer: 0.16666666666666666
+- elapsed: 00:22:06
+  prediction: ' Having said that, does he rush for his first critical development,
+    a severe his plan with the sword.'
+  reference: Having said this he rushed towards Kritavarma and severed his head with
+    a sword.
+  type: prediction
+  wer: 0.8571428571428571
+- content: '
+
+    Training Metrics - Step 425 (Epoch 17.71):'
+  elapsed: 00:22:58
+  type: message
+- elapsed: 00:22:58
+  name: train_loss
+  type: metric
+  value: 0.0147
+- elapsed: 00:22:58
+  name: train_grad_norm
+  type: metric
+  value: 0.5375909209251404
+- elapsed: 00:22:58
+  name: train_learning_rate
+  type: metric
+  value: 2.5333333333333338e-06
+- elapsed: 00:22:58
+  name: train_epoch
+  type: metric
+  value: 17.708333333333332
+- content: '
+
+    Training Metrics - Step 425 (Epoch 17.71):'
+  elapsed: 00:23:25
+  type: message
+- elapsed: 00:23:25
+  name: train_eval_loss
+  type: metric
+  value: 1.2973828315734863
+- elapsed: 00:23:26
+  name: train_eval_wer
+  type: metric
+  value: 0.8546845124282982
+- elapsed: 00:23:26
+  name: train_eval_runtime
+  type: metric
+  value: 27.3302
+- elapsed: 00:23:26
+  name: train_eval_samples_per_second
+  type: metric
+  value: 4.537
+- elapsed: 00:23:26
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.073
+- elapsed: 00:23:26
+  name: train_epoch
+  type: metric
+  value: 17.708333333333332
+- content: '
+
+    Transcription Examples (Step 425):'
+  elapsed: 00:23:26
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:23:26
+  type: message
+- elapsed: 00:23:26
+  prediction: ' The stenders adopted and adopted this place were in large part of
+    many countries.'
+  reference: This standard is adopted in whole, or in large part, by many countries.
+  type: prediction
+  wer: 0.6923076923076923
+- elapsed: 00:23:27
+  prediction: ' Drillmark is not pleased with his nails quickly realized he had to
+    be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+  wer: 0.35714285714285715
+- elapsed: 00:23:28
+  prediction: ' The landscape covers the land, covers the land, and over a mile of
+    the lake, like Michigan shoreline.'
+  reference: The landscape covers meadows, woods, and over a mile of Lake Michigan
+    shoreline.
+  type: prediction
+  wer: 0.6153846153846154
+- elapsed: 00:23:28
+  prediction: ' The adult and Arctic petrol has a brown head, sides, throat, and back.'
+  reference: The adult Antarctic petrel has a brown head, sides, throat, and back.
+  type: prediction
+  wer: 0.25
+- elapsed: 00:23:29
+  prediction: ' Having said that, does he rush for his first critical development,
+    a severe his plan with the sword.'
+  reference: Having said this he rushed towards Kritavarma and severed his head with
+    a sword.
+  type: prediction
+  wer: 0.8571428571428571
+- content: '
+
+    Training Metrics - Step 450 (Epoch 18.75):'
+  elapsed: 00:24:25
+  type: message
+- elapsed: 00:24:25
+  name: train_loss
+  type: metric
+  value: 0.0119
+- elapsed: 00:24:25
+  name: train_grad_norm
+  type: metric
+  value: 1.1280826330184937
+- elapsed: 00:24:25
+  name: train_learning_rate
+  type: metric
+  value: 2.3666666666666667e-06
+- elapsed: 00:24:25
+  name: train_epoch
+  type: metric
+  value: 18.75
+- content: '
+
+    Training Metrics - Step 450 (Epoch 18.75):'
+  elapsed: 00:24:53
+  type: message
+- elapsed: 00:24:53
+  name: train_eval_loss
+  type: metric
+  value: 1.302168846130371
+- elapsed: 00:24:53
+  name: train_eval_wer
+  type: metric
+  value: 0.7597195666029318
+- elapsed: 00:24:53
+  name: train_eval_runtime
+  type: metric
+  value: 27.9208
+- elapsed: 00:24:53
+  name: train_eval_samples_per_second
+  type: metric
+  value: 4.441
+- elapsed: 00:24:53
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.072
+- elapsed: 00:24:53
+  name: train_epoch
+  type: metric
+  value: 18.75
+- content: '
+
+    Transcription Examples (Step 450):'
+  elapsed: 00:24:53
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:24:53
+  type: message
+- elapsed: 00:24:54
+  prediction: ' The stenders adopted and adopted this place were in large part of
+    many countries.'
+  reference: This standard is adopted in whole, or in large part, by many countries.
+  type: prediction
+  wer: 0.6923076923076923
+- elapsed: 00:24:54
+  prediction: ' Drillmark is not pleased with his nails quickly realized he had to
+    be defeated.'
+  reference: Grimlock is not pleased, and it was quickly realized he had to be defeated.
+  type: prediction
+  wer: 0.35714285714285715
+- elapsed: 00:24:55
+  prediction: ' The landscape covers the land, covers the land, and over a mile of
+    the lake, like Michigan shoreline.'
+  reference: The landscape covers meadows, woods, and over a mile of Lake Michigan
+    shoreline.
+  type: prediction
+  wer: 0.6153846153846154
+- elapsed: 00:24:56
+  prediction: ' The adult and Arctic petrel has a brown head, sides, throat, and back.'
+  reference: The adult Antarctic petrel has a brown head, sides, throat, and back.
+  type: prediction
+  wer: 0.16666666666666666
+- elapsed: 00:24:57
+  prediction: ' Having said that, does he rush for his first critical development,
+    a severe his plan with the sword.'
+  reference: Having said this he rushed towards Kritavarma and severed his head with
+    a sword.
+  type: prediction
+  wer: 0.8571428571428571
+- content: '
+
+    Training Metrics - Step 450 (Epoch 18.75):'
+  elapsed: 00:25:02
+  type: message
+- elapsed: 00:25:02
+  name: train_train_runtime
+  type: metric
+  value: 1461.3941
+- elapsed: 00:25:02
+  name: train_train_samples_per_second
+  type: metric
+  value: 8.759
+- elapsed: 00:25:02
+  name: train_train_steps_per_second
+  type: metric
+  value: 0.547
+- elapsed: 00:25:02
+  name: train_total_flos
+  type: metric
+  value: 4.6465701249024e+17
+- elapsed: 00:25:03
+  name: train_train_loss
+  type: metric
+  value: 1.0674377157290778
+- elapsed: 00:25:03
+  name: train_epoch
+  type: metric
+  value: 18.75
+- content: Closed TensorBoard writer
+  elapsed: 00:25:03
+  type: message
+- content: '
+
+    Evaluating fine-tuned model...'
+  elapsed: 00:25:03
+  type: message
+- content: Evaluating model on test split...
+  elapsed: 00:25:03
+  type: message
+- content: 'Example predictions:'
+  elapsed: 00:25:42
+  type: message
+- elapsed: 00:25:42
+  prediction: ' So, the re-wrapping the vibrant, evident, legit, and the first variety
+    was also a prominent soldier.'
+  reference: Sir Robert Vivian, illegitimate son of the first Baron, was also a prominent
+    soldier.
+  type: prediction
+  wer: 0.6428571428571429
+- elapsed: 00:25:43
+  prediction: ' His family moved to Fletzburg, New England, and his full-on result.'
+  reference: His family moved to Flatbush, Brooklyn, New York when he was four months
+    old.
+  type: prediction
+  wer: 0.6428571428571429
+- elapsed: 00:25:43
+  prediction: ' And as it has sent a group stage and playoff matches, it was awarded
+    the final.'
+  reference: In addition to group stage and play-off matches, it was awarded the final.
+  type: prediction
+  wer: 0.5384615384615384
+- elapsed: 00:25:44
+  name: wer
+  type: metric
+  value: 0.6303377947737412
+- elapsed: 00:25:44
+  name: final_wer
+  type: metric
+  value: 0.6303377947737412
+- content: '
+
+    Saving WER to txt'
+  elapsed: 00:25:45
+  type: message
+- content: '
+
+    Experiment complete!'
+  elapsed: 00:25:45
+  type: message
+- content: 'Baseline WER: 1.3907'
+  elapsed: 00:25:45
+  type: message
+- content: 'Fine-tuned WER: 0.6303'
+  elapsed: 00:25:45
+  type: message
