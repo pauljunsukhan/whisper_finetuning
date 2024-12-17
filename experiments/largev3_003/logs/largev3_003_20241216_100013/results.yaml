@@ -1,0 +1,446 @@
+metadata:
+  name: largev3_003
+  start_time: '2024-12-16 10:00:13'
+timeline:
+- content: ==================================================
+  elapsed: 00:00:00
+  type: message
+- content: EXPERIMENT INITIALIZATION
+  elapsed: 00:00:00
+  type: message
+- content: ==================================================
+  elapsed: 00:00:00
+  type: message
+- content: 'Name: largev3_003'
+  elapsed: 00:00:00
+  type: message
+- content: 'Description: 600 Examples Whisper Base Train/Test Split Throatmic finetune'
+  elapsed: 00:00:00
+  type: message
+- content: 'Date: 2024-12-16 10:00:13'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    CONFIGURATION:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Training Parameters:'
+  elapsed: 00:00:00
+  type: message
+- content: '  Batch Size: 16'
+  elapsed: 00:00:00
+  type: message
+- content: '  Learning Rate: 5e-06'
+  elapsed: 00:00:00
+  type: message
+- content: '  Max Steps: 800'
+  elapsed: 00:00:00
+  type: message
+- content: '  Warmup Steps: 50'
+  elapsed: 00:00:00
+  type: message
+- content: '  FP16: True'
+  elapsed: 00:00:00
+  type: message
+- content: '  Gradient Checkpointing: False'
+  elapsed: 00:00:00
+  type: message
+- content: '  Max Gradient Norm: 1.0'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    ENVIRONMENT:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Device: cuda'
+  elapsed: 00:00:00
+  type: message
+- content: 'GPU: NVIDIA H100 PCIe'
+  elapsed: 00:00:00
+  type: message
+- content: 'Available GPU Memory: 84.93 GB'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    MODEL:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Base Model: openai/whisper-large-v3'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    DATASET:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Source: pauljunsukhan/throatmic_codered'
+  elapsed: 00:00:00
+  type: message
+- content: 'Total Examples: 604'
+  elapsed: 00:00:08
+  type: message
+- content: '
+
+    Data Split:'
+  elapsed: 00:00:08
+  type: message
+- content: '  Training Examples: 480'
+  elapsed: 00:00:08
+  type: message
+- content: '  Testing Examples: 124'
+  elapsed: 00:00:08
+  type: message
+- content: '  Test Split Ratio: 20.53%'
+  elapsed: 00:00:08
+  type: message
+- content: '
+
+    Audio Processing:'
+  elapsed: 00:00:08
+  type: message
+- content: '  Normalization: True'
+  elapsed: 00:00:08
+  type: message
+- content: '
+
+    Evaluation Settings:'
+  elapsed: 00:00:08
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:08
+  type: message
+- content: '  Strategy: steps'
+  elapsed: 00:00:08
+  type: message
+- content: '  Eval Steps: 25'
+  elapsed: 00:00:09
+  type: message
+- content: '  Save Steps: 25'
+  elapsed: 00:00:09
+  type: message
+- content: '  Logging Steps: 25'
+  elapsed: 00:00:09
+  type: message
+- content: '  Load Best Model: True'
+  elapsed: 00:00:09
+  type: message
+- content: '  Metric: wer'
+  elapsed: 00:00:09
+  type: message
+- content: '  Greater is Better: False'
+  elapsed: 00:00:09
+  type: message
+- content: '  Save Total Limit: 20'
+  elapsed: 00:00:09
+  type: message
+- content: ==================================================
+  elapsed: 00:00:09
+  type: message
+- content: '
+
+    =================================================='
+  elapsed: 00:00:09
+  type: message
+- content: STARTING EXPERIMENT
+  elapsed: 00:00:09
+  type: message
+- content: '==================================================
+
+    '
+  elapsed: 00:00:09
+  type: message
+- content: 'Loading model and processor: openai/whisper-large-v3'
+  elapsed: 00:00:09
+  type: message
+- content: 'Model and processor loaded successfully
+
+    '
+  elapsed: 00:00:19
+  type: message
+- content: Evaluating baseline model...
+  elapsed: 00:00:19
+  type: message
+- content: Evaluating model on test split...
+  elapsed: 00:00:19
+  type: message
+- content: 'Example predictions:'
+  elapsed: 00:01:52
+  type: message
+- elapsed: 00:01:52
+  prediction: ' Peculiar or unobtrusive, male females are both present and open-sized.'
+  reference: Peculiar among rotifers, males and females are both present and equal
+    in size.
+  type: prediction
+  wer: 0.5384615384615384
+- elapsed: 00:01:53
+  prediction: ' In addition, there was an audible shortage of traffic police and ambulance
+    running.'
+  reference: In addition there is a notable shortage of traffic police in mainland
+    China.
+  type: prediction
+  wer: 0.5384615384615384
+- elapsed: 00:01:53
+  prediction: ' This incorporates a sculpture of the ship, I''m sorry to my voice.'
+  reference: This incorporates a sculpture of the ship, half-submerged by the waves.
+  type: prediction
+  wer: 0.45454545454545453
+- elapsed: 00:01:54
+  name: wer
+  type: metric
+  value: 0.7461832061068703
+- elapsed: 00:01:54
+  name: baseline_wer
+  type: metric
+  value: 0.7461832061068703
+- content: '
+
+    Preparing dataset for training...'
+  elapsed: 00:01:54
+  type: message
+- content: Processing train split...
+  elapsed: 00:01:54
+  type: message
+- content: Processed 480 training examples
+  elapsed: 00:01:56
+  type: message
+- content: Processing test split...
+  elapsed: 00:01:56
+  type: message
+- content: Processed 124 test examples
+  elapsed: 00:01:57
+  type: message
+- content: Dataset preparation complete
+  elapsed: 00:02:02
+  type: message
+- content: '
+
+    Training Configuration:'
+  elapsed: 00:02:02
+  type: message
+- content: ==================================================
+  elapsed: 00:02:02
+  type: message
+- content: '
+
+    Core Training Parameters:'
+  elapsed: 00:02:02
+  type: message
+- content: '--------------------'
+  elapsed: 00:02:02
+  type: message
+- content: '  Learning Rate: 5e-06'
+  elapsed: 00:02:02
+  type: message
+- content: '  LR Scheduler: linear'
+  elapsed: 00:02:02
+  type: message
+- content: '  Max Steps: 800'
+  elapsed: 00:02:02
+  type: message
+- content: '  Warmup Steps: 50'
+  elapsed: 00:02:02
+  type: message
+- content: '  Warmup Ratio: 0.00%'
+  elapsed: 00:02:02
+  type: message
+- content: '  Optimizer: AdamW'
+  elapsed: 00:02:02
+  type: message
+- content: '
+
+    Generation Settings:'
+  elapsed: 00:02:02
+  type: message
+- content: '--------------------'
+  elapsed: 00:02:03
+  type: message
+- content: '  Generation Max Length: 225'
+  elapsed: 00:02:03
+  type: message
+- content: '  Predict with Generate: True'
+  elapsed: 00:02:03
+  type: message
+- content: '  Language: en'
+  elapsed: 00:02:03
+  type: message
+- content: '  Task: transcribe'
+  elapsed: 00:02:03
+  type: message
+- content: '  Use Cache: False'
+  elapsed: 00:02:03
+  type: message
+- content: '
+
+    Batch Configuration:'
+  elapsed: 00:02:03
+  type: message
+- content: '--------------------'
+  elapsed: 00:02:03
+  type: message
+- content: '  Per Device Train Batch Size: 16'
+  elapsed: 00:02:03
+  type: message
+- content: '  Per Device Eval Batch Size: 64'
+  elapsed: 00:02:03
+  type: message
+- content: '  Gradient Accumulation Steps: 1'
+  elapsed: 00:02:03
+  type: message
+- content: '  Effective Batch Size: 16'
+  elapsed: 00:02:03
+  type: message
+- content: '
+
+    Regularization:'
+  elapsed: 00:02:03
+  type: message
+- content: '--------------------'
+  elapsed: 00:02:03
+  type: message
+- content: '  Weight Decay: 0.0'
+  elapsed: 00:02:03
+  type: message
+- content: '  Label Smoothing: 0.0'
+  elapsed: 00:02:03
+  type: message
+- content: '  Dropout: 0.0'
+  elapsed: 00:02:03
+  type: message
+- content: '  Max Gradient Norm: 1.0'
+  elapsed: 00:02:03
+  type: message
+- content: '
+
+    Memory Optimization:'
+  elapsed: 00:02:03
+  type: message
+- content: '--------------------'
+  elapsed: 00:02:03
+  type: message
+- content: '  Gradient Checkpointing: False'
+  elapsed: 00:02:03
+  type: message
+- content: '  FP16 Training: True'
+  elapsed: 00:02:03
+  type: message
+- content: '  FP16 Opt Level: O1'
+  elapsed: 00:02:03
+  type: message
+- content: '  FP16 Backend: auto'
+  elapsed: 00:02:03
+  type: message
+- content: '
+
+    Evaluation & Saving Configuration:'
+  elapsed: 00:02:03
+  type: message
+- content: '--------------------'
+  elapsed: 00:02:03
+  type: message
+- content: '  Evaluation Strategy: steps'
+  elapsed: 00:02:03
+  type: message
+- content: '  Eval Steps: 25'
+  elapsed: 00:02:03
+  type: message
+- content: '  Save Steps: 25'
+  elapsed: 00:02:03
+  type: message
+- content: '  Logging Steps: 25'
+  elapsed: 00:02:03
+  type: message
+- content: '  Save Total Limit: 20'
+  elapsed: 00:02:03
+  type: message
+- content: '  Load Best Model at End: True'
+  elapsed: 00:02:03
+  type: message
+- content: '  Metric for Best Model: wer'
+  elapsed: 00:02:03
+  type: message
+- content: '  Greater is Better: False'
+  elapsed: 00:02:03
+  type: message
+- content: '
+
+    Early Stopping Configuration:'
+  elapsed: 00:02:03
+  type: message
+- content: '--------------------'
+  elapsed: 00:02:03
+  type: message
+- content: '  Enabled: True'
+  elapsed: 00:02:03
+  type: message
+- content: '  Patience: 5'
+  elapsed: 00:02:03
+  type: message
+- content: '  Threshold: 0.0001'
+  elapsed: 00:02:03
+  type: message
+- content: '
+
+    Output & Logging Configuration:'
+  elapsed: 00:02:03
+  type: message
+- content: '--------------------'
+  elapsed: 00:02:03
+  type: message
+- content: '  Output Directory: /home/ubuntu/H100WhisperFineTune/whisper_finetuning/experiments/largev3_003/output/largev3_003_20241216_100216'
+  elapsed: 00:02:04
+  type: message
+- content: '  Logging Directory: /home/ubuntu/H100WhisperFineTune/whisper_finetuning/experiments/largev3_003/output/largev3_003_20241216_100216/runs/Dec16_10-02-16_209-20-159-77'
+  elapsed: 00:02:04
+  type: message
+- content: '  Report To: [''tensorboard'']'
+  elapsed: 00:02:04
+  type: message
+- content: '  Push to Hub: False'
+  elapsed: 00:02:04
+  type: message
+- content: '
+
+    Monitoring Configuration:'
+  elapsed: 00:02:04
+  type: message
+- content: '--------------------'
+  elapsed: 00:02:04
+  type: message
+- content: '  Gradient History Size: 1000'
+  elapsed: 00:02:04
+  type: message
+- content: '  Significant Change Threshold: 1.0'
+  elapsed: 00:02:04
+  type: message
+- content: '  Log Top N Gradients: 5'
+  elapsed: 00:02:04
+  type: message
+- content: ==================================================
+  elapsed: 00:02:04
+  type: message
+- content: 'Selected example indices for tracking: [18, 42, 36, 76, 53]'
+  elapsed: 00:02:05
+  type: message
+- content: Initialized TensorBoard writer
+  elapsed: 00:02:05
+  type: message
+- content: '
+
+    Configuring Hugging Face Hub settings...'
+  elapsed: 00:02:05
+  type: message

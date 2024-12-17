@@ -6,7 +6,7 @@ import evaluate
 from dataclasses import dataclass
 from typing import Any, Dict, List, Union
 import numpy as np
-from huggingface_hub import login, HfFolder, Repository
+from huggingface_hub import login, HfFolder, HfApi
 from tqdm import tqdm
 import yaml
 from datetime import datetime
@@ -25,6 +25,7 @@ from pathlib import Path
 import math
 import collections
 import sys
+import subprocess
 
 # Constants
 SCRIPT_DIR = Path(__file__).parent
@@ -34,15 +35,102 @@ LOG_DIR.mkdir(exist_ok=True)
 OUTPUT_DIR.mkdir(exist_ok=True)
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 TIMESTAMP_FORMAT = "%Y%m%d_%H%M%S"
+READABLE_TIMESTAMP_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 print(f"Using device: {DEVICE}")
 
+@dataclass
+class RunTimestamp:
+    """Centralized timestamp management for consistent file/folder naming"""
+    created_at: datetime
+    
+    def get_formatted(self) -> str:
+        """Get timestamp formatted for file/folder names"""
+        return self.created_at.strftime(TIMESTAMP_FORMAT)
+    
+    def get_readable(self) -> str:
+        """Get human readable timestamp"""
+        return self.created_at.strftime(READABLE_TIMESTAMP_FORMAT)
+    
+    def get_elapsed(self, from_time: datetime = None) -> str:
+        """Get elapsed time since timestamp or given time in HH:MM:SS format"""
+        if from_time is None:
+            from_time = datetime.now()
+        elapsed = from_time - self.created_at
+        hours, remainder = divmod(elapsed.total_seconds(), 3600)
+        minutes, seconds = divmod(remainder, 60)
+        return f"{int(hours):02d}:{int(minutes):02d}:{int(seconds):02d}"
+    
+    def get_elapsed_detailed(self, from_time: datetime = None) -> str:
+        """Get detailed elapsed time including days if applicable"""
+        if from_time is None:
+            from_time = datetime.now()
+        elapsed = from_time - self.created_at
+        days = elapsed.days
+        hours, remainder = divmod(elapsed.seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        
+        parts = []
+        if days > 0:
+            parts.append(f"{days} day{'s' if days != 1 else ''}")
+        if hours > 0 or days > 0:
+            parts.append(f"{hours} hour{'s' if hours != 1 else ''}")
+        if minutes > 0 or hours > 0 or days > 0:
+            parts.append(f"{minutes} minute{'s' if minutes != 1 else ''}")
+        parts.append(f"{seconds} second{'s' if seconds != 1 else ''}")
+        
+        return ", ".join(parts)
+
+def create_run_timestamp() -> RunTimestamp:
+    """Create a timestamp for the current run that will be used consistently throughout"""
+    return RunTimestamp(created_at=datetime.now())
 
 def create_model_card(config, dataset, baseline_wer, finetuned_wer, training_args):
     """Create a model card with training details and performance metrics."""
+    import math
+    
+    # Safely get dataset sizes with fallbacks
+    try:
+        train_size = len(dataset.get('train', [])) if dataset else 0
+        test_size = len(dataset.get('test', [])) if dataset else 0
+    except Exception:
+        train_size = 0
+        test_size = 0
+    
+    # Safely get config attributes with fallbacks
+    safe_config = {
+        'model_name': getattr(config, 'model_name', 'unknown_model'),
+        'dataset_name': getattr(config, 'dataset_name', 'unknown_dataset'),
+        'batch_size': getattr(config, 'batch_size', 'Not specified'),
+        'learning_rate': getattr(config, 'learning_rate', 'Not specified'),
+        'warmup_steps': getattr(config, 'warmup_steps', 'Not specified'),
+        'max_steps': getattr(config, 'max_steps', 'Not specified'),
+        'weight_decay': getattr(config, 'weight_decay', 'Not specified'),
+        'fp16': getattr(config, 'fp16', 'Not specified'),
+        'gradient_checkpointing': getattr(config, 'gradient_checkpointing', 'Not specified')
+    }
+    
+    # Sanitize model name for citation
+    safe_model_name = ''.join(c if c.isalnum() else '_' for c in safe_config['model_name'].lower())
+    
+    # Get hub_model_id safely
+    hub_model_id = getattr(training_args, 'hub_model_id', 'undefined_model_id')
+    
+    # Validate numeric metrics
+    try:
+        baseline_wer = float(baseline_wer)
+        finetuned_wer = float(finetuned_wer)
+        if math.isnan(baseline_wer) or math.isinf(baseline_wer):
+            baseline_wer = 0.0
+        if math.isnan(finetuned_wer) or math.isinf(finetuned_wer):
+            finetuned_wer = 0.0
+    except (TypeError, ValueError):
+        baseline_wer = 0.0
+        finetuned_wer = 0.0
+    
     model_card = f"""# Whisper Fine-tuned Model
 
-This model is a fine-tuned version of `{config.model_name}` on `{config.dataset_name}`.
+This model is a fine-tuned version of `{safe_config['model_name']}` on `{safe_config['dataset_name']}`.
 
 ## Model Description
 - **Model Type:** Fine-tuned Whisper model for speech recognition
@@ -51,19 +139,19 @@ This model is a fine-tuned version of `{config.model_name}` on `{config.dataset_
 - **Domain:** Throat Microphone Speech Recognition
 
 ## Training Details
-- **Base Model:** `{config.model_name}`
-- **Dataset:** `{config.dataset_name}`
-- **Training Examples:** {len(dataset['train'])}
-- **Test Examples:** {len(dataset['test'])}
-- **Training Steps:** {config.max_steps}
+- **Base Model:** `{safe_config['model_name']}`
+- **Dataset:** `{safe_config['dataset_name']}`
+- **Training Examples:** {train_size}
+- **Test Examples:** {test_size}
+- **Training Steps:** {safe_config['max_steps']}
 
 ### Hyperparameters
-- **Batch Size:** {config.batch_size}
-- **Learning Rate:** {config.learning_rate}
-- **Warmup Steps:** {config.warmup_steps}
-- **Weight Decay:** {config.weight_decay}
-- **FP16:** {config.fp16}
-- **Gradient Checkpointing:** {config.gradient_checkpointing}
+- **Batch Size:** {safe_config['batch_size']}
+- **Learning Rate:** {safe_config['learning_rate']}
+- **Warmup Steps:** {safe_config['warmup_steps']}
+- **Weight Decay:** {safe_config['weight_decay']}
+- **FP16:** {safe_config['fp16']}
+- **Gradient Checkpointing:** {safe_config['gradient_checkpointing']}
 
 ## Performance
 - **Baseline WER:** {baseline_wer:.4f}
@@ -77,8 +165,8 @@ You can use this model as follows:
 from transformers import WhisperProcessor, WhisperForConditionalGeneration
 
 # Load processor and model
-processor = WhisperProcessor.from_pretrained("{training_args.hub_model_id}")
-model = WhisperForConditionalGeneration.from_pretrained("{training_args.hub_model_id}")
+processor = WhisperProcessor.from_pretrained("{hub_model_id}")
+model = WhisperForConditionalGeneration.from_pretrained("{hub_model_id}")
 
 # Example usage
 inputs = processor("Audio input data", return_tensors="pt", sampling_rate=16000)
@@ -91,12 +179,11 @@ print(transcription)
 If you use this model, please cite:
 
 <pre><code class="language-bibtex">
-@misc{{whisper_finetune_{config.model_name.lower()}}},
+@misc{{whisper_finetune_{safe_model_name}}},
   title={{{{Fine-tuned Whisper Model}}}},
   author={{{{Your Name or Team Name}}}},
   year={{{{2024}}}},
-  howpublished={{https://huggingface.co/{training_args.hub_model_id}}}
-
+  howpublished={{https://huggingface.co/{hub_model_id}}}
 </code></pre>
 
 ## Acknowledgments
@@ -109,20 +196,19 @@ Thanks to the Hugging Face team and the community for providing tools to fine-tu
 class ExperimentLogger:
     """Simple logger for experiment tracking"""
     
-    def __init__(self, experiment_name: str, print_metrics: bool = True, print_predictions: bool = True):
+    def __init__(self, experiment_name: str, run_timestamp: RunTimestamp, print_metrics: bool = True, print_predictions: bool = True):
         self.experiment_name = experiment_name
-        self.start_time = datetime.now()
-        timestamp = self.start_time.strftime(TIMESTAMP_FORMAT)
+        self.run_timestamp = run_timestamp
         
         # Create experiment directory under logs/
-        self.experiment_dir = LOG_DIR / f"{experiment_name}_{timestamp}"
+        self.experiment_dir = LOG_DIR / f"{experiment_name}_{run_timestamp.get_formatted()}"
         self.experiment_dir.mkdir(parents=True, exist_ok=True)
         
         # Initialize results dictionary
         self.results = {
             "metadata": {
                 "name": experiment_name,
-                "start_time": self.start_time.strftime("%Y-%m-%d %H:%M:%S")
+                "start_time": run_timestamp.get_readable()
             },
             "timeline": []
         }
@@ -133,10 +219,7 @@ class ExperimentLogger:
     
     def _get_elapsed_time(self):
         """Get elapsed time since experiment start"""
-        elapsed = datetime.now() - self.start_time
-        hours, remainder = divmod(elapsed.total_seconds(), 3600)
-        minutes, seconds = divmod(remainder, 60)
-        return f"{int(hours):02d}:{int(minutes):02d}:{int(seconds):02d}"
+        return self.run_timestamp.get_elapsed()
     
     def _save_yaml(self):
         """Save current results to YAML file"""
@@ -232,7 +315,7 @@ class ExperimentConfig:
     gradient_checkpointing: bool
     max_grad_norm: float
     fp16: bool
-    lr_scheduler_type: str  # New
+    lr_scheduler_type: str
     
     # Evaluation and saving
     evaluation_strategy: str
@@ -241,11 +324,13 @@ class ExperimentConfig:
     logging_steps: int
     save_total_limit: int
     push_to_hub: bool
-    predict_with_generate: bool  # New
-    load_best_model_at_end: bool  # New
-    metric_for_best_model: str  # New
-    greater_is_better: bool  # New
-    report_to: List[str]  # New
+    hub_model_id: str
+    hub_strategy: str
+    predict_with_generate: bool
+    load_best_model_at_end: bool
+    metric_for_best_model: str
+    greater_is_better: bool
+    report_to: List[str]
     
     # Regularization
     weight_decay: float
@@ -316,6 +401,8 @@ class ExperimentConfig:
             logging_steps=int(config['training']['logging_steps']),
             save_total_limit=int(config['training']['save_total_limit']),
             push_to_hub=bool(config['training']['push_to_hub']),
+            hub_model_id=config['training']['hub_model_id'],
+            hub_strategy=config['training']['hub_strategy'],
             predict_with_generate=bool(config['training']['predict_with_generate']),
             load_best_model_at_end=bool(config['training']['load_best_model_at_end']),
             metric_for_best_model=config['training']['metric_for_best_model'],
@@ -487,161 +574,6 @@ def evaluate_model(model, dataset, processor, split="test"):
     logger.save_metric("wer", wer)
     return wer
 
-class EnhancedWhisperTrainer(Seq2SeqTrainer):
-    """EXPERIMENTAL: Enhanced trainer with gradient monitoring and improved generation control.
-    
-    This is an experimental extension of Seq2SeqTrainer that adds:
-    - Detailed gradient monitoring and statistics
-    - Improved generation control
-    - Parameter-specific training dynamics
-    
-    Note: Currently not in use, kept for future development.
-    
-    Args:
-        config (ExperimentConfig): Configuration object containing monitoring settings
-        logger (ExperimentLogger): Logger for tracking detailed gradient statistics
-    """
-    
-    def __init__(self, *args, config: ExperimentConfig, logger: ExperimentLogger, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.gradient_history = defaultdict(lambda: deque(maxlen=config.gradient_history_size))
-        self.config = config
-        self.logger = logger
-        
-    def prediction_step(self, model, inputs, prediction_loss_only, ignore_keys=None):
-        """Enhanced prediction step that properly handles both training and evaluation scenarios."""
-        model.eval()
-        inputs = self._prepare_inputs(inputs)
-        
-        with torch.no_grad():
-            # Get model outputs with logits
-            outputs = model(**inputs)
-            loss = outputs.loss if "labels" in inputs else None
-            logits = outputs.logits
-            
-            # For evaluation with generate=True, also get the generated tokens
-            if not prediction_loss_only and self.args.predict_with_generate:
-                generate_kwargs = {
-                    "input_features": inputs["input_features"],
-                    "max_new_tokens": self.args.generation_max_length,
-                    "language": self.config.generation_language,
-                    "task": self.config.generation_task,
-                    "use_cache": self.config.use_cache
-                }
-                generated_tokens = model.generate(**generate_kwargs)
-                return (loss, generated_tokens, inputs.get("labels"))
-            
-            # For training or non-generate evaluation, return logits
-            return (loss, logits, inputs.get("labels"))
-    
-    def training_step(self, model, inputs):
-        """Enhanced training step with gradient monitoring."""
-        inputs = self._prepare_inputs(inputs)
-        
-        # Regular training step
-        loss = super().training_step(model, inputs)
-        
-        # Gradient monitoring
-        if self.state.global_step % self.args.logging_steps == 0:
-            self.log_gradient_stats(model)
-        
-        return loss
-    
-    def log_gradient_stats(self, model):
-        """Log detailed gradient statistics."""
-        if not hasattr(model, "named_parameters"):
-            return
-            
-        total_norm = 0.0
-        stats = {}
-        
-        # Collect gradient statistics
-        for name, param in model.named_parameters():
-            if param.grad is not None:
-                param_norm = param.grad.data.norm(2).item()
-                total_norm += param_norm ** 2
-                stats[name] = {
-                    'norm': param_norm,
-                    'mean': param.grad.data.mean().item(),
-                    'std': param.grad.data.std().item(),
-                    'max': param.grad.data.max().item(),
-                    'min': param.grad.data.min().item()
-                }
-                
-                # Track history
-                self.gradient_history[name].append(param_norm)
-                # Keep only recent history
-                if len(self.gradient_history[name]) > 1000:
-                    self.gradient_history[name].pop(0)
-        
-        total_norm = total_norm ** 0.5
-        
-        # Log to tensorboard
-        self.log(
-            {
-                "gradient/total_norm": total_norm,
-                "gradient/max_norm": max(s['norm'] for s in stats.values()),
-                "gradient/min_norm": min(s['norm'] for s in stats.values()),
-            }
-        )
-        
-        # Detailed logging to console
-        self.logger.log(f"\nGradient Stats (Step {self.state.global_step}):")
-        self.logger.log(f"Total gradient norm: {total_norm:.4f}")
-        
-        # Log top N largest gradients (configurable)
-        top_grads = sorted(stats.items(), key=lambda x: x[1]['norm'], reverse=True)[:self.config.log_top_n_gradients]
-        self.logger.log("\nTop N largest gradients:")
-        for name, stat in top_grads:
-            self.logger.log(f"{name}:")
-            self.logger.log(f"  Norm: {stat['norm']:.4f}")
-            self.logger.log(f"  Mean: {stat['mean']:.4f}")
-            self.logger.log(f"  Std:  {stat['std']:.4f}")
-            
-        # Parameter-specific monitoring
-        self.log_parameter_dynamics(stats)
-    
-    def log_parameter_dynamics(self, current_stats):
-        """Monitor parameter-specific training dynamics."""
-        for name, history in self.gradient_history.items():
-            if len(history) > 1:  # Need at least 2 points for trend
-                recent_trend = history[-1] - history[-2]
-                current_stat = current_stats.get(name, {})
-                
-                if abs(recent_trend) > self.config.significant_change_threshold:
-                    self.logger.log(f"\nSignificant gradient change in {name}:")
-                    self.logger.log(f"  Current norm: {current_stat.get('norm', 0):.4f}")
-                    self.logger.log(f"  Change: {recent_trend:.4f}")
-                    self.logger.log(f"  Statistics:")
-                    self.logger.log(f"    Mean: {current_stat.get('mean', 0):.4f}")
-                    self.logger.log(f"    Std:  {current_stat.get('std', 0):.4f}")
-
-
-    
-    def save_prediction(self, reference: str, prediction: str, print_to_terminal: bool = None):
-        """Save a prediction example to the timeline"""
-        elapsed = self._get_elapsed_time()
-        
-        # Determine whether to print based on instance setting or override
-        should_print = print_to_terminal if print_to_terminal is not None else self.print_predictions
-        if should_print:
-            print(f"[+{elapsed}] New prediction:")
-            print(f"Reference: {reference}")
-            print(f"Prediction: {prediction}")
-        
-        self.results["timeline"].append({
-            "type": "prediction",
-            "elapsed": elapsed,
-            "reference": reference,
-            "prediction": prediction
-        })
-        self._save_yaml()
-    
-    def _save_yaml(self):
-        """Save current results to YAML file"""
-        yaml_path = self.experiment_dir / "results.yaml"
-        with open(self.experiment_dir / "results.yaml", "w") as f:
-            yaml.dump(self.results, f, default_flow_style=False)
 
 
 class TranscriptionLoggingCallback(TrainerCallback):
@@ -666,6 +598,7 @@ class TranscriptionLoggingCallback(TrainerCallback):
         self.config = config
         self.experiment_logger = experiment_logger
         self.tb_writer = None
+        self.run_timestamp = experiment_logger.run_timestamp  # Get timestamp from logger
         
         # Set random seed for reproducible example selection
         np.random.seed(config.test_split_seed)
@@ -698,8 +631,11 @@ class TranscriptionLoggingCallback(TrainerCallback):
     def on_init_end(self, args, state, control, **kwargs):
         """Initialize TensorBoard writer if enabled."""
         if "tensorboard" in args.report_to:
-            self.tb_writer = SummaryWriter(log_dir=args.logging_dir)
-            self.experiment_logger.log("Initialized TensorBoard writer")
+            # Use the logs/runs directory for tensorboard
+            tensorboard_dir = LOG_DIR / "runs" / f"{self.config.name}_{self.run_timestamp.get_formatted()}"
+            tensorboard_dir.mkdir(parents=True, exist_ok=True)
+            self.tb_writer = SummaryWriter(log_dir=str(tensorboard_dir))
+            self.experiment_logger.log(f"Initialized TensorBoard writer in {tensorboard_dir}")
     
     def on_evaluate(self, args, state, control, model, **kwargs):
         """Log transcription examples during evaluation using batch processing."""
@@ -792,10 +728,82 @@ if __name__ == "__main__":
     # Get the directory where the script is located
     script_dir = Path(__file__).resolve().parent
     default_config = script_dir / 'config.yaml'
+    
+    # Check Git LFS installation early
+    print("\nChecking Git LFS installation...")
+    try:
+        # Check git-lfs version
+        lfs_version = subprocess.run(['git', 'lfs', 'version'], capture_output=True, text=True)
+        if lfs_version.returncode != 0:
+            print("Error: git-lfs is not installed. This is required for model upload.")
+            print("Please install it first:")
+            print("  Ubuntu: sudo apt-get install git-lfs")
+            print("  macOS: brew install git-lfs")
+            print("  Windows: https://git-lfs.github.com")
+            sys.exit(1)
+            
+        # Check git-lfs is initialized
+        lfs_status = subprocess.run(['git', 'lfs', 'status'], capture_output=True, text=True)
+        if lfs_status.returncode != 0:
+            print("Git LFS is installed but not initialized.")
+            print("Please run: git lfs install")
+            sys.exit(1)
+            
+        print(f"Git LFS is properly installed and configured:")
+        print(f"Version: {lfs_version.stdout.splitlines()[0]}")
+    except FileNotFoundError:
+        print("Error: git command not found. Please install Git first.")
+        sys.exit(1)
+    
+    # Check HuggingFace token early
+    print("\nValidating HuggingFace token...")
+    token = os.getenv("HF_TOKEN")
+    if not token:
+        print("Error: HF_TOKEN environment variable not found")
+        print("Please set it with: export HF_TOKEN=your_token")
+        print("Or run: huggingface-cli login")
+        sys.exit(1)
+
+    try:
+        # Try to use the token with HfApi
+        api = HfApi(token=token)
+        # Try to get user info to validate token
+        api.whoami()
+        print("HuggingFace token is valid and working")
+    except Exception as e:
+        print(f"Error: HuggingFace token validation failed: {str(e)}")
+        print("Please check your token and ensure you're properly logged in")
+        sys.exit(1)
+    
     # Load configuration
     config = ExperimentConfig.from_yaml(default_config)
-    # Initialize logger
-    logger = ExperimentLogger(config.name)
+    
+    # Create a single timestamp for the entire run
+    run_timestamp = create_run_timestamp()
+    
+    # Initialize logger with the run timestamp
+    logger = ExperimentLogger(config.name, run_timestamp)
+    
+    # Create output directory for this run
+    run_output_dir = OUTPUT_DIR / f"{config.name}_{run_timestamp.get_formatted()}"
+    
+    # Validate directory structure
+    logger.log("\nValidating directory structure...")
+    
+    # Ensure all required directories exist
+    required_dirs = [
+        LOG_DIR,
+        LOG_DIR / "runs",  # Add runs directory under logs
+        OUTPUT_DIR,
+        logger.experiment_dir,
+        run_output_dir
+    ]
+    
+    for directory in required_dirs:
+        directory.mkdir(parents=True, exist_ok=True)
+        logger.log(f"Verified directory: {directory}")
+    
+    logger.log("Directory structure validation complete\n")
     
     # Log experiment initialization
     logger.log("=" * 50)
@@ -803,7 +811,7 @@ if __name__ == "__main__":
     logger.log("=" * 50)
     logger.log(f"Name: {config.name}")
     logger.log(f"Description: {config.description}")
-    logger.log(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    logger.log(f"Date: {run_timestamp.get_readable()}")
     
     # Log configuration
     logger.log("\nCONFIGURATION:")
@@ -830,11 +838,8 @@ if __name__ == "__main__":
     logger.log("-" * 20)
     logger.log(f"Base Model: {config.model_name}")
     
-    # Authenticate and load dataset
-    token = os.getenv("HF_TOKEN")
-    if token is None:
-        raise ValueError("Please set the HF_TOKEN environment variable")
-    login(token)
+    # Login to HuggingFace
+    login(token)  # We already validated the token at script start
     
     # Dataset loading and logging
     logger.log("\nDATASET:")
@@ -926,10 +931,6 @@ if __name__ == "__main__":
     logger.log("Dataset preparation complete")
     
     # Prepare training arguments
-    timestamp = datetime.now().strftime(TIMESTAMP_FORMAT)
-    run_output_dir = OUTPUT_DIR / f"{config.name}_{timestamp}"
-    run_output_dir.mkdir(exist_ok=True)
-
     training_args = Seq2SeqTrainingArguments(
         output_dir=str(run_output_dir),
         per_device_train_batch_size=config.batch_size,
@@ -955,8 +956,9 @@ if __name__ == "__main__":
         weight_decay=config.weight_decay,
         label_smoothing_factor=config.label_smoothing,
         max_grad_norm=config.max_grad_norm,
-        push_to_hub=False,  # Disable automatic push
+        push_to_hub=False,  # Keep this False initially
         lr_scheduler_type=config.lr_scheduler_type,
+        run_name=config.name  # Add explicit run_name to avoid timestamp appending
     )
     
     # Log training argument details after they're created
@@ -1072,31 +1074,15 @@ if __name__ == "__main__":
         callbacks=callbacks
     )
     
-    # Add this code right before trainer.train()
-    if config.push_to_hub:
-        logger.log("\nConfiguring Hugging Face Hub settings...")
-        
-        # Verify HF token
-        if not HfFolder.get_token():
-            raise ValueError(
-                "No Hugging Face token found. Please run `huggingface-cli login` "
-                "or set the HF_TOKEN environment variable."
-            )
-        
-        # Create the model repository
-        repo = Repository(
-            local_dir=run_output_dir,
-            clone_from=training_args.hub_model_id,
-            use_auth_token=True
-        )
-        
-        # Initialize the repository
-        repo.git_pull()
+
 
     # Fine-tune the model
     logger.log("\nStarting fine-tuning...")
     trainer.train()
-
+    
+    # Save the final model (which is the best model due to load_best_model_at_end=True)
+    trainer.save_model()  # This will save to output_dir from training_args
+    processor.save_pretrained(run_output_dir)  # Save processor alongside model
     
     # Evaluate fine-tuned model
     logger.log("\nEvaluating fine-tuned model...")
@@ -1104,60 +1090,66 @@ if __name__ == "__main__":
     
     # Save results
     logger.log("\nSaving WER to txt")
-    # Save results with timestamp in the filename
-    timestamp = datetime.now().strftime(TIMESTAMP_FORMAT)
-    results_file = LOG_DIR / f"{config.name}_{timestamp}_results.txt"
+    results_file = LOG_DIR / f"{config.name}_{run_timestamp.get_formatted()}_results.txt"
     with open(results_file, "w") as f:
         f.write(f"Baseline WER: {baseline_wer:.4f}\n")
         f.write(f"Fine-tuned WER: {finetuned_wer:.4f}\n")
+        f.write(f"Total Training Time: {run_timestamp.get_elapsed_detailed()}\n")
     
     logger.log("\nExperiment complete!")
     logger.log(f"Baseline WER: {baseline_wer:.4f}")
-    logger.log(f"Fine-tuned WER: {finetuned_wer:.4f}") 
-
+    logger.log(f"Fine-tuned WER: {finetuned_wer:.4f}")
+    logger.log(f"Improvement: {(baseline_wer - finetuned_wer):.4f} absolute / {((baseline_wer - finetuned_wer)/baseline_wer * 100):.1f}% relative")
+    logger.log(f"Total Training Time: {run_timestamp.get_elapsed_detailed()}")
+    logger.log("=" * 50)
     
     # After training and evaluation is complete
     if config.push_to_hub:
         # Validate hub_model_id
-        if not training_args.hub_model_id:
+        if not config.hub_model_id:
             logger.log("Error: No hub_model_id specified in configuration")
             logger.log("Skipping upload to Hugging Face Hub")
             sys.exit(1)
         
-        # Recheck token
-        token = HfFolder.get_token()
-        if not token:
-            logger.log("Error: HF_TOKEN not found or invalid")
-            logger.log("Please run `huggingface-cli login` or set the HF_TOKEN environment variable")
-            sys.exit(1)
-
         logger.log("\nTraining completed. Would you like to upload the model to Hugging Face Hub?")
         logger.log(f"  Model Performance:")
         logger.log(f"  - Baseline WER: {baseline_wer:.4f}")
         logger.log(f"  - Fine-tuned WER: {finetuned_wer:.4f}")
-        logger.log(f"  Repository: {training_args.hub_model_id}")
+        logger.log(f"  Repository: {config.hub_model_id}")
         
-        response = input("[y/N]: ").lower().strip()
+        # More robust input handling
+        while True:
+            try:
+                response = input("[y/N]: ").lower().strip()
+                if response in ['y', 'n', '']:
+                    break
+                logger.log("Please enter 'y' for yes or 'n' (or just press Enter) for no.")
+            except EOFError:
+                logger.log("Input was interrupted. Please try again.")
+            except KeyboardInterrupt:
+                logger.log("\nOperation cancelled by user.")
+                sys.exit(0)
+        
         if response == 'y':
             try:
                 logger.log("\nPreparing for upload to Hugging Face Hub...")
                 
-                # Create repo only when ready to upload
-                from huggingface_hub import HfApi
-                api = HfApi()
+                # Create the repository if it doesn't exist
+                try:
+                    api.create_repo(
+                        repo_id=config.hub_model_id,
+                        private=True,
+                        exist_ok=True,
+                        token=token
+                    )
+                except Exception as e:
+                    if "already exists" in str(e).lower():
+                        logger.log(f"Repository {config.hub_model_id} already exists, continuing with upload...")
+                    else:
+                        logger.log(f"Warning: Repository creation issue: {str(e)}")
+                        logger.log("Will attempt to upload anyway...")
                 
-                # Extract repo_id from hub_model_id
-                repo_id = training_args.hub_model_id
-                logger.log(f"Creating repository: {repo_id}")
-                
-                # Create the repo
-                api.create_repo(
-                    repo_id=repo_id,
-                    private=True,  # Default to private for safety
-                    exist_ok=True  # In case repo exists but is empty
-                )
-                
-                # Create and save model card using existing function
+                # Create and save model card
                 model_card = create_model_card(
                     config=config,
                     dataset=dataset,
@@ -1169,17 +1161,36 @@ if __name__ == "__main__":
                 with open(run_output_dir / "README.md", "w") as f:
                     f.write(model_card)
                 
-                # Now push to hub
+                # Configure trainer for hub upload
+                trainer.args.push_to_hub = True
+                trainer.args.hub_model_id = config.hub_model_id
+                trainer.args.hub_strategy = config.hub_strategy
+                
+                # Push to hub using the trainer
                 logger.log("Uploading model to Hugging Face Hub...")
-                trainer.push_to_hub(
-                    commit_message=f"Training completed - WER: {finetuned_wer:.4f}",
-                    blocking=True
-                )
-                logger.log(f"Model successfully uploaded to: {repo_id}")
-                logger.log(f"View your model at: https://huggingface.co/{repo_id}")
+                try:
+                    trainer.push_to_hub(
+                        commit_message=f"Training completed - WER: {finetuned_wer:.4f}",
+                        blocking=True
+                    )
+                    logger.log(f"Model successfully uploaded to: {config.hub_model_id}")
+                    logger.log(f"View your model at: https://huggingface.co/{config.hub_model_id}")
+                except Exception as upload_error:
+                    logger.log(f"Error during model upload: {str(upload_error)}")
+                    logger.log("Attempting to diagnose the issue...")
+                    
+                    # Check common issues
+                    try:
+                        api.model_info(config.hub_model_id)
+                        logger.log("Repository exists and is accessible.")
+                    except Exception as e:
+                        logger.log(f"Repository access check failed: {str(e)}")
+                    
+                    logger.log("Model saved locally but upload failed")
+                    sys.exit(1)
                 
             except Exception as e:
-                logger.log(f"Error during upload: {str(e)}")
+                logger.log(f"Error during upload preparation: {str(e)}")
                 logger.log("Model saved locally but upload failed")
                 sys.exit(1)
         else:

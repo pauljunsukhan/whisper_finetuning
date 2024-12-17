@@ -35,9 +35,9 @@ training:
   eval_steps: 25
   save_steps: 25
   logging_steps: 25
-  save_total_limit: 20
-  push_to_hub: false
-  hub_model_id: "your-username/model-name"
+  save_total_limit: 10
+  push_to_hub: true
+  hub_model_id: "pauljunsukhan/throatmic_subvocalization_whisper"
   hub_strategy: "end"
   predict_with_generate: true
   load_best_model_at_end: true
