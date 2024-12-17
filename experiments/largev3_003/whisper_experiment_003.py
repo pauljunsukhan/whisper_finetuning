@@ -702,7 +702,7 @@ class TranscriptionLoggingCallback(TrainerCallback):
     def on_init_end(self, args, state, control, **kwargs):
         """Initialize TensorBoard writer if enabled."""
         if "tensorboard" in args.report_to:
-            # Use the logs/runs directory for tensorboard
+            # Use the same directory as the trainer will use
             tensorboard_dir = LOG_DIR / "runs" / f"{self.config.name}_{self.run_timestamp.get_formatted()}"
             tensorboard_dir.mkdir(parents=True, exist_ok=True)
             self.tb_writer = SummaryWriter(log_dir=str(tensorboard_dir))
@@ -1068,7 +1068,8 @@ if __name__ == "__main__":
         max_grad_norm=config.max_grad_norm,
         push_to_hub=False,  # Keep this False initially
         lr_scheduler_type=config.lr_scheduler_type,
-        run_name=config.name  # Add explicit run_name to avoid timestamp appending
+        run_name=config.name,  # Add explicit run_name to avoid timestamp appending
+        logging_dir=str(LOG_DIR / "runs" / f"{config.name}_{run_timestamp.get_formatted()}"),  # Match custom writer path
     )
     
     # Log training argument details after they're created
