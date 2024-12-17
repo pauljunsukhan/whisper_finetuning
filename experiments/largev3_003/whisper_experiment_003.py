@@ -85,9 +85,8 @@ def create_run_timestamp() -> RunTimestamp:
     """Create a timestamp for the current run that will be used consistently throughout"""
     return RunTimestamp(created_at=datetime.now())
 
-def create_model_card(config, dataset, baseline_wer, finetuned_wer, training_args):
+def create_model_card(config, dataset, baseline_wer, finetuned_wer, training_args, training_callback=None):
     """Create a model card with training details and performance metrics."""
-    import math
     
     # Safely get dataset sizes with fallbacks
     try:
@@ -128,7 +127,43 @@ def create_model_card(config, dataset, baseline_wer, finetuned_wer, training_arg
         baseline_wer = 0.0
         finetuned_wer = 0.0
     
-    model_card = f"""# Whisper Fine-tuned Model
+    # Add HuggingFace metadata block
+    metadata_block = """---
+language: en
+tags:
+  - whisper
+  - audio
+  - speech-recognition
+  - pytorch
+  - throat-microphone
+  - subvocalization
+license: mit
+datasets:
+  - {dataset_name}
+metrics:
+  - wer
+model-index:
+  - name: {model_id}
+    results:
+      - task: 
+          name: Automatic Speech Recognition
+          type: automatic-speech-recognition
+        dataset:
+          name: {dataset_name}
+          type: {dataset_name}
+        metrics:
+          - name: WER
+            type: wer
+            value: {wer:.4f}
+---
+
+""".format(
+        dataset_name=safe_config['dataset_name'],
+        model_id=hub_model_id,
+        wer=finetuned_wer
+    )
+    
+    model_card = metadata_block + f"""# Whisper Fine-tuned Model
 
 This model is a fine-tuned version of `{safe_config['model_name']}` on `{safe_config['dataset_name']}`.
 
@@ -145,17 +180,36 @@ This model is a fine-tuned version of `{safe_config['model_name']}` on `{safe_co
 - **Test Examples:** {test_size}
 - **Training Steps:** {safe_config['max_steps']}
 
-### Hyperparameters
-- **Batch Size:** {safe_config['batch_size']}
+### Training Hyperparameters
+The following hyperparameters were used during training:
 - **Learning Rate:** {safe_config['learning_rate']}
+- **Train Batch Size:** {safe_config['batch_size']}
+- **Eval Batch Size:** {config.eval_batch_size}
+- **Seed:** {config.test_split_seed}
+- **Optimizer:** AdamW with betas=(0.9,0.999) and epsilon=1e-08
+- **LR Scheduler Type:** {config.lr_scheduler_type}
 - **Warmup Steps:** {safe_config['warmup_steps']}
+- **Training Steps:** {safe_config['max_steps']}
+- **Mixed Precision Training:** Native AMP
 - **Weight Decay:** {safe_config['weight_decay']}
-- **FP16:** {safe_config['fp16']}
 - **Gradient Checkpointing:** {safe_config['gradient_checkpointing']}
+- **FP16:** {safe_config['fp16']}
+- **Label Smoothing:** {config.label_smoothing}
+- **Max Gradient Norm:** {config.max_grad_norm}
+
+### Framework Versions
+- **Transformers:** {transformers.__version__}
+- **PyTorch:** {torch.__version__}
+- **Datasets:** {datasets.__version__}
+- **Tokenizers:** {tokenizers.__version__}
+
+## Training Results
+{training_callback.get_training_metrics_table() if training_callback else "Training metrics not available."}
 
 ## Performance
 - **Baseline WER:** {baseline_wer:.4f}
 - **Fine-tuned WER:** {finetuned_wer:.4f}
+- **Best WER:** {training_callback.best_metrics["wer"]:.4f if training_callback else finetuned_wer:.4f} (Step {training_callback.best_metrics["step"] if training_callback else "N/A"})
 
 ## Usage
 
@@ -598,7 +652,7 @@ class TranscriptionLoggingCallback(TrainerCallback):
         self.config = config
         self.experiment_logger = experiment_logger
         self.tb_writer = None
-        self.run_timestamp = experiment_logger.run_timestamp  # Get timestamp from logger
+        self.run_timestamp = experiment_logger.run_timestamp
         
         # Set random seed for reproducible example selection
         np.random.seed(config.test_split_seed)
@@ -627,7 +681,24 @@ class TranscriptionLoggingCallback(TrainerCallback):
         
         # Track logged steps to prevent duplicates
         self.logged_steps = collections.deque(maxlen=max_logged_steps)
-
+        
+        # Add metrics storage
+        self.training_metrics = {
+            "steps": [],
+            "epochs": [],
+            "training_loss": [],
+            "validation_loss": [],
+            "wer": [],
+            "learning_rate": []
+        }
+        
+        # Track best metrics
+        self.best_metrics = {
+            "wer": float('inf'),
+            "step": 0,
+            "validation_loss": float('inf')
+        }
+    
     def on_init_end(self, args, state, control, **kwargs):
         """Initialize TensorBoard writer if enabled."""
         if "tensorboard" in args.report_to:
@@ -663,15 +734,16 @@ class TranscriptionLoggingCallback(TrainerCallback):
             
             # Decode all predictions at once
             transcriptions = self.processor.batch_decode(generated_ids, skip_special_tokens=True)
+            
             # Compute WER for each example
             wer_metric = evaluate.load("wer")
             wers = [
                 wer_metric.compute(predictions=[transcription], references=[reference])
                 for transcription, reference in zip(transcriptions, self.references)
-            ]            
+            ]
+            
             # Log all examples
             for idx, (reference, transcription, wer) in enumerate(zip(self.references, transcriptions, wers)):
-                # Log to experiment logger
                 self.experiment_logger.save_prediction(reference, transcription)
                 
                 # Log to TensorBoard if available
@@ -690,7 +762,7 @@ class TranscriptionLoggingCallback(TrainerCallback):
             self.experiment_logger.log(f"Failed to log transcriptions: {str(e)}")
     
     def on_log(self, args, state, control, logs=None, **kwargs):
-        """Log training metrics from the trainer."""
+        """Log training metrics and store them for the model card."""
         if not logs:
             return
         
@@ -700,6 +772,21 @@ class TranscriptionLoggingCallback(TrainerCallback):
             step_info += f" (Epoch {logs['epoch']:.2f})"
         
         self.experiment_logger.log(f"\nTraining Metrics - {step_info}:")
+        
+        # Store metrics
+        self.training_metrics["steps"].append(state.global_step)
+        self.training_metrics["epochs"].append(logs.get("epoch", 0))
+        self.training_metrics["training_loss"].append(logs.get("loss", 0))
+        self.training_metrics["validation_loss"].append(logs.get("eval_loss", 0))
+        self.training_metrics["wer"].append(logs.get("eval_wer", 0))
+        self.training_metrics["learning_rate"].append(logs.get("learning_rate", 0))
+        
+        # Update best metrics
+        current_wer = logs.get("eval_wer", float('inf'))
+        if current_wer < self.best_metrics["wer"]:
+            self.best_metrics["wer"] = current_wer
+            self.best_metrics["step"] = state.global_step
+            self.best_metrics["validation_loss"] = logs.get("eval_loss", float('inf'))
         
         # Log each metric
         for key, value in logs.items():
@@ -712,6 +799,29 @@ class TranscriptionLoggingCallback(TrainerCallback):
                     )
                 except ValueError as e:
                     self.experiment_logger.log(f"Failed to log metric {key}: {str(e)}")
+    
+    def get_training_metrics_table(self) -> str:
+        """Generate a markdown table of training metrics."""
+        if not self.training_metrics["steps"]:
+            return "No training metrics available."
+        
+        # Create table header
+        table = "| Training Loss | Epoch | Step | Validation Loss | WER |\n"
+        table += "|--------------|--------|------|-----------------|-----|\n"
+        
+        # Add each row of metrics
+        for i in range(len(self.training_metrics["steps"])):
+            table += f"| {self.training_metrics['training_loss'][i]:.4f} | "
+            table += f"{self.training_metrics['epochs'][i]:.4f} | "
+            table += f"{self.training_metrics['steps'][i]} | "
+            table += f"{self.training_metrics['validation_loss'][i]:.4f} | "
+            table += f"{self.training_metrics['wer'][i]:.4f} |\n"
+        
+        return table
+    
+    def get_best_metrics(self) -> dict:
+        """Return the best metrics achieved during training."""
+        return self.best_metrics
     
     def on_train_end(self, args, state, control, **kwargs):
         """Cleanup TensorBoard writer."""
@@ -1159,7 +1269,8 @@ if __name__ == "__main__":
                     dataset=dataset,
                     baseline_wer=baseline_wer,
                     finetuned_wer=finetuned_wer,
-                    training_args=training_args
+                    training_args=training_args,
+                    training_callback=callbacks[0] if callbacks else None
                 )
                 
                 with open(run_output_dir / "README.md", "w") as f:
@@ -1173,10 +1284,16 @@ if __name__ == "__main__":
                 # Push to hub using the trainer
                 logger.log("Uploading model to Hugging Face Hub...")
                 try:
-                    trainer.push_to_hub(
-                        commit_message=f"Training completed - WER: {finetuned_wer:.4f}",
-                        blocking=True
-                    )
+                    # Create kwargs for hub upload
+                    hub_kwargs = {
+                        "commit_message": f"Training completed - WER: {finetuned_wer:.4f}",
+                        "blocking": True,
+                        "auto_generate_model_card": False,  # Prevent Trainer from generating its own model card
+                        "repository": config.hub_model_id,
+                        "use_auth_token": token
+                    }
+                    
+                    trainer.push_to_hub(**hub_kwargs)
                     logger.log(f"Model successfully uploaded to: {config.hub_model_id}")
                     logger.log(f"View your model at: https://huggingface.co/{config.hub_model_id}")
                 except Exception as upload_error:
