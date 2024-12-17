@@ -1080,6 +1080,10 @@ if __name__ == "__main__":
     logger.log("\nStarting fine-tuning...")
     trainer.train()
     
+    # Convert model to FP16 before saving
+    logger.log("\nConverting model to FP16 before saving...")
+    model = model.half()  # Convert to FP16
+    
     # Save the final model (which is the best model due to load_best_model_at_end=True)
     trainer.save_model()  # This will save to output_dir from training_args
     processor.save_pretrained(run_output_dir)  # Save processor alongside model
