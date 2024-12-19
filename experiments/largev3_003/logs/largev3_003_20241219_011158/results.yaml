@@ -1,0 +1,208 @@
+metadata:
+  name: largev3_003
+  start_time: '2024-12-19 01:11:58'
+timeline:
+- content: '
+
+    Validating directory structure...'
+  elapsed: 00:00:00
+  type: message
+- content: 'Verified directory: /home/ubuntu/H100WhisperFineTune/whisper_finetuning/experiments/largev3_003/logs'
+  elapsed: 00:00:00
+  type: message
+- content: 'Verified directory: /home/ubuntu/H100WhisperFineTune/whisper_finetuning/experiments/largev3_003/logs/runs'
+  elapsed: 00:00:00
+  type: message
+- content: 'Verified directory: /home/ubuntu/H100WhisperFineTune/whisper_finetuning/experiments/largev3_003/output'
+  elapsed: 00:00:00
+  type: message
+- content: 'Verified directory: /home/ubuntu/H100WhisperFineTune/whisper_finetuning/experiments/largev3_003/logs/largev3_003_20241219_011158'
+  elapsed: 00:00:00
+  type: message
+- content: 'Verified directory: /home/ubuntu/H100WhisperFineTune/whisper_finetuning/experiments/largev3_003/output/largev3_003_20241219_011158'
+  elapsed: 00:00:00
+  type: message
+- content: 'Directory structure validation complete
+
+    '
+  elapsed: 00:00:00
+  type: message
+- content: ==================================================
+  elapsed: 00:00:00
+  type: message
+- content: EXPERIMENT INITIALIZATION
+  elapsed: 00:00:00
+  type: message
+- content: ==================================================
+  elapsed: 00:00:00
+  type: message
+- content: 'Name: largev3_003'
+  elapsed: 00:00:00
+  type: message
+- content: 'Description: 600 Examples Whisper Base Train/Test Split Throatmic finetune'
+  elapsed: 00:00:00
+  type: message
+- content: 'Date: 2024-12-19 01:11:58'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    CONFIGURATION:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Training Parameters:'
+  elapsed: 00:00:00
+  type: message
+- content: '  Batch Size: 16'
+  elapsed: 00:00:00
+  type: message
+- content: '  Learning Rate: 5e-06'
+  elapsed: 00:00:00
+  type: message
+- content: '  Max Steps: 800'
+  elapsed: 00:00:00
+  type: message
+- content: '  Warmup Steps: 50'
+  elapsed: 00:00:00
+  type: message
+- content: '  FP16: True'
+  elapsed: 00:00:00
+  type: message
+- content: '  Gradient Checkpointing: False'
+  elapsed: 00:00:00
+  type: message
+- content: '  Max Gradient Norm: 1.0'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    ENVIRONMENT:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Device: cuda'
+  elapsed: 00:00:00
+  type: message
+- content: 'GPU: NVIDIA H100 PCIe'
+  elapsed: 00:00:00
+  type: message
+- content: 'Available GPU Memory: 84.93 GB'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    MODEL:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Base Model: openai/whisper-large-v3'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    DATASET:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Source: pauljunsukhan/throatmic_codered'
+  elapsed: 00:00:00
+  type: message
+- content: 'Total Examples: 604'
+  elapsed: 00:00:09
+  type: message
+- content: '
+
+    Data Split:'
+  elapsed: 00:00:09
+  type: message
+- content: '  Training Examples: 480'
+  elapsed: 00:00:09
+  type: message
+- content: '  Testing Examples: 124'
+  elapsed: 00:00:09
+  type: message
+- content: '  Test Split Ratio: 20.53%'
+  elapsed: 00:00:09
+  type: message
+- content: '
+
+    Audio Processing:'
+  elapsed: 00:00:09
+  type: message
+- content: '  Normalization: True'
+  elapsed: 00:00:09
+  type: message
+- content: '
+
+    Evaluation Settings:'
+  elapsed: 00:00:09
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:09
+  type: message
+- content: '  Strategy: steps'
+  elapsed: 00:00:09
+  type: message
+- content: '  Eval Steps: 25'
+  elapsed: 00:00:09
+  type: message
+- content: '  Save Steps: 25'
+  elapsed: 00:00:09
+  type: message
+- content: '  Logging Steps: 25'
+  elapsed: 00:00:09
+  type: message
+- content: '  Load Best Model: True'
+  elapsed: 00:00:09
+  type: message
+- content: '  Metric: wer'
+  elapsed: 00:00:09
+  type: message
+- content: '  Greater is Better: False'
+  elapsed: 00:00:09
+  type: message
+- content: '  Save Total Limit: 10'
+  elapsed: 00:00:09
+  type: message
+- content: ==================================================
+  elapsed: 00:00:09
+  type: message
+- content: '
+
+    '
+  elapsed: 00:00:09
+  type: message
+- content: ==================================================
+  elapsed: 00:00:09
+  type: message
+- content: STARTING EXPERIMENT
+  elapsed: 00:00:09
+  type: message
+- content: '==================================================
+
+    '
+  elapsed: 00:00:09
+  type: message
+- content: 'Loading model and processor: openai/whisper-large-v3'
+  elapsed: 00:00:09
+  type: message
+- content: 'Model and processor loaded successfully
+
+    '
+  elapsed: 00:00:13
+  type: message
+- content: Evaluating baseline model...
+  elapsed: 00:00:13
+  type: message
+- content: Evaluating model on test split...
+  elapsed: 00:00:13
+  type: message

@@ -1,6 +1,9 @@
 import os
 import torch
 from datasets import load_dataset
+import transformers
+import datasets
+import tokenizers
 from transformers import WhisperProcessor, WhisperForConditionalGeneration
 import evaluate
 from dataclasses import dataclass
@@ -84,168 +87,6 @@ class RunTimestamp:
 def create_run_timestamp() -> RunTimestamp:
     """Create a timestamp for the current run that will be used consistently throughout"""
     return RunTimestamp(created_at=datetime.now())
-
-def create_model_card(config, dataset, baseline_wer, finetuned_wer, training_args, training_callback=None):
-    """Create a model card with training details and performance metrics."""
-    
-    # Safely get dataset sizes with fallbacks
-    try:
-        train_size = len(dataset.get('train', [])) if dataset else 0
-        test_size = len(dataset.get('test', [])) if dataset else 0
-    except Exception:
-        train_size = 0
-        test_size = 0
-    
-    # Safely get config attributes with fallbacks
-    safe_config = {
-        'model_name': getattr(config, 'model_name', 'unknown_model'),
-        'dataset_name': getattr(config, 'dataset_name', 'unknown_dataset'),
-        'batch_size': getattr(config, 'batch_size', 'Not specified'),
-        'learning_rate': getattr(config, 'learning_rate', 'Not specified'),
-        'warmup_steps': getattr(config, 'warmup_steps', 'Not specified'),
-        'max_steps': getattr(config, 'max_steps', 'Not specified'),
-        'weight_decay': getattr(config, 'weight_decay', 'Not specified'),
-        'fp16': getattr(config, 'fp16', 'Not specified'),
-        'gradient_checkpointing': getattr(config, 'gradient_checkpointing', 'Not specified')
-    }
-    
-    # Sanitize model name for citation
-    safe_model_name = ''.join(c if c.isalnum() else '_' for c in safe_config['model_name'].lower())
-    
-    # Get hub_model_id safely
-    hub_model_id = getattr(training_args, 'hub_model_id', 'undefined_model_id')
-    
-    # Validate numeric metrics
-    try:
-        baseline_wer = float(baseline_wer)
-        finetuned_wer = float(finetuned_wer)
-        if math.isnan(baseline_wer) or math.isinf(baseline_wer):
-            baseline_wer = 0.0
-        if math.isnan(finetuned_wer) or math.isinf(finetuned_wer):
-            finetuned_wer = 0.0
-    except (TypeError, ValueError):
-        baseline_wer = 0.0
-        finetuned_wer = 0.0
-    
-    # Add HuggingFace metadata block
-    metadata_block = """---
-language: en
-tags:
-  - whisper
-  - audio
-  - speech-recognition
-  - pytorch
-  - throat-microphone
-  - subvocalization
-license: mit
-datasets:
-  - {dataset_name}
-metrics:
-  - wer
-model-index:
-  - name: {model_id}
-    results:
-      - task: 
-          name: Automatic Speech Recognition
-          type: automatic-speech-recognition
-        dataset:
-          name: {dataset_name}
-          type: {dataset_name}
-        metrics:
-          - name: WER
-            type: wer
-            value: {wer:.4f}
----
-
-""".format(
-        dataset_name=safe_config['dataset_name'],
-        model_id=hub_model_id,
-        wer=finetuned_wer
-    )
-    
-    model_card = metadata_block + f"""# Whisper Fine-tuned Model
-
-This model is a fine-tuned version of `{safe_config['model_name']}` on `{safe_config['dataset_name']}`.
-
-## Model Description
-- **Model Type:** Fine-tuned Whisper model for speech recognition
-- **Language:** English
-- **Task:** Automatic Speech Recognition
-- **Domain:** Throat Microphone Speech Recognition
-
-## Training Details
-- **Base Model:** `{safe_config['model_name']}`
-- **Dataset:** `{safe_config['dataset_name']}`
-- **Training Examples:** {train_size}
-- **Test Examples:** {test_size}
-- **Training Steps:** {safe_config['max_steps']}
-
-### Training Hyperparameters
-The following hyperparameters were used during training:
-- **Learning Rate:** {safe_config['learning_rate']}
-- **Train Batch Size:** {safe_config['batch_size']}
-- **Eval Batch Size:** {config.eval_batch_size}
-- **Seed:** {config.test_split_seed}
-- **Optimizer:** AdamW with betas=(0.9,0.999) and epsilon=1e-08
-- **LR Scheduler Type:** {config.lr_scheduler_type}
-- **Warmup Steps:** {safe_config['warmup_steps']}
-- **Training Steps:** {safe_config['max_steps']}
-- **Mixed Precision Training:** Native AMP
-- **Weight Decay:** {safe_config['weight_decay']}
-- **Gradient Checkpointing:** {safe_config['gradient_checkpointing']}
-- **FP16:** {safe_config['fp16']}
-- **Label Smoothing:** {config.label_smoothing}
-- **Max Gradient Norm:** {config.max_grad_norm}
-
-### Framework Versions
-- **Transformers:** {transformers.__version__}
-- **PyTorch:** {torch.__version__}
-- **Datasets:** {datasets.__version__}
-- **Tokenizers:** {tokenizers.__version__}
-
-## Training Results
-{training_callback.get_training_metrics_table() if training_callback else "Training metrics not available."}
-
-## Performance
-- **Baseline WER:** {baseline_wer:.4f}
-- **Fine-tuned WER:** {finetuned_wer:.4f}
-- **Best WER:** {training_callback.best_metrics["wer"]:.4f if training_callback else finetuned_wer:.4f} (Step {training_callback.best_metrics["step"] if training_callback else "N/A"})
-
-## Usage
-
-You can use this model as follows:
-
-<pre><code class="language-python">
-from transformers import WhisperProcessor, WhisperForConditionalGeneration
-
-# Load processor and model
-processor = WhisperProcessor.from_pretrained("{hub_model_id}")
-model = WhisperForConditionalGeneration.from_pretrained("{hub_model_id}")
-
-# Example usage
-inputs = processor("Audio input data", return_tensors="pt", sampling_rate=16000)
-outputs = model.generate(inputs["input_features"])
-transcription = processor.batch_decode(outputs, skip_special_tokens=True)
-print(transcription)
-</code></pre>
-
-## Citation
-If you use this model, please cite:
-
-<pre><code class="language-bibtex">
-@misc{{whisper_finetune_{safe_model_name}}},
-  title={{{{Fine-tuned Whisper Model}}}},
-  author={{{{Your Name or Team Name}}}},
-  year={{{{2024}}}},
-  howpublished={{https://huggingface.co/{hub_model_id}}}
-</code></pre>
-
-## Acknowledgments
-Thanks to the Hugging Face team and the community for providing tools to fine-tune and deploy this model.
-"""
-
-    return model_card
-
 
 class ExperimentLogger:
     """Simple logger for experiment tracking"""
@@ -585,8 +426,10 @@ def evaluate_model(model, dataset, processor, split="test"):
     predictions = []
     references = []
     
+    # Check if model is in FP16
+    is_fp16 = next(model.parameters()).dtype == torch.float16
+    
     for i, item in enumerate(tqdm(dataset[split])):
-        # Process audio with attention mask
         processor_kwargs = {
             "sampling_rate": item["audio"]["sampling_rate"],
             "return_tensors": "pt",
@@ -596,7 +439,13 @@ def evaluate_model(model, dataset, processor, split="test"):
         inputs = processor(
             item["audio"]["array"],
             **processor_kwargs
-        ).to(DEVICE)
+        )
+        
+        # Convert inputs to match model dtype
+        if is_fp16:
+            inputs.input_features = inputs.input_features.half().to(DEVICE)
+        else:
+            inputs.input_features = inputs.input_features.to(DEVICE)
         
         # Generate prediction
         with torch.no_grad():
@@ -991,8 +840,8 @@ if __name__ == "__main__":
 
     
     logger.log("=" * 50)
-    
-    logger.log("\n" + "=" * 50)
+    logger.log("\n")
+    logger.log("=" * 50)
     logger.log("STARTING EXPERIMENT")
     logger.log("=" * 50 + "\n")
     
@@ -1000,13 +849,13 @@ if __name__ == "__main__":
     logger.log(f"Loading model and processor: {config.model_name}")
     processor = WhisperProcessor.from_pretrained(config.model_name)
     model = WhisperForConditionalGeneration.from_pretrained(config.model_name).to(DEVICE)
-    
+
     # Configure generation settings
     model.generation_config.language = config.generation_language
     model.generation_config.task = config.generation_task
     model.generation_config.forced_decoder_ids = None
     model.generation_config.use_cache = config.use_cache
-    
+
     logger.log("Model and processor loaded successfully\n")
     
     # Evaluate baseline performance
@@ -1194,17 +1043,17 @@ if __name__ == "__main__":
     # Convert model to FP16 before saving
     logger.log("\nConverting model to FP16 before saving...")
     model = model.half()  # Convert to FP16
-    
+    trainer.model = model  # Update trainer's model reference
+
     # Save the final model (which is the best model due to load_best_model_at_end=True)
     trainer.save_model()  # This will save to output_dir from training_args
     processor.save_pretrained(run_output_dir)  # Save processor alongside model
-    
+
     # Evaluate fine-tuned model
     logger.log("\nEvaluating fine-tuned model...")
     finetuned_wer = evaluate_model(model, dataset, processor)
     
-    # Save results
-    logger.log("\nSaving WER to txt")
+    # Save results using consistent timestamp
     results_file = LOG_DIR / f"{config.name}_{run_timestamp.get_formatted()}_results.txt"
     with open(results_file, "w") as f:
         f.write(f"Baseline WER: {baseline_wer:.4f}\n")
@@ -1249,6 +1098,12 @@ if __name__ == "__main__":
             try:
                 logger.log("\nPreparing for upload to Hugging Face Hub...")
                 
+                # Get token from HfFolder
+                token = HfFolder.get_token()
+                
+                # Create API instance with token
+                api = HfApi(token=token)
+                
                 # Create the repository if it doesn't exist
                 try:
                     api.create_repo(
@@ -1264,19 +1119,6 @@ if __name__ == "__main__":
                         logger.log(f"Warning: Repository creation issue: {str(e)}")
                         logger.log("Will attempt to upload anyway...")
                 
-                # Create and save model card
-                model_card = create_model_card(
-                    config=config,
-                    dataset=dataset,
-                    baseline_wer=baseline_wer,
-                    finetuned_wer=finetuned_wer,
-                    training_args=training_args,
-                    training_callback=callbacks[0] if callbacks else None
-                )
-                
-                with open(run_output_dir / "README.md", "w") as f:
-                    f.write(model_card)
-                
                 # Configure trainer for hub upload
                 trainer.args.push_to_hub = True
                 trainer.args.hub_model_id = config.hub_model_id
@@ -1285,13 +1127,11 @@ if __name__ == "__main__":
                 # Push to hub using the trainer
                 logger.log("Uploading model to Hugging Face Hub...")
                 try:
-                    # Create kwargs for hub upload
+                    # Create kwargs for hub upload - remove repo_id from create_model_card
                     hub_kwargs = {
                         "commit_message": f"Training completed - WER: {finetuned_wer:.4f}",
                         "blocking": True,
-                        "auto_generate_model_card": False,  # Prevent Trainer from generating its own model card
-                        "repository": config.hub_model_id,
-                        "use_auth_token": token
+                        "token": token
                     }
                     
                     trainer.push_to_hub(**hub_kwargs)

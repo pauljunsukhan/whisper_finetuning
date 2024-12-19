@@ -1,0 +1,1277 @@
+metadata:
+  name: largev3_003
+  start_time: '2024-12-18 02:10:46'
+timeline:
+- content: '
+
+    Validating directory structure...'
+  elapsed: 00:00:00
+  type: message
+- content: 'Verified directory: /home/ubuntu/H100WhisperFineTune/whisper_finetuning/experiments/largev3_003/logs'
+  elapsed: 00:00:00
+  type: message
+- content: 'Verified directory: /home/ubuntu/H100WhisperFineTune/whisper_finetuning/experiments/largev3_003/logs/runs'
+  elapsed: 00:00:00
+  type: message
+- content: 'Verified directory: /home/ubuntu/H100WhisperFineTune/whisper_finetuning/experiments/largev3_003/output'
+  elapsed: 00:00:00
+  type: message
+- content: 'Verified directory: /home/ubuntu/H100WhisperFineTune/whisper_finetuning/experiments/largev3_003/logs/largev3_003_20241218_021046'
+  elapsed: 00:00:00
+  type: message
+- content: 'Verified directory: /home/ubuntu/H100WhisperFineTune/whisper_finetuning/experiments/largev3_003/output/largev3_003_20241218_021046'
+  elapsed: 00:00:00
+  type: message
+- content: 'Directory structure validation complete
+
+    '
+  elapsed: 00:00:00
+  type: message
+- content: ==================================================
+  elapsed: 00:00:00
+  type: message
+- content: EXPERIMENT INITIALIZATION
+  elapsed: 00:00:00
+  type: message
+- content: ==================================================
+  elapsed: 00:00:00
+  type: message
+- content: 'Name: largev3_003'
+  elapsed: 00:00:00
+  type: message
+- content: 'Description: 600 Examples Whisper Base Train/Test Split Throatmic finetune'
+  elapsed: 00:00:00
+  type: message
+- content: 'Date: 2024-12-18 02:10:46'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    CONFIGURATION:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Training Parameters:'
+  elapsed: 00:00:00
+  type: message
+- content: '  Batch Size: 16'
+  elapsed: 00:00:00
+  type: message
+- content: '  Learning Rate: 5e-06'
+  elapsed: 00:00:00
+  type: message
+- content: '  Max Steps: 800'
+  elapsed: 00:00:00
+  type: message
+- content: '  Warmup Steps: 50'
+  elapsed: 00:00:00
+  type: message
+- content: '  FP16: True'
+  elapsed: 00:00:00
+  type: message
+- content: '  Gradient Checkpointing: False'
+  elapsed: 00:00:00
+  type: message
+- content: '  Max Gradient Norm: 1.0'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    ENVIRONMENT:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Device: cuda'
+  elapsed: 00:00:00
+  type: message
+- content: 'GPU: NVIDIA H100 PCIe'
+  elapsed: 00:00:00
+  type: message
+- content: 'Available GPU Memory: 84.93 GB'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    MODEL:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Base Model: openai/whisper-large-v3'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    DATASET:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Source: pauljunsukhan/throatmic_codered'
+  elapsed: 00:00:00
+  type: message
+- content: 'Total Examples: 604'
+  elapsed: 00:00:09
+  type: message
+- content: '
+
+    Data Split:'
+  elapsed: 00:00:09
+  type: message
+- content: '  Training Examples: 480'
+  elapsed: 00:00:09
+  type: message
+- content: '  Testing Examples: 124'
+  elapsed: 00:00:09
+  type: message
+- content: '  Test Split Ratio: 20.53%'
+  elapsed: 00:00:09
+  type: message
+- content: '
+
+    Audio Processing:'
+  elapsed: 00:00:09
+  type: message
+- content: '  Normalization: True'
+  elapsed: 00:00:09
+  type: message
+- content: '
+
+    Evaluation Settings:'
+  elapsed: 00:00:09
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:09
+  type: message
+- content: '  Strategy: steps'
+  elapsed: 00:00:09
+  type: message
+- content: '  Eval Steps: 25'
+  elapsed: 00:00:09
+  type: message
+- content: '  Save Steps: 25'
+  elapsed: 00:00:09
+  type: message
+- content: '  Logging Steps: 25'
+  elapsed: 00:00:09
+  type: message
+- content: '  Load Best Model: True'
+  elapsed: 00:00:09
+  type: message
+- content: '  Metric: wer'
+  elapsed: 00:00:09
+  type: message
+- content: '  Greater is Better: False'
+  elapsed: 00:00:09
+  type: message
+- content: '  Save Total Limit: 10'
+  elapsed: 00:00:09
+  type: message
+- content: ==================================================
+  elapsed: 00:00:09
+  type: message
+- content: '
+
+    '
+  elapsed: 00:00:09
+  type: message
+- content: ==================================================
+  elapsed: 00:00:09
+  type: message
+- content: STARTING EXPERIMENT
+  elapsed: 00:00:09
+  type: message
+- content: '==================================================
+
+    '
+  elapsed: 00:00:09
+  type: message
+- content: 'Loading model and processor: openai/whisper-large-v3'
+  elapsed: 00:00:09
+  type: message
+- content: 'Model and processor loaded successfully
+
+    '
+  elapsed: 00:00:13
+  type: message
+- content: Evaluating baseline model...
+  elapsed: 00:00:13
+  type: message
+- content: Evaluating model on test split...
+  elapsed: 00:00:13
+  type: message
+- content: 'Example predictions:'
+  elapsed: 00:01:40
+  type: message
+- elapsed: 00:01:41
+  prediction: ' Peculiar or unobtrusive, male females are both present and open-sized.'
+  reference: Peculiar among rotifers, males and females are both present and equal
+    in size.
+  type: prediction
+  wer: 0.5384615384615384
+- elapsed: 00:01:41
+  prediction: ' In addition, there was an audible shortage of traffic police and ambulance
+    running.'
+  reference: In addition there is a notable shortage of traffic police in mainland
+    China.
+  type: prediction
+  wer: 0.5384615384615384
+- elapsed: 00:01:42
+  prediction: ' This incorporates a sculpture of the ship, I''m sorry to my voice.'
+  reference: This incorporates a sculpture of the ship, half-submerged by the waves.
+  type: prediction
+  wer: 0.45454545454545453
+- elapsed: 00:01:42
+  name: wer
+  type: metric
+  value: 0.7461832061068703
+- elapsed: 00:01:42
+  name: baseline_wer
+  type: metric
+  value: 0.7461832061068703
+- content: '
+
+    Preparing dataset for training...'
+  elapsed: 00:01:42
+  type: message
+- content: Processing train split...
+  elapsed: 00:01:42
+  type: message
+- content: Processed 480 training examples
+  elapsed: 00:01:44
+  type: message
+- content: Processing test split...
+  elapsed: 00:01:44
+  type: message
+- content: Processed 124 test examples
+  elapsed: 00:01:45
+  type: message
+- content: Dataset preparation complete
+  elapsed: 00:01:50
+  type: message
+- content: '
+
+    Training Configuration:'
+  elapsed: 00:01:50
+  type: message
+- content: ==================================================
+  elapsed: 00:01:50
+  type: message
+- content: '
+
+    Core Training Parameters:'
+  elapsed: 00:01:50
+  type: message
+- content: '--------------------'
+  elapsed: 00:01:51
+  type: message
+- content: '  Learning Rate: 5e-06'
+  elapsed: 00:01:51
+  type: message
+- content: '  LR Scheduler: linear'
+  elapsed: 00:01:51
+  type: message
+- content: '  Max Steps: 800'
+  elapsed: 00:01:51
+  type: message
+- content: '  Warmup Steps: 50'
+  elapsed: 00:01:51
+  type: message
+- content: '  Warmup Ratio: 0.00%'
+  elapsed: 00:01:51
+  type: message
+- content: '  Optimizer: AdamW'
+  elapsed: 00:01:51
+  type: message
+- content: '
+
+    Generation Settings:'
+  elapsed: 00:01:51
+  type: message
+- content: '--------------------'
+  elapsed: 00:01:51
+  type: message
+- content: '  Generation Max Length: 225'
+  elapsed: 00:01:51
+  type: message
+- content: '  Predict with Generate: True'
+  elapsed: 00:01:51
+  type: message
+- content: '  Language: en'
+  elapsed: 00:01:51
+  type: message
+- content: '  Task: transcribe'
+  elapsed: 00:01:51
+  type: message
+- content: '  Use Cache: False'
+  elapsed: 00:01:51
+  type: message
+- content: '
+
+    Batch Configuration:'
+  elapsed: 00:01:51
+  type: message
+- content: '--------------------'
+  elapsed: 00:01:51
+  type: message
+- content: '  Per Device Train Batch Size: 16'
+  elapsed: 00:01:51
+  type: message
+- content: '  Per Device Eval Batch Size: 64'
+  elapsed: 00:01:51
+  type: message
+- content: '  Gradient Accumulation Steps: 1'
+  elapsed: 00:01:51
+  type: message
+- content: '  Effective Batch Size: 16'
+  elapsed: 00:01:51
+  type: message
+- content: '
+
+    Regularization:'
+  elapsed: 00:01:51
+  type: message
+- content: '--------------------'
+  elapsed: 00:01:51
+  type: message
+- content: '  Weight Decay: 0.0'
+  elapsed: 00:01:51
+  type: message
+- content: '  Label Smoothing: 0.0'
+  elapsed: 00:01:51
+  type: message
+- content: '  Dropout: 0.0'
+  elapsed: 00:01:51
+  type: message
+- content: '  Max Gradient Norm: 1.0'
+  elapsed: 00:01:51
+  type: message
+- content: '
+
+    Memory Optimization:'
+  elapsed: 00:01:51
+  type: message
+- content: '--------------------'
+  elapsed: 00:01:51
+  type: message
+- content: '  Gradient Checkpointing: False'
+  elapsed: 00:01:51
+  type: message
+- content: '  FP16 Training: True'
+  elapsed: 00:01:51
+  type: message
+- content: '  FP16 Opt Level: O1'
+  elapsed: 00:01:51
+  type: message
+- content: '  FP16 Backend: auto'
+  elapsed: 00:01:51
+  type: message
+- content: '
+
+    Evaluation & Saving Configuration:'
+  elapsed: 00:01:51
+  type: message
+- content: '--------------------'
+  elapsed: 00:01:51
+  type: message
+- content: '  Evaluation Strategy: steps'
+  elapsed: 00:01:51
+  type: message
+- content: '  Eval Steps: 25'
+  elapsed: 00:01:51
+  type: message
+- content: '  Save Steps: 25'
+  elapsed: 00:01:51
+  type: message
+- content: '  Logging Steps: 25'
+  elapsed: 00:01:51
+  type: message
+- content: '  Save Total Limit: 10'
+  elapsed: 00:01:51
+  type: message
+- content: '  Load Best Model at End: True'
+  elapsed: 00:01:51
+  type: message
+- content: '  Metric for Best Model: wer'
+  elapsed: 00:01:51
+  type: message
+- content: '  Greater is Better: False'
+  elapsed: 00:01:51
+  type: message
+- content: '
+
+    Early Stopping Configuration:'
+  elapsed: 00:01:51
+  type: message
+- content: '--------------------'
+  elapsed: 00:01:51
+  type: message
+- content: '  Enabled: True'
+  elapsed: 00:01:51
+  type: message
+- content: '  Patience: 5'
+  elapsed: 00:01:51
+  type: message
+- content: '  Threshold: 0.0001'
+  elapsed: 00:01:51
+  type: message
+- content: '
+
+    Output & Logging Configuration:'
+  elapsed: 00:01:51
+  type: message
+- content: '--------------------'
+  elapsed: 00:01:51
+  type: message
+- content: '  Output Directory: /home/ubuntu/H100WhisperFineTune/whisper_finetuning/experiments/largev3_003/output/largev3_003_20241218_021046'
+  elapsed: 00:01:51
+  type: message
+- content: '  Logging Directory: /home/ubuntu/H100WhisperFineTune/whisper_finetuning/experiments/largev3_003/logs/runs/largev3_003_20241218_021046'
+  elapsed: 00:01:51
+  type: message
+- content: '  Report To: [''tensorboard'']'
+  elapsed: 00:01:51
+  type: message
+- content: '  Push to Hub: False'
+  elapsed: 00:01:52
+  type: message
+- content: '
+
+    Monitoring Configuration:'
+  elapsed: 00:01:52
+  type: message
+- content: '--------------------'
+  elapsed: 00:01:52
+  type: message
+- content: '  Gradient History Size: 1000'
+  elapsed: 00:01:52
+  type: message
+- content: '  Significant Change Threshold: 1.0'
+  elapsed: 00:01:52
+  type: message
+- content: '  Log Top N Gradients: 5'
+  elapsed: 00:01:52
+  type: message
+- content: ==================================================
+  elapsed: 00:01:52
+  type: message
+- content: 'Selected example indices for tracking: [18, 42, 36, 76, 53]'
+  elapsed: 00:01:52
+  type: message
+- content: Initialized TensorBoard writer in /home/ubuntu/H100WhisperFineTune/whisper_finetuning/experiments/largev3_003/logs/runs/largev3_003_20241218_021046
+  elapsed: 00:01:52
+  type: message
+- content: '
+
+    Starting fine-tuning...'
+  elapsed: 00:01:52
+  type: message
+- content: '
+
+    Training Metrics - Step 25 (Epoch 0.83):'
+  elapsed: 00:03:24
+  type: message
+- elapsed: 00:03:24
+  name: train_loss
+  type: metric
+  value: 3.8127
+- elapsed: 00:03:24
+  name: train_grad_norm
+  type: metric
+  value: 16.34125328063965
+- elapsed: 00:03:24
+  name: train_learning_rate
+  type: metric
+  value: 2.3000000000000004e-06
+- elapsed: 00:03:24
+  name: train_epoch
+  type: metric
+  value: 0.8333333333333334
+- content: '
+
+    Training Metrics - Step 25 (Epoch 0.83):'
+  elapsed: 00:04:29
+  type: message
+- elapsed: 00:04:29
+  name: train_eval_loss
+  type: metric
+  value: 2.628099203109741
+- elapsed: 00:04:29
+  name: train_eval_wer
+  type: metric
+  value: 0.5
+- elapsed: 00:04:30
+  name: train_eval_runtime
+  type: metric
+  value: 64.9086
+- elapsed: 00:04:30
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.91
+- elapsed: 00:04:30
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.031
+- elapsed: 00:04:30
+  name: train_epoch
+  type: metric
+  value: 0.8333333333333334
+- content: '
+
+    Transcription Examples (Step 25):'
+  elapsed: 00:04:30
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:04:30
+  type: message
+- elapsed: 00:04:31
+  prediction: ' His mantle, tail, and upper wing are gray-black, and the rest is white.'
+  reference: Its mantle, tail and upperwing are grey-black, and the rest is white.
+  type: prediction
+  wer: 0.4166666666666667
+- elapsed: 00:04:32
+  prediction: ' It is on a water smother, supplementing its product''s soft, sweet
+    fruit, palm nectar.'
+  reference: It is omnivorous however, supplementing its prey with soft, sweet fruit,
+    pollen and nectar.
+  type: prediction
+  wer: 0.5714285714285714
+- elapsed: 00:04:33
+  prediction: ' Grace is described by the Doctor as tired of life and afraid of time.'
+  reference: Grace is described by the Doctor as tired of life but afraid of dying.
+  type: prediction
+  wer: 0.14285714285714285
+- elapsed: 00:04:33
+  prediction: ' We''ve 10 people died, only have 200 left.'
+  reference: Eighteen people died, and more than two hundred were injured.
+  type: prediction
+  wer: 0.9
+- elapsed: 00:04:34
+  prediction: " The park is part of the International Greater Lompoclo Trans-Franc\xE9\
+    s Park."
+  reference: The park is part of the international Great Limpopo Transfrontier Park.
+  type: prediction
+  wer: 0.36363636363636365
+- content: '
+
+    Training Metrics - Step 50 (Epoch 1.67):'
+  elapsed: 00:07:04
+  type: message
+- elapsed: 00:07:04
+  name: train_loss
+  type: metric
+  value: 2.012
+- content: 'Failed to log metric grad_norm: Invalid metric value for train_grad_norm:
+    nan'
+  elapsed: 00:07:04
+  type: message
+- elapsed: 00:07:04
+  name: train_learning_rate
+  type: metric
+  value: 4.7e-06
+- elapsed: 00:07:04
+  name: train_epoch
+  type: metric
+  value: 1.6666666666666665
+- content: '
+
+    Training Metrics - Step 50 (Epoch 1.67):'
+  elapsed: 00:08:09
+  type: message
+- elapsed: 00:08:09
+  name: train_eval_loss
+  type: metric
+  value: 1.6492984294891357
+- elapsed: 00:08:09
+  name: train_eval_wer
+  type: metric
+  value: 0.3256997455470738
+- elapsed: 00:08:09
+  name: train_eval_runtime
+  type: metric
+  value: 64.5947
+- elapsed: 00:08:09
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.92
+- elapsed: 00:08:09
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.031
+- elapsed: 00:08:09
+  name: train_epoch
+  type: metric
+  value: 1.6666666666666665
+- content: '
+
+    Transcription Examples (Step 50):'
+  elapsed: 00:08:09
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:08:09
+  type: message
+- elapsed: 00:08:11
+  prediction: ' His mantle, tail and upper wing are grey-black and the rest is white.'
+  reference: Its mantle, tail and upperwing are grey-black, and the rest is white.
+  type: prediction
+  wer: 0.3333333333333333
+- elapsed: 00:08:11
+  prediction: ' It is omnivorous, however, supplementing its primate soft, sweet fruit
+    pollen nectar.'
+  reference: It is omnivorous however, supplementing its prey with soft, sweet fruit,
+    pollen and nectar.
+  type: prediction
+  wer: 0.35714285714285715
+- elapsed: 00:08:12
+  prediction: ' Grace is described by the Doctor as tired of life and afraid of time.'
+  reference: Grace is described by the Doctor as tired of life but afraid of dying.
+  type: prediction
+  wer: 0.14285714285714285
+- elapsed: 00:08:13
+  prediction: ' 18 people died, only 200 injured.'
+  reference: Eighteen people died, and more than two hundred were injured.
+  type: prediction
+  wer: 0.7
+- elapsed: 00:08:13
+  prediction: ' The park is part of the International Great Limpopo Trans Frontier
+    Park.'
+  reference: The park is part of the international Great Limpopo Transfrontier Park.
+  type: prediction
+  wer: 0.2727272727272727
+- content: '
+
+    Training Metrics - Step 75 (Epoch 2.50):'
+  elapsed: 00:10:49
+  type: message
+- elapsed: 00:10:49
+  name: train_loss
+  type: metric
+  value: 0.8852
+- elapsed: 00:10:49
+  name: train_grad_norm
+  type: metric
+  value: 6.2327351570129395
+- elapsed: 00:10:49
+  name: train_learning_rate
+  type: metric
+  value: 4.853333333333334e-06
+- elapsed: 00:10:49
+  name: train_epoch
+  type: metric
+  value: 2.5
+- content: '
+
+    Training Metrics - Step 75 (Epoch 2.50):'
+  elapsed: 00:11:56
+  type: message
+- elapsed: 00:11:56
+  name: train_eval_loss
+  type: metric
+  value: 0.7390329241752625
+- elapsed: 00:11:56
+  name: train_eval_wer
+  type: metric
+  value: 0.26463104325699743
+- elapsed: 00:11:56
+  name: train_eval_runtime
+  type: metric
+  value: 66.3996
+- elapsed: 00:11:56
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.867
+- elapsed: 00:11:56
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.03
+- elapsed: 00:11:56
+  name: train_epoch
+  type: metric
+  value: 2.5
+- content: '
+
+    Transcription Examples (Step 75):'
+  elapsed: 00:11:56
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:11:56
+  type: message
+- elapsed: 00:11:58
+  prediction: ' His mantle, tail and upper wing are grey-black, and the rest is white.'
+  reference: Its mantle, tail and upperwing are grey-black, and the rest is white.
+  type: prediction
+  wer: 0.25
+- elapsed: 00:11:58
+  prediction: ' It is omnivorous, however, supplementing its prey with soft, sweet
+    fruit, pollen, and nectar.'
+  reference: It is omnivorous however, supplementing its prey with soft, sweet fruit,
+    pollen and nectar.
+  type: prediction
+  wer: 0.14285714285714285
+- elapsed: 00:11:59
+  prediction: ' Grace is described by the Doctor as tired of life but afraid of time.'
+  reference: Grace is described by the Doctor as tired of life but afraid of dying.
+  type: prediction
+  wer: 0.07142857142857142
+- elapsed: 00:11:59
+  prediction: ' 18 people died, only 200 were injured.'
+  reference: Eighteen people died, and more than two hundred were injured.
+  type: prediction
+  wer: 0.6
+- elapsed: 00:12:00
+  prediction: ' The park is part of the International Great Limpopo Trans-Frontier
+    Park.'
+  reference: The park is part of the international Great Limpopo Transfrontier Park.
+  type: prediction
+  wer: 0.18181818181818182
+- content: '
+
+    Training Metrics - Step 100 (Epoch 3.33):'
+  elapsed: 00:14:22
+  type: message
+- elapsed: 00:14:22
+  name: train_loss
+  type: metric
+  value: 0.2687
+- elapsed: 00:14:22
+  name: train_grad_norm
+  type: metric
+  value: 2.205758571624756
+- elapsed: 00:14:23
+  name: train_learning_rate
+  type: metric
+  value: 4.686666666666667e-06
+- elapsed: 00:14:23
+  name: train_epoch
+  type: metric
+  value: 3.3333333333333335
+- content: '
+
+    Training Metrics - Step 100 (Epoch 3.33):'
+  elapsed: 00:15:28
+  type: message
+- elapsed: 00:15:28
+  name: train_eval_loss
+  type: metric
+  value: 0.6274313926696777
+- elapsed: 00:15:28
+  name: train_eval_wer
+  type: metric
+  value: 0.26717557251908397
+- elapsed: 00:15:28
+  name: train_eval_runtime
+  type: metric
+  value: 65.106
+- elapsed: 00:15:28
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.905
+- elapsed: 00:15:28
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.031
+- elapsed: 00:15:28
+  name: train_epoch
+  type: metric
+  value: 3.3333333333333335
+- content: '
+
+    Transcription Examples (Step 100):'
+  elapsed: 00:15:28
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:15:28
+  type: message
+- elapsed: 00:15:30
+  prediction: His mantle, tail, and upper wing are grey-black, and the rest is white.
+  reference: Its mantle, tail and upperwing are grey-black, and the rest is white.
+  type: prediction
+  wer: 0.3333333333333333
+- elapsed: 00:15:30
+  prediction: It is omnivorous, however, supplementing its prey with soft, sweet fruit,
+    pollen, and nectar.
+  reference: It is omnivorous however, supplementing its prey with soft, sweet fruit,
+    pollen and nectar.
+  type: prediction
+  wer: 0.14285714285714285
+- elapsed: 00:15:31
+  prediction: Grace is described by the Doctor as tired of life but afraid of time.
+  reference: Grace is described by the Doctor as tired of life but afraid of dying.
+  type: prediction
+  wer: 0.07142857142857142
+- elapsed: 00:15:31
+  prediction: ' 18 people died, only 200 were injured.'
+  reference: Eighteen people died, and more than two hundred were injured.
+  type: prediction
+  wer: 0.6
+- elapsed: 00:15:32
+  prediction: The park is part of the International Grade in Popo Trans Frontier Park.
+  reference: The park is part of the international Great Limpopo Transfrontier Park.
+  type: prediction
+  wer: 0.5454545454545454
+- content: '
+
+    Training Metrics - Step 125 (Epoch 4.17):'
+  elapsed: 00:17:57
+  type: message
+- elapsed: 00:17:57
+  name: train_loss
+  type: metric
+  value: 0.1169
+- elapsed: 00:17:57
+  name: train_grad_norm
+  type: metric
+  value: 2.0441484451293945
+- elapsed: 00:17:57
+  name: train_learning_rate
+  type: metric
+  value: 4.520000000000001e-06
+- elapsed: 00:17:57
+  name: train_epoch
+  type: metric
+  value: 4.166666666666667
+- content: '
+
+    Training Metrics - Step 125 (Epoch 4.17):'
+  elapsed: 00:19:05
+  type: message
+- elapsed: 00:19:05
+  name: train_eval_loss
+  type: metric
+  value: 0.6412070989608765
+- elapsed: 00:19:05
+  name: train_eval_wer
+  type: metric
+  value: 0.2748091603053435
+- elapsed: 00:19:05
+  name: train_eval_runtime
+  type: metric
+  value: 67.6892
+- elapsed: 00:19:05
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.832
+- elapsed: 00:19:05
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.03
+- elapsed: 00:19:05
+  name: train_epoch
+  type: metric
+  value: 4.166666666666667
+- content: '
+
+    Transcription Examples (Step 125):'
+  elapsed: 00:19:05
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:19:05
+  type: message
+- elapsed: 00:19:07
+  prediction: His mantle, tail, and upper wing are grey-black, and the rest is white.
+  reference: Its mantle, tail and upperwing are grey-black, and the rest is white.
+  type: prediction
+  wer: 0.3333333333333333
+- elapsed: 00:19:08
+  prediction: It is omnivorous, however, supplementing its prey with soft, sweet fruit,
+    pollen, and nectar.
+  reference: It is omnivorous however, supplementing its prey with soft, sweet fruit,
+    pollen and nectar.
+  type: prediction
+  wer: 0.14285714285714285
+- elapsed: 00:19:08
+  prediction: Grace is described by the doctors as tired of life but afraid of time.
+  reference: Grace is described by the Doctor as tired of life but afraid of dying.
+  type: prediction
+  wer: 0.14285714285714285
+- elapsed: 00:19:09
+  prediction: Eight ten people died, only the two hundred were injured.
+  reference: Eighteen people died, and more than two hundred were injured.
+  type: prediction
+  wer: 0.5
+- elapsed: 00:19:10
+  prediction: The park is part of the International Grade in Popo Trans Frontier Park.
+  reference: The park is part of the international Great Limpopo Transfrontier Park.
+  type: prediction
+  wer: 0.5454545454545454
+- content: '
+
+    Training Metrics - Step 150 (Epoch 5.00):'
+  elapsed: 00:21:59
+  type: message
+- elapsed: 00:21:59
+  name: train_loss
+  type: metric
+  value: 0.0462
+- elapsed: 00:21:59
+  name: train_grad_norm
+  type: metric
+  value: 1.2129522562026978
+- elapsed: 00:21:59
+  name: train_learning_rate
+  type: metric
+  value: 4.353333333333334e-06
+- elapsed: 00:21:59
+  name: train_epoch
+  type: metric
+  value: 5.0
+- content: '
+
+    Training Metrics - Step 150 (Epoch 5.00):'
+  elapsed: 00:23:06
+  type: message
+- elapsed: 00:23:06
+  name: train_eval_loss
+  type: metric
+  value: 0.6629552841186523
+- elapsed: 00:23:06
+  name: train_eval_wer
+  type: metric
+  value: 0.2652671755725191
+- elapsed: 00:23:06
+  name: train_eval_runtime
+  type: metric
+  value: 66.8644
+- elapsed: 00:23:06
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.854
+- elapsed: 00:23:06
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.03
+- elapsed: 00:23:07
+  name: train_epoch
+  type: metric
+  value: 5.0
+- content: '
+
+    Transcription Examples (Step 150):'
+  elapsed: 00:23:07
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:23:07
+  type: message
+- elapsed: 00:23:08
+  prediction: His mantle, tail, and upper wing are grey-black, and the rest is white.
+  reference: Its mantle, tail and upperwing are grey-black, and the rest is white.
+  type: prediction
+  wer: 0.3333333333333333
+- elapsed: 00:23:09
+  prediction: It is omnivorous, however, supplementing its prey with soft, sweet fruit,
+    pollen and nectar.
+  reference: It is omnivorous however, supplementing its prey with soft, sweet fruit,
+    pollen and nectar.
+  type: prediction
+  wer: 0.07142857142857142
+- elapsed: 00:23:09
+  prediction: Grace is described by the Doctor as tired of life but afraid of time.
+  reference: Grace is described by the Doctor as tired of life but afraid of dying.
+  type: prediction
+  wer: 0.07142857142857142
+- elapsed: 00:23:10
+  prediction: ' Eight ten people died, only two hundred were injured.'
+  reference: Eighteen people died, and more than two hundred were injured.
+  type: prediction
+  wer: 0.5
+- elapsed: 00:23:10
+  prediction: The park is part of the International Grade, Limpopo Trans Frontier
+    Park.
+  reference: The park is part of the international Great Limpopo Transfrontier Park.
+  type: prediction
+  wer: 0.36363636363636365
+- content: '
+
+    Training Metrics - Step 175 (Epoch 5.83):'
+  elapsed: 00:25:41
+  type: message
+- elapsed: 00:25:42
+  name: train_loss
+  type: metric
+  value: 0.0198
+- elapsed: 00:25:42
+  name: train_grad_norm
+  type: metric
+  value: 1.428894281387329
+- elapsed: 00:25:42
+  name: train_learning_rate
+  type: metric
+  value: 4.1866666666666675e-06
+- elapsed: 00:25:42
+  name: train_epoch
+  type: metric
+  value: 5.833333333333333
+- content: '
+
+    Training Metrics - Step 175 (Epoch 5.83):'
+  elapsed: 00:26:48
+  type: message
+- elapsed: 00:26:48
+  name: train_eval_loss
+  type: metric
+  value: 0.7149779796600342
+- elapsed: 00:26:48
+  name: train_eval_wer
+  type: metric
+  value: 0.27353689567430023
+- elapsed: 00:26:48
+  name: train_eval_runtime
+  type: metric
+  value: 66.1448
+- elapsed: 00:26:48
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.875
+- elapsed: 00:26:48
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.03
+- elapsed: 00:26:48
+  name: train_epoch
+  type: metric
+  value: 5.833333333333333
+- content: '
+
+    Transcription Examples (Step 175):'
+  elapsed: 00:26:48
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:26:48
+  type: message
+- elapsed: 00:26:50
+  prediction: His mantle, tail, and upper wing are grey-black, and the rest is white.
+  reference: Its mantle, tail and upperwing are grey-black, and the rest is white.
+  type: prediction
+  wer: 0.3333333333333333
+- elapsed: 00:26:50
+  prediction: It is omnivorous, however, supplementing its prey with soft, sweet fruit,
+    pollen and nectar.
+  reference: It is omnivorous however, supplementing its prey with soft, sweet fruit,
+    pollen and nectar.
+  type: prediction
+  wer: 0.07142857142857142
+- elapsed: 00:26:51
+  prediction: Grace is described by the doctor as tired of life but afraid of time.
+  reference: Grace is described by the Doctor as tired of life but afraid of dying.
+  type: prediction
+  wer: 0.14285714285714285
+- elapsed: 00:26:52
+  prediction: ' Eight ten people died, only two hundred were injured.'
+  reference: Eighteen people died, and more than two hundred were injured.
+  type: prediction
+  wer: 0.5
+- elapsed: 00:26:52
+  prediction: The park is part of the international grade in Popo Trans Frontier Park.
+  reference: The park is part of the international Great Limpopo Transfrontier Park.
+  type: prediction
+  wer: 0.45454545454545453
+- content: '
+
+    Training Metrics - Step 200 (Epoch 6.67):'
+  elapsed: 00:29:22
+  type: message
+- elapsed: 00:29:22
+  name: train_loss
+  type: metric
+  value: 0.0117
+- elapsed: 00:29:22
+  name: train_grad_norm
+  type: metric
+  value: 0.73066246509552
+- elapsed: 00:29:22
+  name: train_learning_rate
+  type: metric
+  value: 4.0200000000000005e-06
+- elapsed: 00:29:23
+  name: train_epoch
+  type: metric
+  value: 6.666666666666667
+- content: '
+
+    Training Metrics - Step 200 (Epoch 6.67):'
+  elapsed: 00:30:28
+  type: message
+- elapsed: 00:30:28
+  name: train_eval_loss
+  type: metric
+  value: 0.7486637830734253
+- elapsed: 00:30:28
+  name: train_eval_wer
+  type: metric
+  value: 0.26590330788804073
+- elapsed: 00:30:28
+  name: train_eval_runtime
+  type: metric
+  value: 65.2447
+- elapsed: 00:30:28
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.901
+- elapsed: 00:30:28
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.031
+- elapsed: 00:30:28
+  name: train_epoch
+  type: metric
+  value: 6.666666666666667
+- content: '
+
+    Transcription Examples (Step 200):'
+  elapsed: 00:30:28
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:30:28
+  type: message
+- elapsed: 00:30:30
+  prediction: His mantle, tail, and upper wing are grey-black, and the rest is white.
+  reference: Its mantle, tail and upperwing are grey-black, and the rest is white.
+  type: prediction
+  wer: 0.3333333333333333
+- elapsed: 00:30:30
+  prediction: It is omnivorous, however, supplementing its prey with soft, sweet fruit,
+    pollen and nectar.
+  reference: It is omnivorous however, supplementing its prey with soft, sweet fruit,
+    pollen and nectar.
+  type: prediction
+  wer: 0.07142857142857142
+- elapsed: 00:30:31
+  prediction: Grace is described by the doctor as tired of life but afraid of time.
+  reference: Grace is described by the Doctor as tired of life but afraid of dying.
+  type: prediction
+  wer: 0.14285714285714285
+- elapsed: 00:30:31
+  prediction: ' Eighteen people died, only two hundred were injured.'
+  reference: Eighteen people died, and more than two hundred were injured.
+  type: prediction
+  wer: 0.3
+- elapsed: 00:30:32
+  prediction: The park is part of the international grade in Popo Trans Frontier Park.
+  reference: The park is part of the international Great Limpopo Transfrontier Park.
+  type: prediction
+  wer: 0.45454545454545453
+- content: '
+
+    Training Metrics - Step 200 (Epoch 6.67):'
+  elapsed: 00:31:58
+  type: message
+- elapsed: 00:31:58
+  name: train_train_runtime
+  type: metric
+  value: 1802.8303
+- elapsed: 00:31:58
+  name: train_train_samples_per_second
+  type: metric
+  value: 7.1
+- elapsed: 00:31:58
+  name: train_train_steps_per_second
+  type: metric
+  value: 0.444
+- elapsed: 00:31:58
+  name: train_total_flos
+  type: metric
+  value: 1.0871994580992e+19
+- elapsed: 00:31:58
+  name: train_train_loss
+  type: metric
+  value: 0.8966444072127342
+- elapsed: 00:31:58
+  name: train_epoch
+  type: metric
+  value: 6.666666666666667
+- content: Closed TensorBoard writer
+  elapsed: 00:31:59
+  type: message
+- content: '
+
+    Converting model to FP16 before saving...'
+  elapsed: 00:31:59
+  type: message
+- content: '
+
+    Evaluating fine-tuned model...'
+  elapsed: 00:32:08
+  type: message
+- content: Evaluating model on test split...
+  elapsed: 00:32:08
+  type: message
+- content: 'Example predictions:'
+  elapsed: 00:33:25
+  type: message
+- elapsed: 00:33:25
+  prediction: ' Peculiar among rufflers, male and females are both present in egg-one
+    size.'
+  reference: Peculiar among rotifers, males and females are both present and equal
+    in size.
+  type: prediction
+  wer: 0.38461538461538464
+- elapsed: 00:33:26
+  prediction: ' In addition, there was a notable shortage of traffic police in New
+    England.'
+  reference: In addition there is a notable shortage of traffic police in mainland
+    China.
+  type: prediction
+  wer: 0.3076923076923077
+- elapsed: 00:33:26
+  prediction: ' This incorporates a sculpture of the ship, half submerged by the waves.'
+  reference: This incorporates a sculpture of the ship, half-submerged by the waves.
+  type: prediction
+  wer: 0.18181818181818182
+- elapsed: 00:33:27
+  name: wer
+  type: metric
+  value: 0.26463104325699743
+- content: '
+
+    Experiment complete!'
+  elapsed: 00:33:27
+  type: message
+- content: 'Baseline WER: 0.7462'
+  elapsed: 00:33:27
+  type: message
+- content: 'Fine-tuned WER: 0.2646'
+  elapsed: 00:33:27
+  type: message
+- content: 'Improvement: 0.4816 absolute / 64.5% relative'
+  elapsed: 00:33:27
+  type: message
+- content: 'Total Training Time: 33 minutes, 27 seconds'
+  elapsed: 00:33:27
+  type: message
+- content: ==================================================
+  elapsed: 00:33:27
+  type: message
+- content: '
+
+    Training completed. Would you like to upload the model to Hugging Face Hub?'
+  elapsed: 00:33:27
+  type: message
+- content: '  Model Performance:'
+  elapsed: 00:33:27
+  type: message
+- content: '  - Baseline WER: 0.7462'
+  elapsed: 00:33:28
+  type: message
+- content: '  - Fine-tuned WER: 0.2646'
+  elapsed: 00:33:28
+  type: message
+- content: '  Repository: pauljunsukhan/throatmic_subvocalization_whisper'
+  elapsed: 00:33:28
+  type: message
+- content: '
+
+    Preparing for upload to Hugging Face Hub...'
+  elapsed: 01:46:41
+  type: message
+- content: 'Error during upload preparation: name ''transformers'' is not defined'
+  elapsed: 01:46:41
+  type: message
+- content: Model saved locally but upload failed
+  elapsed: 01:46:41
+  type: message
