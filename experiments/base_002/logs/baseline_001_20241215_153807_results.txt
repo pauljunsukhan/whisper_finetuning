@@ -1,2 +1,0 @@
-Baseline WER: 1.4217
-Fine-tuned WER: 0.6442
