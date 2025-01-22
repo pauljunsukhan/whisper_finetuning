@@ -20,4 +20,8 @@ Explore dataset is used to show the structure of the hugging face repo for my th
 
 You'll need to save a HF_TOKEN environmental variable.
 
-I don't actually think the simple baseline script is functionally any different than the fleshed out V3 other than the lack of logging and other knobs and dials. The v3 does normalize the audio samples which baseline script doesn't. this can be good or bad because in normal case this will boost volume but in cases where there is clipping it could reduce it. Normalization is just an across the board volume gain, as opposed to dynamic compression. I'm not sure how much audio processing should be done, I'm sure there are papers on this...
+The simple baseline script is functionally almost identical to the fleshed out V3 other than the lack of logging and other knobs and dials. Two things:
+
+The v3 does normalize the audio samples which baseline script doesn't. this can be good or bad because in normal case this will boost volume but in cases where there is clipping it could reduce it. Normalization is just an across the board volume gain, as opposed to dynamic compression. I'm not sure how much audio processing should be done, I'm sure there are papers on this...
+
+I correctly set the transcribe, english and start of transcription/end of text tokens. For whisper start of transcription is used for both start and end tokens. 
