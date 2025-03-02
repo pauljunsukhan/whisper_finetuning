@@ -1,0 +1,3 @@
+Baseline WER: 0.8008
+Fine-tuned WER: 0.1973
+Total Training Time: 43 minutes, 33 seconds

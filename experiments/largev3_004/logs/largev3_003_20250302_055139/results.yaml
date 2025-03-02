@@ -1,0 +1,255 @@
+metadata:
+  name: largev3_003
+  start_time: '2025-03-02 05:51:39'
+timeline:
+- content: '
+
+    Validating directory structure...'
+  elapsed: 00:00:00
+  type: message
+- content: 'Verified directory: /home/ubuntu/whisper_finetuning/experiments/largev3_004/logs'
+  elapsed: 00:00:00
+  type: message
+- content: 'Verified directory: /home/ubuntu/whisper_finetuning/experiments/largev3_004/logs/runs'
+  elapsed: 00:00:00
+  type: message
+- content: 'Verified directory: /home/ubuntu/whisper_finetuning/experiments/largev3_004/output'
+  elapsed: 00:00:00
+  type: message
+- content: 'Verified directory: /home/ubuntu/whisper_finetuning/experiments/largev3_004/logs/largev3_003_20250302_055139'
+  elapsed: 00:00:00
+  type: message
+- content: 'Verified directory: /home/ubuntu/whisper_finetuning/experiments/largev3_004/output/largev3_003_20250302_055139'
+  elapsed: 00:00:00
+  type: message
+- content: 'Directory structure validation complete
+
+    '
+  elapsed: 00:00:00
+  type: message
+- content: ==================================================
+  elapsed: 00:00:00
+  type: message
+- content: EXPERIMENT INITIALIZATION
+  elapsed: 00:00:00
+  type: message
+- content: ==================================================
+  elapsed: 00:00:00
+  type: message
+- content: 'Name: largev3_003'
+  elapsed: 00:00:00
+  type: message
+- content: 'Description: 600 Examples Whisper Base Train/Test Split Throatmic finetune'
+  elapsed: 00:00:00
+  type: message
+- content: 'Date: 2025-03-02 05:51:39'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    CONFIGURATION:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Training Parameters:'
+  elapsed: 00:00:00
+  type: message
+- content: '  Batch Size: 16'
+  elapsed: 00:00:00
+  type: message
+- content: '  Learning Rate: 5e-06'
+  elapsed: 00:00:00
+  type: message
+- content: '  Max Steps: 800'
+  elapsed: 00:00:00
+  type: message
+- content: '  Warmup Steps: 50'
+  elapsed: 00:00:00
+  type: message
+- content: '  FP16: True'
+  elapsed: 00:00:00
+  type: message
+- content: '  Gradient Checkpointing: False'
+  elapsed: 00:00:00
+  type: message
+- content: '  Max Gradient Norm: 1.0'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    ENVIRONMENT:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Device: cuda'
+  elapsed: 00:00:00
+  type: message
+- content: 'GPU: NVIDIA H100 PCIe'
+  elapsed: 00:00:00
+  type: message
+- content: 'Available GPU Memory: 84.93 GB'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    MODEL:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Base Model: openai/whisper-large-v3'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    DATASET:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Source: pauljunsukhan/throatmic_codered'
+  elapsed: 00:00:00
+  type: message
+- content: 'Total Examples: 1008'
+  elapsed: 00:00:05
+  type: message
+- content: '
+
+    Data Split:'
+  elapsed: 00:00:05
+  type: message
+- content: '  Training Examples: 884'
+  elapsed: 00:00:05
+  type: message
+- content: '  Testing Examples: 124'
+  elapsed: 00:00:05
+  type: message
+- content: '  Test Split Ratio: 12.30%'
+  elapsed: 00:00:06
+  type: message
+- content: '
+
+    Audio Processing:'
+  elapsed: 00:00:06
+  type: message
+- content: '  Normalization: True'
+  elapsed: 00:00:06
+  type: message
+- content: '
+
+    Evaluation Settings:'
+  elapsed: 00:00:06
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:06
+  type: message
+- content: '  Strategy: steps'
+  elapsed: 00:00:06
+  type: message
+- content: '  Eval Steps: 25'
+  elapsed: 00:00:06
+  type: message
+- content: '  Save Steps: 25'
+  elapsed: 00:00:06
+  type: message
+- content: '  Logging Steps: 25'
+  elapsed: 00:00:06
+  type: message
+- content: '  Load Best Model: True'
+  elapsed: 00:00:06
+  type: message
+- content: '  Metric: wer'
+  elapsed: 00:00:06
+  type: message
+- content: '  Greater is Better: False'
+  elapsed: 00:00:06
+  type: message
+- content: '  Save Total Limit: 10'
+  elapsed: 00:00:06
+  type: message
+- content: ==================================================
+  elapsed: 00:00:06
+  type: message
+- content: '
+
+    '
+  elapsed: 00:00:06
+  type: message
+- content: ==================================================
+  elapsed: 00:00:06
+  type: message
+- content: STARTING EXPERIMENT
+  elapsed: 00:00:06
+  type: message
+- content: '==================================================
+
+    '
+  elapsed: 00:00:06
+  type: message
+- content: 'Loading model and processor: openai/whisper-large-v3'
+  elapsed: 00:00:06
+  type: message
+- content: 'Model and processor loaded successfully
+
+    '
+  elapsed: 00:00:09
+  type: message
+- content: Evaluating baseline model...
+  elapsed: 00:00:09
+  type: message
+- content: Evaluating model on test split...
+  elapsed: 00:00:09
+  type: message
+- content: 'Example predictions:'
+  elapsed: 00:01:29
+  type: message
+- elapsed: 00:01:30
+  prediction: ' I will finish my sentence with honor of the work of the Lord and the
+    song of the Lord.'
+  reference: Alejandro Sanz was honored with Record of the Year and Song of the Year.
+  type: prediction
+  wer: 0.9285714285714286
+- elapsed: 00:01:30
+  prediction: ' ...'
+  reference: A public plaza and fountain are located on the west end of the building.
+  type: prediction
+  wer: 1.0
+- elapsed: 00:01:31
+  prediction: ' He said he would not have suggested SL, but he liked the idea.'
+  reference: He said he would not have suggested it himself, but he liked the idea.
+  type: prediction
+  wer: 0.14285714285714285
+- elapsed: 00:01:31
+  name: wer
+  type: metric
+  value: 0.8007761966364813
+- elapsed: 00:01:31
+  name: baseline_wer
+  type: metric
+  value: 0.8007761966364813
+- content: '
+
+    Preparing dataset for training...'
+  elapsed: 00:01:31
+  type: message
+- content: Processing train split...
+  elapsed: 00:01:31
+  type: message
+- content: Processed 884 training examples
+  elapsed: 00:01:35
+  type: message
+- content: Processing test split...
+  elapsed: 00:01:35
+  type: message
+- content: Processed 124 test examples
+  elapsed: 00:01:35
+  type: message
+- content: Dataset preparation complete
+  elapsed: 00:01:53
+  type: message

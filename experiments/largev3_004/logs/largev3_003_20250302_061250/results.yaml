@@ -1,0 +1,1848 @@
+metadata:
+  name: largev3_003
+  start_time: '2025-03-02 06:12:50'
+timeline:
+- content: '
+
+    Validating directory structure...'
+  elapsed: 00:00:00
+  type: message
+- content: 'Verified directory: /home/ubuntu/whisper_finetuning/experiments/largev3_004/logs'
+  elapsed: 00:00:00
+  type: message
+- content: 'Verified directory: /home/ubuntu/whisper_finetuning/experiments/largev3_004/logs/runs'
+  elapsed: 00:00:00
+  type: message
+- content: 'Verified directory: /home/ubuntu/whisper_finetuning/experiments/largev3_004/output'
+  elapsed: 00:00:00
+  type: message
+- content: 'Verified directory: /home/ubuntu/whisper_finetuning/experiments/largev3_004/logs/largev3_003_20250302_061250'
+  elapsed: 00:00:00
+  type: message
+- content: 'Verified directory: /home/ubuntu/whisper_finetuning/experiments/largev3_004/output/largev3_003_20250302_061250'
+  elapsed: 00:00:00
+  type: message
+- content: 'Directory structure validation complete
+
+    '
+  elapsed: 00:00:00
+  type: message
+- content: ==================================================
+  elapsed: 00:00:00
+  type: message
+- content: EXPERIMENT INITIALIZATION
+  elapsed: 00:00:00
+  type: message
+- content: ==================================================
+  elapsed: 00:00:00
+  type: message
+- content: 'Name: largev3_003'
+  elapsed: 00:00:00
+  type: message
+- content: 'Description: 600 Examples Whisper Base Train/Test Split Throatmic finetune'
+  elapsed: 00:00:00
+  type: message
+- content: 'Date: 2025-03-02 06:12:50'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    CONFIGURATION:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Training Parameters:'
+  elapsed: 00:00:00
+  type: message
+- content: '  Batch Size: 16'
+  elapsed: 00:00:00
+  type: message
+- content: '  Learning Rate: 5e-06'
+  elapsed: 00:00:00
+  type: message
+- content: '  Max Steps: 800'
+  elapsed: 00:00:00
+  type: message
+- content: '  Warmup Steps: 50'
+  elapsed: 00:00:00
+  type: message
+- content: '  FP16: True'
+  elapsed: 00:00:00
+  type: message
+- content: '  Gradient Checkpointing: False'
+  elapsed: 00:00:00
+  type: message
+- content: '  Max Gradient Norm: 1.0'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    ENVIRONMENT:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Device: cuda'
+  elapsed: 00:00:00
+  type: message
+- content: 'GPU: NVIDIA H100 PCIe'
+  elapsed: 00:00:00
+  type: message
+- content: 'Available GPU Memory: 84.93 GB'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    MODEL:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Base Model: openai/whisper-large-v3'
+  elapsed: 00:00:00
+  type: message
+- content: '
+
+    DATASET:'
+  elapsed: 00:00:00
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:00
+  type: message
+- content: 'Source: pauljunsukhan/throatmic_codered'
+  elapsed: 00:00:00
+  type: message
+- content: 'Total Examples: 1008'
+  elapsed: 00:00:05
+  type: message
+- content: '
+
+    Data Split:'
+  elapsed: 00:00:05
+  type: message
+- content: '  Training Examples: 884'
+  elapsed: 00:00:05
+  type: message
+- content: '  Testing Examples: 124'
+  elapsed: 00:00:06
+  type: message
+- content: '  Test Split Ratio: 12.30%'
+  elapsed: 00:00:06
+  type: message
+- content: '
+
+    Audio Processing:'
+  elapsed: 00:00:06
+  type: message
+- content: '  Normalization: True'
+  elapsed: 00:00:06
+  type: message
+- content: '
+
+    Evaluation Settings:'
+  elapsed: 00:00:06
+  type: message
+- content: '--------------------'
+  elapsed: 00:00:06
+  type: message
+- content: '  Strategy: steps'
+  elapsed: 00:00:06
+  type: message
+- content: '  Eval Steps: 25'
+  elapsed: 00:00:06
+  type: message
+- content: '  Save Steps: 25'
+  elapsed: 00:00:06
+  type: message
+- content: '  Logging Steps: 25'
+  elapsed: 00:00:06
+  type: message
+- content: '  Load Best Model: True'
+  elapsed: 00:00:06
+  type: message
+- content: '  Metric: wer'
+  elapsed: 00:00:06
+  type: message
+- content: '  Greater is Better: False'
+  elapsed: 00:00:06
+  type: message
+- content: '  Save Total Limit: 10'
+  elapsed: 00:00:06
+  type: message
+- content: ==================================================
+  elapsed: 00:00:06
+  type: message
+- content: '
+
+    '
+  elapsed: 00:00:06
+  type: message
+- content: ==================================================
+  elapsed: 00:00:06
+  type: message
+- content: STARTING EXPERIMENT
+  elapsed: 00:00:06
+  type: message
+- content: '==================================================
+
+    '
+  elapsed: 00:00:06
+  type: message
+- content: 'Loading model and processor: openai/whisper-large-v3'
+  elapsed: 00:00:06
+  type: message
+- content: 'Model and processor loaded successfully
+
+    '
+  elapsed: 00:00:09
+  type: message
+- content: Evaluating baseline model...
+  elapsed: 00:00:09
+  type: message
+- content: Evaluating model on test split...
+  elapsed: 00:00:09
+  type: message
+- content: 'Example predictions:'
+  elapsed: 00:01:29
+  type: message
+- elapsed: 00:01:29
+  prediction: ' I will finish my sentence with honor of the work of the Lord and the
+    song of the Lord.'
+  reference: Alejandro Sanz was honored with Record of the Year and Song of the Year.
+  type: prediction
+  wer: 0.9285714285714286
+- elapsed: 00:01:29
+  prediction: ' ...'
+  reference: A public plaza and fountain are located on the west end of the building.
+  type: prediction
+  wer: 1.0
+- elapsed: 00:01:30
+  prediction: ' He said he would not have suggested SL, but he liked the idea.'
+  reference: He said he would not have suggested it himself, but he liked the idea.
+  type: prediction
+  wer: 0.14285714285714285
+- elapsed: 00:01:30
+  name: wer
+  type: metric
+  value: 0.8007761966364813
+- elapsed: 00:01:30
+  name: baseline_wer
+  type: metric
+  value: 0.8007761966364813
+- content: '
+
+    Preparing dataset for training...'
+  elapsed: 00:01:30
+  type: message
+- content: Processing train split...
+  elapsed: 00:01:30
+  type: message
+- content: Processed 884 training examples
+  elapsed: 00:01:34
+  type: message
+- content: Processing test split...
+  elapsed: 00:01:34
+  type: message
+- content: Processed 124 test examples
+  elapsed: 00:01:34
+  type: message
+- content: Dataset preparation complete
+  elapsed: 00:01:52
+  type: message
+- content: '
+
+    Training Configuration:'
+  elapsed: 00:01:52
+  type: message
+- content: ==================================================
+  elapsed: 00:01:52
+  type: message
+- content: '
+
+    Core Training Parameters:'
+  elapsed: 00:01:52
+  type: message
+- content: '--------------------'
+  elapsed: 00:01:52
+  type: message
+- content: '  Learning Rate: 5e-06'
+  elapsed: 00:01:52
+  type: message
+- content: '  LR Scheduler: linear'
+  elapsed: 00:01:52
+  type: message
+- content: '  Max Steps: 800'
+  elapsed: 00:01:52
+  type: message
+- content: '  Warmup Steps: 50'
+  elapsed: 00:01:52
+  type: message
+- content: '  Warmup Ratio: 0.00%'
+  elapsed: 00:01:52
+  type: message
+- content: '  Optimizer: AdamW'
+  elapsed: 00:01:52
+  type: message
+- content: '
+
+    Generation Settings:'
+  elapsed: 00:01:52
+  type: message
+- content: '--------------------'
+  elapsed: 00:01:52
+  type: message
+- content: '  Generation Max Length: 225'
+  elapsed: 00:01:52
+  type: message
+- content: '  Predict with Generate: True'
+  elapsed: 00:01:52
+  type: message
+- content: '  Language: en'
+  elapsed: 00:01:52
+  type: message
+- content: '  Task: transcribe'
+  elapsed: 00:01:53
+  type: message
+- content: '  Use Cache: False'
+  elapsed: 00:01:53
+  type: message
+- content: '
+
+    Batch Configuration:'
+  elapsed: 00:01:53
+  type: message
+- content: '--------------------'
+  elapsed: 00:01:53
+  type: message
+- content: '  Per Device Train Batch Size: 16'
+  elapsed: 00:01:53
+  type: message
+- content: '  Per Device Eval Batch Size: 64'
+  elapsed: 00:01:53
+  type: message
+- content: '  Gradient Accumulation Steps: 1'
+  elapsed: 00:01:53
+  type: message
+- content: '  Effective Batch Size: 16'
+  elapsed: 00:01:53
+  type: message
+- content: '
+
+    Regularization:'
+  elapsed: 00:01:53
+  type: message
+- content: '--------------------'
+  elapsed: 00:01:53
+  type: message
+- content: '  Weight Decay: 0.0'
+  elapsed: 00:01:53
+  type: message
+- content: '  Label Smoothing: 0.0'
+  elapsed: 00:01:53
+  type: message
+- content: '  Dropout: 0.0'
+  elapsed: 00:01:53
+  type: message
+- content: '  Max Gradient Norm: 1.0'
+  elapsed: 00:01:53
+  type: message
+- content: '
+
+    Memory Optimization:'
+  elapsed: 00:01:53
+  type: message
+- content: '--------------------'
+  elapsed: 00:01:53
+  type: message
+- content: '  Gradient Checkpointing: False'
+  elapsed: 00:01:53
+  type: message
+- content: '  FP16 Training: True'
+  elapsed: 00:01:53
+  type: message
+- content: '  FP16 Opt Level: O1'
+  elapsed: 00:01:53
+  type: message
+- content: '  FP16 Backend: auto'
+  elapsed: 00:01:53
+  type: message
+- content: '
+
+    Evaluation & Saving Configuration:'
+  elapsed: 00:01:53
+  type: message
+- content: '--------------------'
+  elapsed: 00:01:53
+  type: message
+- content: '  Evaluation Strategy: steps'
+  elapsed: 00:01:53
+  type: message
+- content: '  Eval Steps: 25'
+  elapsed: 00:01:53
+  type: message
+- content: '  Save Steps: 25'
+  elapsed: 00:01:53
+  type: message
+- content: '  Logging Steps: 25'
+  elapsed: 00:01:53
+  type: message
+- content: '  Save Total Limit: 10'
+  elapsed: 00:01:53
+  type: message
+- content: '  Load Best Model at End: True'
+  elapsed: 00:01:53
+  type: message
+- content: '  Metric for Best Model: wer'
+  elapsed: 00:01:53
+  type: message
+- content: '  Greater is Better: False'
+  elapsed: 00:01:53
+  type: message
+- content: '
+
+    Early Stopping Configuration:'
+  elapsed: 00:01:53
+  type: message
+- content: '--------------------'
+  elapsed: 00:01:53
+  type: message
+- content: '  Enabled: True'
+  elapsed: 00:01:53
+  type: message
+- content: '  Patience: 5'
+  elapsed: 00:01:53
+  type: message
+- content: '  Threshold: 0.0001'
+  elapsed: 00:01:53
+  type: message
+- content: '
+
+    Output & Logging Configuration:'
+  elapsed: 00:01:53
+  type: message
+- content: '--------------------'
+  elapsed: 00:01:53
+  type: message
+- content: '  Output Directory: /home/ubuntu/whisper_finetuning/experiments/largev3_004/output/largev3_003_20250302_061250'
+  elapsed: 00:01:53
+  type: message
+- content: '  Logging Directory: /home/ubuntu/whisper_finetuning/experiments/largev3_004/logs/runs/largev3_003_20250302_061250'
+  elapsed: 00:01:53
+  type: message
+- content: '  Report To: [''tensorboard'']'
+  elapsed: 00:01:53
+  type: message
+- content: '  Push to Hub: False'
+  elapsed: 00:01:53
+  type: message
+- content: '
+
+    Monitoring Configuration:'
+  elapsed: 00:01:53
+  type: message
+- content: '--------------------'
+  elapsed: 00:01:53
+  type: message
+- content: '  Gradient History Size: 1000'
+  elapsed: 00:01:53
+  type: message
+- content: '  Significant Change Threshold: 1.0'
+  elapsed: 00:01:53
+  type: message
+- content: '  Log Top N Gradients: 5'
+  elapsed: 00:01:53
+  type: message
+- content: ==================================================
+  elapsed: 00:01:53
+  type: message
+- content: 'Selected example indices for tracking: [18, 42, 36, 76, 53]'
+  elapsed: 00:01:54
+  type: message
+- content: Initialized TensorBoard writer in /home/ubuntu/whisper_finetuning/experiments/largev3_004/logs/runs/largev3_003_20250302_061250
+  elapsed: 00:01:54
+  type: message
+- content: '
+
+    Starting fine-tuning...'
+  elapsed: 00:01:54
+  type: message
+- content: '
+
+    Training Metrics - Step 25 (Epoch 0.45):'
+  elapsed: 00:03:20
+  type: message
+- elapsed: 00:03:20
+  name: train_loss
+  type: metric
+  value: 3.7651
+- elapsed: 00:03:20
+  name: train_grad_norm
+  type: metric
+  value: 16.215513229370117
+- elapsed: 00:03:20
+  name: train_learning_rate
+  type: metric
+  value: 2.3000000000000004e-06
+- elapsed: 00:03:20
+  name: train_epoch
+  type: metric
+  value: 0.44642857142857145
+- content: '
+
+    Training Metrics - Step 25 (Epoch 0.45):'
+  elapsed: 00:04:31
+  type: message
+- elapsed: 00:04:31
+  name: train_eval_loss
+  type: metric
+  value: 2.597649097442627
+- elapsed: 00:04:31
+  name: train_eval_wer
+  type: metric
+  value: 0.5200517464424321
+- elapsed: 00:04:31
+  name: train_eval_runtime
+  type: metric
+  value: 70.2859
+- elapsed: 00:04:31
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.764
+- elapsed: 00:04:31
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.028
+- elapsed: 00:04:31
+  name: train_epoch
+  type: metric
+  value: 0.44642857142857145
+- content: '
+
+    Transcription Examples (Step 25):'
+  elapsed: 00:04:31
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:04:31
+  type: message
+- elapsed: 00:04:32
+  prediction: ' Both of these areas are popular tourist destinations both for foreigners
+    and foreigners.'
+  reference: Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.
+  type: prediction
+  wer: 0.07692307692307693
+- elapsed: 00:04:33
+  prediction: ' Can you think of a figure under her power as powerless to stay the
+    time?'
+  reference: Conflict gripped the city and Governor Carroll was powerless to stem
+    the tide.
+  type: prediction
+  wer: 0.9230769230769231
+- elapsed: 00:04:34
+  prediction: ' Welcome to my channel, I''m Rosywell and I''m a Taylor SuperHero.'
+  reference: The only child of Rosalia and Amadeo Saburido.
+  type: prediction
+  wer: 1.25
+- elapsed: 00:04:34
+  prediction: ' All families and more peaceful creatures have gatherings where fun
+    and practical track is.'
+  reference: While brownies are more peaceful creatures, hobgoblins are more fond
+    of practical jokes.
+  type: prediction
+  wer: 0.8461538461538461
+- elapsed: 00:04:35
+  prediction: ' A couple of poor and rich young Christian women was only the end of
+    the part.'
+  reference: The couple were poorly matched and after several years they lived apart.
+  type: prediction
+  wer: 1.25
+- content: '
+
+    Training Metrics - Step 50 (Epoch 0.89):'
+  elapsed: 00:06:10
+  type: message
+- elapsed: 00:06:10
+  name: train_loss
+  type: metric
+  value: 2.0527
+- elapsed: 00:06:10
+  name: train_grad_norm
+  type: metric
+  value: 20.488426208496094
+- elapsed: 00:06:10
+  name: train_learning_rate
+  type: metric
+  value: 4.800000000000001e-06
+- elapsed: 00:06:10
+  name: train_epoch
+  type: metric
+  value: 0.8928571428571429
+- content: '
+
+    Training Metrics - Step 50 (Epoch 0.89):'
+  elapsed: 00:07:18
+  type: message
+- elapsed: 00:07:18
+  name: train_eval_loss
+  type: metric
+  value: 1.5234066247940063
+- elapsed: 00:07:18
+  name: train_eval_wer
+  type: metric
+  value: 0.3053040103492885
+- elapsed: 00:07:18
+  name: train_eval_runtime
+  type: metric
+  value: 67.6134
+- elapsed: 00:07:18
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.834
+- elapsed: 00:07:18
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.03
+- elapsed: 00:07:18
+  name: train_epoch
+  type: metric
+  value: 0.8928571428571429
+- content: '
+
+    Transcription Examples (Step 50):'
+  elapsed: 00:07:18
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:07:18
+  type: message
+- elapsed: 00:07:19
+  prediction: ' Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.'
+  reference: Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.
+  type: prediction
+  wer: 0.0
+- elapsed: 00:07:20
+  prediction: ' the catholic group decided that the very carol was powerless to stay
+    the time'
+  reference: Conflict gripped the city and Governor Carroll was powerless to stem
+    the tide.
+  type: prediction
+  wer: 0.7692307692307693
+- elapsed: 00:07:20
+  prediction: ' Welcome to the channel of Rosula and Amadeo Subrito.'
+  reference: The only child of Rosalia and Amadeo Saburido.
+  type: prediction
+  wer: 0.75
+- elapsed: 00:07:21
+  prediction: ' While brownies are more peaceful creatures, hobgoblins are more fun
+    and practical triggers.'
+  reference: While brownies are more peaceful creatures, hobgoblins are more fond
+    of practical jokes.
+  type: prediction
+  wer: 0.23076923076923078
+- elapsed: 00:07:22
+  prediction: ' The couple were born and raised there for several years and later
+    left the park.'
+  reference: The couple were poorly matched and after several years they lived apart.
+  type: prediction
+  wer: 0.8333333333333334
+- content: '
+
+    Training Metrics - Step 75 (Epoch 1.34):'
+  elapsed: 00:08:57
+  type: message
+- elapsed: 00:08:57
+  name: train_loss
+  type: metric
+  value: 0.7656
+- elapsed: 00:08:57
+  name: train_grad_norm
+  type: metric
+  value: 6.977601528167725
+- elapsed: 00:08:57
+  name: train_learning_rate
+  type: metric
+  value: 4.846666666666667e-06
+- elapsed: 00:08:57
+  name: train_epoch
+  type: metric
+  value: 1.3392857142857144
+- content: '
+
+    Training Metrics - Step 75 (Epoch 1.34):'
+  elapsed: 00:10:05
+  type: message
+- elapsed: 00:10:05
+  name: train_eval_loss
+  type: metric
+  value: 0.5719340443611145
+- elapsed: 00:10:05
+  name: train_eval_wer
+  type: metric
+  value: 0.26196636481241914
+- elapsed: 00:10:05
+  name: train_eval_runtime
+  type: metric
+  value: 67.8625
+- elapsed: 00:10:05
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.827
+- elapsed: 00:10:05
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.029
+- elapsed: 00:10:05
+  name: train_epoch
+  type: metric
+  value: 1.3392857142857144
+- content: '
+
+    Transcription Examples (Step 75):'
+  elapsed: 00:10:05
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:10:05
+  type: message
+- elapsed: 00:10:06
+  prediction: ' Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.'
+  reference: Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.
+  type: prediction
+  wer: 0.0
+- elapsed: 00:10:07
+  prediction: ' The Catholic group decided, under their power, was powerless to stow
+    the time.'
+  reference: Conflict gripped the city and Governor Carroll was powerless to stem
+    the tide.
+  type: prediction
+  wer: 0.6923076923076923
+- elapsed: 00:10:07
+  prediction: ' One child of Rosula and Amadeo Subrito.'
+  reference: The only child of Rosalia and Amadeo Saburido.
+  type: prediction
+  wer: 0.5
+- elapsed: 00:10:08
+  prediction: ' While brownies are more peaceful creatures, hobgoblins are more far-practical
+    drinkers.'
+  reference: While brownies are more peaceful creatures, hobgoblins are more fond
+    of practical jokes.
+  type: prediction
+  wer: 0.3076923076923077
+- elapsed: 00:10:08
+  prediction: ' The couple were poorly matched and after several years they were left
+    apart.'
+  reference: The couple were poorly matched and after several years they lived apart.
+  type: prediction
+  wer: 0.16666666666666666
+- content: '
+
+    Training Metrics - Step 100 (Epoch 1.79):'
+  elapsed: 00:11:55
+  type: message
+- elapsed: 00:11:55
+  name: train_loss
+  type: metric
+  value: 0.3496
+- elapsed: 00:11:55
+  name: train_grad_norm
+  type: metric
+  value: 8.490331649780273
+- elapsed: 00:11:55
+  name: train_learning_rate
+  type: metric
+  value: 4.680000000000001e-06
+- elapsed: 00:11:55
+  name: train_epoch
+  type: metric
+  value: 1.7857142857142856
+- content: '
+
+    Training Metrics - Step 100 (Epoch 1.79):'
+  elapsed: 00:13:04
+  type: message
+- elapsed: 00:13:04
+  name: train_eval_loss
+  type: metric
+  value: 0.47057488560676575
+- elapsed: 00:13:04
+  name: train_eval_wer
+  type: metric
+  value: 0.23221216041397155
+- elapsed: 00:13:04
+  name: train_eval_runtime
+  type: metric
+  value: 69.4279
+- elapsed: 00:13:04
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.786
+- elapsed: 00:13:04
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.029
+- elapsed: 00:13:04
+  name: train_epoch
+  type: metric
+  value: 1.7857142857142856
+- content: '
+
+    Transcription Examples (Step 100):'
+  elapsed: 00:13:04
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:13:04
+  type: message
+- elapsed: 00:13:06
+  prediction: ' Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.'
+  reference: Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.
+  type: prediction
+  wer: 0.0
+- elapsed: 00:13:06
+  prediction: Cothlac grew defeated, and Giver Carol was powerless to stem the tide.
+  reference: Conflict gripped the city and Governor Carroll was powerless to stem
+    the tide.
+  type: prediction
+  wer: 0.46153846153846156
+- elapsed: 00:13:07
+  prediction: Mum and child are Rosula and Amadeo Subrido.
+  reference: The only child of Rosalia and Amadeo Saburido.
+  type: prediction
+  wer: 0.625
+- elapsed: 00:13:07
+  prediction: While brownies are more peaceful creatures, hobgoblins are more fun
+    and practical drinkers.
+  reference: While brownies are more peaceful creatures, hobgoblins are more fond
+    of practical jokes.
+  type: prediction
+  wer: 0.23076923076923078
+- elapsed: 00:13:08
+  prediction: The couple were poorly matched and after several years they were left
+    apart.
+  reference: The couple were poorly matched and after several years they lived apart.
+  type: prediction
+  wer: 0.16666666666666666
+- content: '
+
+    Training Metrics - Step 125 (Epoch 2.23):'
+  elapsed: 00:14:41
+  type: message
+- elapsed: 00:14:41
+  name: train_loss
+  type: metric
+  value: 0.2532
+- elapsed: 00:14:41
+  name: train_grad_norm
+  type: metric
+  value: 4.158992290496826
+- elapsed: 00:14:42
+  name: train_learning_rate
+  type: metric
+  value: 4.513333333333333e-06
+- elapsed: 00:14:42
+  name: train_epoch
+  type: metric
+  value: 2.232142857142857
+- content: '
+
+    Training Metrics - Step 125 (Epoch 2.23):'
+  elapsed: 00:15:49
+  type: message
+- elapsed: 00:15:49
+  name: train_eval_loss
+  type: metric
+  value: 0.4426393210887909
+- elapsed: 00:15:49
+  name: train_eval_wer
+  type: metric
+  value: 0.21992238033635186
+- elapsed: 00:15:49
+  name: train_eval_runtime
+  type: metric
+  value: 67.3991
+- elapsed: 00:15:49
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.84
+- elapsed: 00:15:49
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.03
+- elapsed: 00:15:49
+  name: train_epoch
+  type: metric
+  value: 2.232142857142857
+- content: '
+
+    Transcription Examples (Step 125):'
+  elapsed: 00:15:49
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:15:49
+  type: message
+- elapsed: 00:15:51
+  prediction: ' Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.'
+  reference: Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.
+  type: prediction
+  wer: 0.0
+- elapsed: 00:15:52
+  prediction: Catholic group is hidden, and Governor Carroll is powerless to stay
+    with the town.
+  reference: Conflict gripped the city and Governor Carroll was powerless to stem
+    the tide.
+  type: prediction
+  wer: 0.6153846153846154
+- elapsed: 00:15:52
+  prediction: ' The only child are Rosula and Amadeo Subrido.'
+  reference: The only child of Rosalia and Amadeo Saburido.
+  type: prediction
+  wer: 0.375
+- elapsed: 00:15:53
+  prediction: While brownies are more peaceful creatures, hobgoblins are more far-practical
+    drinkers.
+  reference: While brownies are more peaceful creatures, hobgoblins are more fond
+    of practical jokes.
+  type: prediction
+  wer: 0.3076923076923077
+- elapsed: 00:15:53
+  prediction: The couple were poorly matched and after several years they were left
+    apart.
+  reference: The couple were poorly matched and after several years they lived apart.
+  type: prediction
+  wer: 0.16666666666666666
+- content: '
+
+    Training Metrics - Step 150 (Epoch 2.68):'
+  elapsed: 00:17:37
+  type: message
+- elapsed: 00:17:37
+  name: train_loss
+  type: metric
+  value: 0.1385
+- elapsed: 00:17:37
+  name: train_grad_norm
+  type: metric
+  value: 6.218120574951172
+- elapsed: 00:17:37
+  name: train_learning_rate
+  type: metric
+  value: 4.346666666666667e-06
+- elapsed: 00:17:37
+  name: train_epoch
+  type: metric
+  value: 2.678571428571429
+- content: '
+
+    Training Metrics - Step 150 (Epoch 2.68):'
+  elapsed: 00:18:44
+  type: message
+- elapsed: 00:18:44
+  name: train_eval_loss
+  type: metric
+  value: 0.4656674563884735
+- elapsed: 00:18:45
+  name: train_eval_wer
+  type: metric
+  value: 0.22897800776196636
+- elapsed: 00:18:45
+  name: train_eval_runtime
+  type: metric
+  value: 67.6387
+- elapsed: 00:18:45
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.833
+- elapsed: 00:18:45
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.03
+- elapsed: 00:18:45
+  name: train_epoch
+  type: metric
+  value: 2.678571428571429
+- content: '
+
+    Transcription Examples (Step 150):'
+  elapsed: 00:18:45
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:18:45
+  type: message
+- elapsed: 00:18:46
+  prediction: Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.
+  reference: Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.
+  type: prediction
+  wer: 0.0
+- elapsed: 00:18:47
+  prediction: Coffell grew defeated and, given her peril, was powerless to stow the
+    town.
+  reference: Conflict gripped the city and Governor Carroll was powerless to stem
+    the tide.
+  type: prediction
+  wer: 0.6923076923076923
+- elapsed: 00:18:47
+  prediction: ' The only child of Rosalia and Amadeo Subrito.'
+  reference: The only child of Rosalia and Amadeo Saburido.
+  type: prediction
+  wer: 0.125
+- elapsed: 00:18:48
+  prediction: While brownies are more peaceful creatures, hobgoblins are more far-practical
+    jokers.
+  reference: While brownies are more peaceful creatures, hobgoblins are more fond
+    of practical jokes.
+  type: prediction
+  wer: 0.3076923076923077
+- elapsed: 00:18:49
+  prediction: The couple were poorly matched and after several years they were left
+    apart.
+  reference: The couple were poorly matched and after several years they lived apart.
+  type: prediction
+  wer: 0.16666666666666666
+- content: '
+
+    Training Metrics - Step 175 (Epoch 3.12):'
+  elapsed: 00:20:24
+  type: message
+- elapsed: 00:20:25
+  name: train_loss
+  type: metric
+  value: 0.1041
+- elapsed: 00:20:25
+  name: train_grad_norm
+  type: metric
+  value: 2.6389777660369873
+- elapsed: 00:20:25
+  name: train_learning_rate
+  type: metric
+  value: 4.18e-06
+- elapsed: 00:20:25
+  name: train_epoch
+  type: metric
+  value: 3.125
+- content: '
+
+    Training Metrics - Step 175 (Epoch 3.12):'
+  elapsed: 00:21:32
+  type: message
+- elapsed: 00:21:33
+  name: train_eval_loss
+  type: metric
+  value: 0.46393683552742004
+- elapsed: 00:21:33
+  name: train_eval_wer
+  type: metric
+  value: 0.2095730918499353
+- elapsed: 00:21:33
+  name: train_eval_runtime
+  type: metric
+  value: 67.7843
+- elapsed: 00:21:33
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.829
+- elapsed: 00:21:33
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.03
+- elapsed: 00:21:33
+  name: train_epoch
+  type: metric
+  value: 3.125
+- content: '
+
+    Transcription Examples (Step 175):'
+  elapsed: 00:21:33
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:21:33
+  type: message
+- elapsed: 00:21:34
+  prediction: ' Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.'
+  reference: Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.
+  type: prediction
+  wer: 0.0
+- elapsed: 00:21:35
+  prediction: Coffell kept the city and Governor Carroll as powerless to stay the
+    time.
+  reference: Conflict gripped the city and Governor Carroll was powerless to stem
+    the tide.
+  type: prediction
+  wer: 0.38461538461538464
+- elapsed: 00:21:36
+  prediction: ' One child of Rosalia and Amadeo Subrito.'
+  reference: The only child of Rosalia and Amadeo Saburido.
+  type: prediction
+  wer: 0.375
+- elapsed: 00:21:36
+  prediction: While brownies are more peaceful creatures, hobgoblins are more far
+    and practical jokers.
+  reference: While brownies are more peaceful creatures, hobgoblins are more fond
+    of practical jokes.
+  type: prediction
+  wer: 0.23076923076923078
+- elapsed: 00:21:37
+  prediction: ' The couple were poorly matched and after several years they were left
+    apart.'
+  reference: The couple were poorly matched and after several years they lived apart.
+  type: prediction
+  wer: 0.16666666666666666
+- content: '
+
+    Training Metrics - Step 200 (Epoch 3.57):'
+  elapsed: 00:23:29
+  type: message
+- elapsed: 00:23:29
+  name: train_loss
+  type: metric
+  value: 0.0541
+- elapsed: 00:23:30
+  name: train_grad_norm
+  type: metric
+  value: 3.043910026550293
+- elapsed: 00:23:30
+  name: train_learning_rate
+  type: metric
+  value: 4.013333333333334e-06
+- elapsed: 00:23:30
+  name: train_epoch
+  type: metric
+  value: 3.571428571428571
+- content: '
+
+    Training Metrics - Step 200 (Epoch 3.57):'
+  elapsed: 00:24:38
+  type: message
+- elapsed: 00:24:38
+  name: train_eval_loss
+  type: metric
+  value: 0.4845975637435913
+- elapsed: 00:24:38
+  name: train_eval_wer
+  type: metric
+  value: 0.20827943078913325
+- elapsed: 00:24:39
+  name: train_eval_runtime
+  type: metric
+  value: 68.6737
+- elapsed: 00:24:39
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.806
+- elapsed: 00:24:39
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.029
+- elapsed: 00:24:39
+  name: train_epoch
+  type: metric
+  value: 3.571428571428571
+- content: '
+
+    Transcription Examples (Step 200):'
+  elapsed: 00:24:39
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:24:39
+  type: message
+- elapsed: 00:24:40
+  prediction: ' Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.'
+  reference: Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.
+  type: prediction
+  wer: 0.0
+- elapsed: 00:24:41
+  prediction: Coffell gave the city and the very carrolls powerless to stem the tide.
+  reference: Conflict gripped the city and Governor Carroll was powerless to stem
+    the tide.
+  type: prediction
+  wer: 0.38461538461538464
+- elapsed: 00:24:41
+  prediction: ' One child of Rosalia and Amadeo Subrata.'
+  reference: The only child of Rosalia and Amadeo Saburido.
+  type: prediction
+  wer: 0.375
+- elapsed: 00:24:42
+  prediction: While brownies are more peaceful creatures, hobgoblins are more far-practical
+    jokers.
+  reference: While brownies are more peaceful creatures, hobgoblins are more fond
+    of practical jokes.
+  type: prediction
+  wer: 0.3076923076923077
+- elapsed: 00:24:43
+  prediction: The couple were poor and much that after several years they were left
+    apart.
+  reference: The couple were poorly matched and after several years they lived apart.
+  type: prediction
+  wer: 0.5
+- content: '
+
+    Training Metrics - Step 225 (Epoch 4.02):'
+  elapsed: 00:26:18
+  type: message
+- elapsed: 00:26:18
+  name: train_loss
+  type: metric
+  value: 0.0453
+- elapsed: 00:26:18
+  name: train_grad_norm
+  type: metric
+  value: 0.4517892301082611
+- elapsed: 00:26:19
+  name: train_learning_rate
+  type: metric
+  value: 3.8466666666666665e-06
+- elapsed: 00:26:19
+  name: train_epoch
+  type: metric
+  value: 4.017857142857143
+- content: '
+
+    Training Metrics - Step 225 (Epoch 4.02):'
+  elapsed: 00:27:29
+  type: message
+- elapsed: 00:27:29
+  name: train_eval_loss
+  type: metric
+  value: 0.47107937932014465
+- elapsed: 00:27:29
+  name: train_eval_wer
+  type: metric
+  value: 0.19728331177231564
+- elapsed: 00:27:29
+  name: train_eval_runtime
+  type: metric
+  value: 70.3472
+- elapsed: 00:27:29
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.763
+- elapsed: 00:27:29
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.028
+- elapsed: 00:27:30
+  name: train_epoch
+  type: metric
+  value: 4.017857142857143
+- content: '
+
+    Transcription Examples (Step 225):'
+  elapsed: 00:27:30
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:27:30
+  type: message
+- elapsed: 00:27:31
+  prediction: ' Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.'
+  reference: Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.
+  type: prediction
+  wer: 0.0
+- elapsed: 00:27:32
+  prediction: Catholic groups visit and give their carols and parlors to stow the
+    time.
+  reference: Conflict gripped the city and Governor Carroll was powerless to stem
+    the tide.
+  type: prediction
+  wer: 0.8461538461538461
+- elapsed: 00:27:32
+  prediction: ' The only child of Rosalia and Amadeo Subrito.'
+  reference: The only child of Rosalia and Amadeo Saburido.
+  type: prediction
+  wer: 0.125
+- elapsed: 00:27:33
+  prediction: While brownies are more peaceful creatures, hobgoblins are more far-and-practical
+    jokers.
+  reference: While brownies are more peaceful creatures, hobgoblins are more fond
+    of practical jokes.
+  type: prediction
+  wer: 0.3076923076923077
+- elapsed: 00:27:34
+  prediction: The couple were poorly matched and after several years they were left
+    apart.
+  reference: The couple were poorly matched and after several years they lived apart.
+  type: prediction
+  wer: 0.16666666666666666
+- content: '
+
+    Training Metrics - Step 250 (Epoch 4.46):'
+  elapsed: 00:29:11
+  type: message
+- elapsed: 00:29:11
+  name: train_loss
+  type: metric
+  value: 0.0182
+- elapsed: 00:29:11
+  name: train_grad_norm
+  type: metric
+  value: 1.1905747652053833
+- elapsed: 00:29:11
+  name: train_learning_rate
+  type: metric
+  value: 3.6800000000000003e-06
+- elapsed: 00:29:11
+  name: train_epoch
+  type: metric
+  value: 4.464285714285714
+- content: '
+
+    Training Metrics - Step 250 (Epoch 4.46):'
+  elapsed: 00:30:19
+  type: message
+- elapsed: 00:30:19
+  name: train_eval_loss
+  type: metric
+  value: 0.5186994075775146
+- elapsed: 00:30:19
+  name: train_eval_wer
+  type: metric
+  value: 0.21539456662354464
+- elapsed: 00:30:19
+  name: train_eval_runtime
+  type: metric
+  value: 68.063
+- elapsed: 00:30:19
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.822
+- elapsed: 00:30:20
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.029
+- elapsed: 00:30:20
+  name: train_epoch
+  type: metric
+  value: 4.464285714285714
+- content: '
+
+    Transcription Examples (Step 250):'
+  elapsed: 00:30:20
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:30:20
+  type: message
+- elapsed: 00:30:21
+  prediction: Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.
+  reference: Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.
+  type: prediction
+  wer: 0.0
+- elapsed: 00:30:22
+  prediction: Cothlacke was ready and gave her carol as powerless to stow the time.
+  reference: Conflict gripped the city and Governor Carroll was powerless to stem
+    the tide.
+  type: prediction
+  wer: 0.7692307692307693
+- elapsed: 00:30:23
+  prediction: ' One child of Rosalia and Amadeo Subrito.'
+  reference: The only child of Rosalia and Amadeo Saburido.
+  type: prediction
+  wer: 0.375
+- elapsed: 00:30:23
+  prediction: While brownies are more peaceful creatures, hobgoblins are more far-practical
+    jokers.
+  reference: While brownies are more peaceful creatures, hobgoblins are more fond
+    of practical jokes.
+  type: prediction
+  wer: 0.3076923076923077
+- elapsed: 00:30:24
+  prediction: The couple were poorly matched and after several years they were left
+    apart.
+  reference: The couple were poorly matched and after several years they lived apart.
+  type: prediction
+  wer: 0.16666666666666666
+- content: '
+
+    Training Metrics - Step 275 (Epoch 4.91):'
+  elapsed: 00:31:59
+  type: message
+- elapsed: 00:31:59
+  name: train_loss
+  type: metric
+  value: 0.0257
+- elapsed: 00:31:59
+  name: train_grad_norm
+  type: metric
+  value: 1.0186488628387451
+- elapsed: 00:31:59
+  name: train_learning_rate
+  type: metric
+  value: 3.5133333333333337e-06
+- elapsed: 00:31:59
+  name: train_epoch
+  type: metric
+  value: 4.910714285714286
+- content: '
+
+    Training Metrics - Step 275 (Epoch 4.91):'
+  elapsed: 00:33:07
+  type: message
+- elapsed: 00:33:07
+  name: train_eval_loss
+  type: metric
+  value: 0.5157750844955444
+- elapsed: 00:33:07
+  name: train_eval_wer
+  type: metric
+  value: 0.2128072445019405
+- elapsed: 00:33:07
+  name: train_eval_runtime
+  type: metric
+  value: 67.9529
+- elapsed: 00:33:07
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.825
+- elapsed: 00:33:07
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.029
+- elapsed: 00:33:07
+  name: train_epoch
+  type: metric
+  value: 4.910714285714286
+- content: '
+
+    Transcription Examples (Step 275):'
+  elapsed: 00:33:07
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:33:07
+  type: message
+- elapsed: 00:33:09
+  prediction: Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.
+  reference: Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.
+  type: prediction
+  wer: 0.0
+- elapsed: 00:33:10
+  prediction: Cothlac group the city, and give their carol as powerless to stow the
+    time.
+  reference: Conflict gripped the city and Governor Carroll was powerless to stem
+    the tide.
+  type: prediction
+  wer: 0.6923076923076923
+- elapsed: 00:33:10
+  prediction: ' One child of Rosalia and Amadeo Subrito.'
+  reference: The only child of Rosalia and Amadeo Saburido.
+  type: prediction
+  wer: 0.375
+- elapsed: 00:33:11
+  prediction: While brownies are more peaceful creatures, hobgoblins are more far-and-practical
+    jokers.
+  reference: While brownies are more peaceful creatures, hobgoblins are more fond
+    of practical jokes.
+  type: prediction
+  wer: 0.3076923076923077
+- elapsed: 00:33:11
+  prediction: The couple were poorly matched and after several years they were left
+    apart.
+  reference: The couple were poorly matched and after several years they lived apart.
+  type: prediction
+  wer: 0.16666666666666666
+- content: '
+
+    Training Metrics - Step 300 (Epoch 5.36):'
+  elapsed: 00:34:50
+  type: message
+- elapsed: 00:34:50
+  name: train_loss
+  type: metric
+  value: 0.0113
+- elapsed: 00:34:50
+  name: train_grad_norm
+  type: metric
+  value: 0.09825873374938965
+- elapsed: 00:34:50
+  name: train_learning_rate
+  type: metric
+  value: 3.346666666666667e-06
+- elapsed: 00:34:50
+  name: train_epoch
+  type: metric
+  value: 5.357142857142857
+- content: '
+
+    Training Metrics - Step 300 (Epoch 5.36):'
+  elapsed: 00:35:58
+  type: message
+- elapsed: 00:35:59
+  name: train_eval_loss
+  type: metric
+  value: 0.5966465473175049
+- elapsed: 00:35:59
+  name: train_eval_wer
+  type: metric
+  value: 0.21410090556274256
+- elapsed: 00:35:59
+  name: train_eval_runtime
+  type: metric
+  value: 68.2819
+- elapsed: 00:35:59
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.816
+- elapsed: 00:35:59
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.029
+- elapsed: 00:35:59
+  name: train_epoch
+  type: metric
+  value: 5.357142857142857
+- content: '
+
+    Transcription Examples (Step 300):'
+  elapsed: 00:35:59
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:35:59
+  type: message
+- elapsed: 00:36:00
+  prediction: Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.
+  reference: Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.
+  type: prediction
+  wer: 0.0
+- elapsed: 00:36:01
+  prediction: Catholic group is hidden and Governor Carroll is powerless to stow the
+    time.
+  reference: Conflict gripped the city and Governor Carroll was powerless to stem
+    the tide.
+  type: prediction
+  wer: 0.5384615384615384
+- elapsed: 00:36:02
+  prediction: ' The only child were Rosula and Amadeo Subrito.'
+  reference: The only child of Rosalia and Amadeo Saburido.
+  type: prediction
+  wer: 0.375
+- elapsed: 00:36:02
+  prediction: While brownies are more peaceful creatures, hobgoblins are more far-practical
+    jokers.
+  reference: While brownies are more peaceful creatures, hobgoblins are more fond
+    of practical jokes.
+  type: prediction
+  wer: 0.3076923076923077
+- elapsed: 00:36:03
+  prediction: The couple were poorly matched and after several years they were left
+    apart.
+  reference: The couple were poorly matched and after several years they lived apart.
+  type: prediction
+  wer: 0.16666666666666666
+- content: '
+
+    Training Metrics - Step 325 (Epoch 5.80):'
+  elapsed: 00:37:41
+  type: message
+- elapsed: 00:37:41
+  name: train_loss
+  type: metric
+  value: 0.0067
+- elapsed: 00:37:41
+  name: train_grad_norm
+  type: metric
+  value: 0.09064217656850815
+- elapsed: 00:37:42
+  name: train_learning_rate
+  type: metric
+  value: 3.1800000000000005e-06
+- elapsed: 00:37:42
+  name: train_epoch
+  type: metric
+  value: 5.803571428571429
+- content: '
+
+    Training Metrics - Step 325 (Epoch 5.80):'
+  elapsed: 00:38:50
+  type: message
+- elapsed: 00:38:50
+  name: train_eval_loss
+  type: metric
+  value: 0.5647128224372864
+- elapsed: 00:38:50
+  name: train_eval_wer
+  type: metric
+  value: 0.2108667529107374
+- elapsed: 00:38:51
+  name: train_eval_runtime
+  type: metric
+  value: 68.5023
+- elapsed: 00:38:51
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.81
+- elapsed: 00:38:51
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.029
+- elapsed: 00:38:51
+  name: train_epoch
+  type: metric
+  value: 5.803571428571429
+- content: '
+
+    Transcription Examples (Step 325):'
+  elapsed: 00:38:51
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:38:51
+  type: message
+- elapsed: 00:38:52
+  prediction: Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.
+  reference: Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.
+  type: prediction
+  wer: 0.0
+- elapsed: 00:38:53
+  prediction: Catholic group was hidden, and Governor Carroll was powerless to stow
+    the time.
+  reference: Conflict gripped the city and Governor Carroll was powerless to stem
+    the tide.
+  type: prediction
+  wer: 0.46153846153846156
+- elapsed: 00:38:54
+  prediction: ' One child of Rosalia and one of the day of Subrito.'
+  reference: The only child of Rosalia and Amadeo Saburido.
+  type: prediction
+  wer: 1.0
+- elapsed: 00:38:55
+  prediction: While brownies are more peaceful creatures, hobgoblins are more far-practical
+    jokers.
+  reference: While brownies are more peaceful creatures, hobgoblins are more fond
+    of practical jokes.
+  type: prediction
+  wer: 0.3076923076923077
+- elapsed: 00:38:55
+  prediction: The couple were poorly matched and after several years they were left
+    apart.
+  reference: The couple were poorly matched and after several years they lived apart.
+  type: prediction
+  wer: 0.16666666666666666
+- content: '
+
+    Training Metrics - Step 350 (Epoch 6.25):'
+  elapsed: 00:40:32
+  type: message
+- elapsed: 00:40:32
+  name: train_loss
+  type: metric
+  value: 0.0086
+- elapsed: 00:40:32
+  name: train_grad_norm
+  type: metric
+  value: 0.21564505994319916
+- elapsed: 00:40:32
+  name: train_learning_rate
+  type: metric
+  value: 3.013333333333334e-06
+- elapsed: 00:40:32
+  name: train_epoch
+  type: metric
+  value: 6.25
+- content: '
+
+    Training Metrics - Step 350 (Epoch 6.25):'
+  elapsed: 00:41:41
+  type: message
+- elapsed: 00:41:42
+  name: train_eval_loss
+  type: metric
+  value: 0.5656211972236633
+- elapsed: 00:41:42
+  name: train_eval_wer
+  type: metric
+  value: 0.20439844760672704
+- elapsed: 00:41:42
+  name: train_eval_runtime
+  type: metric
+  value: 68.8559
+- elapsed: 00:41:42
+  name: train_eval_samples_per_second
+  type: metric
+  value: 1.801
+- elapsed: 00:41:42
+  name: train_eval_steps_per_second
+  type: metric
+  value: 0.029
+- elapsed: 00:41:42
+  name: train_epoch
+  type: metric
+  value: 6.25
+- content: '
+
+    Transcription Examples (Step 350):'
+  elapsed: 00:41:42
+  type: message
+- content: '--------------------------------------------------'
+  elapsed: 00:41:42
+  type: message
+- elapsed: 00:41:44
+  prediction: Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.
+  reference: Both of these areas are popular tourist destinations both for foreigners
+    and Mongolians.
+  type: prediction
+  wer: 0.0
+- elapsed: 00:41:45
+  prediction: Catholic group decided and governor Carroll was powerless to stem the
+    time.
+  reference: Conflict gripped the city and Governor Carroll was powerless to stem
+    the tide.
+  type: prediction
+  wer: 0.46153846153846156
+- elapsed: 00:41:46
+  prediction: ' One child of Rosalia and one of the two of Subreda.'
+  reference: The only child of Rosalia and Amadeo Saburido.
+  type: prediction
+  wer: 1.0
+- elapsed: 00:41:46
+  prediction: While brownies are more peaceful creatures, hobgoblins are more far-practical
+    jokers.
+  reference: While brownies are more peaceful creatures, hobgoblins are more fond
+    of practical jokes.
+  type: prediction
+  wer: 0.3076923076923077
+- elapsed: 00:41:47
+  prediction: The couple were poorly matched and after several years they were left
+    apart.
+  reference: The couple were poorly matched and after several years they lived apart.
+  type: prediction
+  wer: 0.16666666666666666
+- content: '
+
+    Training Metrics - Step 350 (Epoch 6.25):'
+  elapsed: 00:42:07
+  type: message
+- elapsed: 00:42:07
+  name: train_train_runtime
+  type: metric
+  value: 2412.4635
+- elapsed: 00:42:07
+  name: train_train_samples_per_second
+  type: metric
+  value: 5.306
+- elapsed: 00:42:07
+  name: train_train_steps_per_second
+  type: metric
+  value: 0.332
+- elapsed: 00:42:07
+  name: train_total_flos
+  type: metric
+  value: 1.878137063866368e+19
+- elapsed: 00:42:07
+  name: train_train_loss
+  type: metric
+  value: 0.5427726027369499
+- elapsed: 00:42:07
+  name: train_epoch
+  type: metric
+  value: 6.25
+- content: Closed TensorBoard writer
+  elapsed: 00:42:07
+  type: message
+- content: '
+
+    Converting model to FP16 before saving...'
+  elapsed: 00:42:07
+  type: message
+- content: '
+
+    Evaluating fine-tuned model...'
+  elapsed: 00:42:10
+  type: message
+- content: Evaluating model on test split...
+  elapsed: 00:42:10
+  type: message
+- content: 'Example predictions:'
+  elapsed: 00:43:31
+  type: message
+- elapsed: 00:43:31
+  prediction: Elephant and His Sons was honored with the record of the year and song
+    of the year.
+  reference: Alejandro Sanz was honored with Record of the Year and Song of the Year.
+  type: prediction
+  wer: 0.6428571428571429
+- elapsed: 00:43:32
+  prediction: The public plaza and fountain are located on the west end of the building.
+  reference: A public plaza and fountain are located on the west end of the building.
+  type: prediction
+  wer: 0.07142857142857142
+- elapsed: 00:43:32
+  prediction: He said he would not have suggested it himself, but he liked the idea.
+  reference: He said he would not have suggested it himself, but he liked the idea.
+  type: prediction
+  wer: 0.0
+- elapsed: 00:43:33
+  name: wer
+  type: metric
+  value: 0.19728331177231564
+- content: '
+
+    Experiment complete!'
+  elapsed: 00:43:33
+  type: message
+- content: 'Baseline WER: 0.8008'
+  elapsed: 00:43:33
+  type: message
+- content: 'Fine-tuned WER: 0.1973'
+  elapsed: 00:43:33
+  type: message
+- content: 'Improvement: 0.6035 absolute / 75.4% relative'
+  elapsed: 00:43:33
+  type: message
+- content: 'Total Training Time: 43 minutes, 34 seconds'
+  elapsed: 00:43:34
+  type: message
+- content: ==================================================
+  elapsed: 00:43:34
+  type: message
+- content: '
+
+    Training completed. Would you like to upload the model to Hugging Face Hub?'
+  elapsed: 00:43:34
+  type: message
+- content: '  Model Performance:'
+  elapsed: 00:43:34
+  type: message
+- content: '  - Baseline WER: 0.8008'
+  elapsed: 00:43:34
+  type: message
+- content: '  - Fine-tuned WER: 0.1973'
+  elapsed: 00:43:34
+  type: message
+- content: '  Repository: pauljunsukhan/throatmic_subvocalization_whisper'
+  elapsed: 00:43:34
+  type: message
+- content: '
+
+    Preparing for upload to Hugging Face Hub...'
+  elapsed: 01:05:30
+  type: message
+- content: Uploading model to Hugging Face Hub...
+  elapsed: 01:05:30
+  type: message
+- content: 'Model successfully uploaded to: pauljunsukhan/throatmic_subvocalization_whisper'
+  elapsed: 01:06:52
+  type: message
+- content: 'View your model at: https://huggingface.co/pauljunsukhan/throatmic_subvocalization_whisper'
+  elapsed: 01:06:52
+  type: message
