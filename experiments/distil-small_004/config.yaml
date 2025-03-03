@@ -1,0 +1,68 @@
+experiment:
+  name: "distil-small_004"
+  date: "2025-03-01"
+  description: "1000 Examples Whisper Small FineTune"
+
+environment:
+  platform: "Lambda Labs H100"
+  gpu_memory: "80GB"
+  python_version: "3.9"
+  base_model: "distil-whisper/distil-small.en"
+
+dataset:
+  source: "pauljunsukhan/throatmic_codered"
+  total_examples: 604 #Reference only, verify in logs
+  test_split: 124
+  seed: 42
+  audio:
+    sampling_rate: 16000
+    duration: "~10 seconds"
+    format: "throat microphone"
+    normalize: true
+
+training:
+  batch_size: 16
+  eval_batch_size: 64
+  gradient_accumulation_steps: 1
+  learning_rate: 5e-6
+  warmup_steps: 50
+  lr_scheduler_type: "linear"
+  max_steps: 800
+  gradient_checkpointing: false
+  max_grad_norm: 1.0 #default
+  fp16: true
+  evaluation_strategy: "steps"
+  eval_steps: 25
+  save_steps: 25
+  logging_steps: 25
+  save_total_limit: 10
+  push_to_hub: true
+  hub_model_id: "pauljunsukhan/throatmic_subvocalization_whisper_distil-small.en"
+  hub_strategy: "end"
+  predict_with_generate: true
+  load_best_model_at_end: true
+  metric_for_best_model: "wer"
+  greater_is_better: false
+  report_to: ["tensorboard"]
+  monitoring:
+    gradient_history_size: 1000
+    significant_change_threshold: 1.0
+    log_top_n_gradients: 5
+  generation:
+    language:
+    task:
+    use_cache: false
+    max_length: 225
+  regularization:
+    weight_decay: 0.0
+    dropout: 0.0
+    label_smoothing: 0.0
+
+evaluation:
+  early_stopping:
+    enabled: true
+    metric: "wer"
+    mode: "min"
+    patience: 5
+    threshold: 0.0001
+  metric: "WER"
